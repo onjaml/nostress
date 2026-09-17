@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOSTRESS — Maquettes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+  * { box-sizing: border-box }
+  body { margin: 0; background: #F4F2EE; color: #1B2430; font-family: 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased }
+  a { text-decoration: none; color: inherit }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 44px 28px 60px 28px }
+  .top { display: flex; align-items: center; gap: 11px; margin-bottom: 6px }
+  .top span { font-size: 14px; font-weight: 700; letter-spacing: .14em }
+  h1 { margin: 14px 0 6px 0; font-size: 27px; font-weight: 600; letter-spacing: -.015em }
+  .sub { font-size: 13.5px; color: #5A6472; line-height: 1.55; max-width: 660px }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; margin-top: 30px }
+  .card { background: #fff; border: 1px solid #E3DFD8; border-radius: 5px; overflow: hidden; display: block; transition: border-color .12s, box-shadow .12s }
+  .card:hover { border-color: #C1873B; box-shadow: 0 6px 18px rgba(27,36,48,.10) }
+  .thumb { height: 190px; overflow: hidden; background: #fff; border-bottom: 1px solid #E3DFD8; position: relative }
+  .thumb iframe { border: 0; transform-origin: top left; pointer-events: none; position: absolute; top: 0; left: 50% }
+  .meta { padding: 13px 15px }
+  .name { font-size: 14px; font-weight: 600 }
+  .dev { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11.5px; color: #8A93A0; margin-top: 3px }
+  .note { margin-top: 34px; border-top: 1px solid #E3DFD8; padding-top: 18px; font-size: 12.5px; color: #5A6472; line-height: 1.65; max-width: 700px }
+  .note b { color: #1B2430; font-weight: 600 }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C1873B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"></path><path d="M3 13h18"></path><path d="M9 21v-5h6v5"></path></svg>
+      <span>NOSTRESS</span>
+    </div>
+    <h1>Maquettes du système d’information</h1>
+    <p class="sub">Hôtel-restaurant de Grand-Popo. Cinq écrans issus du cahier des charges : validation DG, planning, cotation, accueil, achats et stock, comptabilité, prise de commande et encaissement. Les écrans sont cliquables.</p>
+    <div class="grid">
+      <a class="card" href="gestion.html">
+        <div class="thumb"><iframe src="gestion.html" scrolling="no" tabindex="-1" title=""
+          style="width:1440px;height:900px;transform:scale(0.2111);margin-left:-152px"></iframe></div>
+        <div class="meta">
+          <div class="name">Poste de gestion</div>
+          <div class="dev">PC 1440 × 900</div>
+        </div>
+      </a>
+      <a class="card" href="passe-cuisine.html">
+        <div class="thumb"><iframe src="passe-cuisine.html" scrolling="no" tabindex="-1" title=""
+          style="width:1024px;height:768px;transform:scale(0.2474);margin-left:-127px"></iframe></div>
+        <div class="meta">
+          <div class="name">Passe cuisine</div>
+          <div class="dev">Écran mural 1024 × 768</div>
+        </div>
+      </a>
+      <a class="card" href="mobile.html">
+        <div class="thumb"><iframe src="mobile.html" scrolling="no" tabindex="-1" title=""
+          style="width:390px;height:844px;transform:scale(0.2251);margin-left:-44px"></iframe></div>
+        <div class="meta">
+          <div class="name">Application terrain</div>
+          <div class="dev">Android 390 × 844</div>
+        </div>
+      </a>
+      <a class="card" href="facture.html">
+        <div class="thumb"><iframe src="facture.html" scrolling="no" tabindex="-1" title=""
+          style="width:559px;height:794px;transform:scale(0.2393);margin-left:-67px"></iframe></div>
+        <div class="meta">
+          <div class="name">Facture normalisée</div>
+          <div class="dev">A5 559 × 794</div>
+        </div>
+      </a>
+      <a class="card" href="fondations.html">
+        <div class="thumb"><iframe src="fondations.html" scrolling="no" tabindex="-1" title=""
+          style="width:1120px;height:1080px;transform:scale(0.1759);margin-left:-99px"></iframe></div>
+        <div class="meta">
+          <div class="name">Fondations</div>
+          <div class="dev">Planche 1120 × 1080</div>
+        </div>
+      </a>
+    </div>
+    <p class="note">
+      Pages autonomes : un fichier HTML par écran, aucun serveur ni installation.
+      Ouvrez <b>index.html</b> dans un navigateur, ou n’importe quel écran directement.<br>
+      Les polices IBM Plex sont chargées depuis Google Fonts : hors connexion, le navigateur retombe sur une police système et la mise en page reste correcte.<br>
+      La facture s’imprime avec <b>Ctrl+P</b> (format A5, le bandeau de retour disparaît à l’impression).
+    </p>
+  </div>
+</body>
+</html>

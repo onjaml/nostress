@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Application terrain — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #9C4E0B; text-decoration: none; }
+    a:hover { color: #D4711C; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 390px; height: 844px; display: flex; flex-direction: column; overflow: hidden; background: #F3FBE3\">\n\n  <!-- ============ EN-TETE ============ -->\n  <div style=\"flex-shrink: 0; background: #DDF3AE; padding: 14px 16px 15px 16px; display: flex; align-items: center; gap: 11px\">\n    <sc-if value=\"{{canBack}}\" hint-placeholder-val=\"{{false}}\">\n      <button onClick=\"{{back}}\" style=\"background: transparent; width: 44px; height: 44px; margin: -11px 0 -11px -12px; display: flex; align-items: center; justify-content: center\">\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#31610D\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 5l-7 7 7 7\"></path></svg>\n      </button>\n    </sc-if>\n    <div style=\"flex-grow: 1; min-width: 0\">\n      <div class=\"dsp\" style=\"color: #1C2610; font-size: 18px; line-height: 1.15\">{{headTitle}}</div>\n      <div style=\"color: #5A6B4A; font-size: 11px; font-weight: 500; margin-top: 2px\">{{headSub}}</div>\n    </div>\n    <div style=\"text-align: right\">\n      <div class=\"num\" style=\"color: #31610D; font-size: 13px; font-weight: 700\">{{headRight}}</div>\n      <div style=\"color: #6F9448; font-size: 10px; font-weight: 500\">{{headRightSub}}</div>\n    </div>\n  </div>\n\n  <div style=\"flex-grow: 1; overflow: auto; min-height: 0\">\n\n    <!-- ================= SERVEUR ================= -->\n    <sc-if value=\"{{isTables}}\" hint-placeholder-val=\"{{true}}\">\n    <div style=\"padding: 14px\">\n      <div class=\"lbl\" style=\"margin-bottom: 9px\">Lieu de livraison</div>\n      <div style=\"display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 18px\">\n        <sc-for list=\"{{tables}}\" as=\"t\" hint-placeholder-count=\"12\">\n          <button onClick=\"{{t.go}}\" style=\"height: 60px; border-radius: 18px; background: {{t.bg}}; border: 1.5px solid {{t.bd}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px\">\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 600; color: {{t.fg}}\">{{t.n}}</span>\n            <span style=\"font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: {{t.subFg}}\">{{t.state}}</span>\n          </button>\n        </sc-for>\n      </div>\n      <div class=\"lbl\" style=\"margin-bottom: 9px\">Chambres — room service</div>\n      <div style=\"display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 18px\">\n        <sc-for list=\"{{roomsRS}}\" as=\"t\" hint-placeholder-count=\"4\">\n          <button onClick=\"{{t.go}}\" style=\"height: 60px; border-radius: 18px; background: {{t.bg}}; border: 1.5px solid {{t.bd}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px\">\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 600; color: {{t.fg}}\">{{t.n}}</span>\n            <span style=\"font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: {{t.subFg}}\">{{t.state}}</span>\n          </button>\n        </sc-for>\n      </div>\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Prestations groupe du jour</div>\n        <div style=\"font-size: 12.5px; color: #5A6B4A; line-height: 1.5\">La commande du groupe ONG Sikadi est déjà dans le planning. Aller en salle Palmier pour saisir la répartition entre les deux plats.</div>\n        <button onClick=\"{{goGroupe}}\" style=\"width: 100%; margin-top: 11px; min-height: 48px; background: #FDEEDC; border: 1px solid #F5D3AE; color: #9C4E0B; font-size: 13px; font-weight: 600; padding: 11px 14px; border-radius: 999px\">Saisir la répartition — 35 couverts</button>\n      </div>\n    </div>\n    </sc-if>\n\n    <sc-if value=\"{{isMenu}}\" hint-placeholder-val=\"{{false}}\">\n    <div>\n      <div style=\"display: flex; gap: 7px; padding: 12px 14px; overflow-x: auto; background: #FFFFFF; border-bottom: 1px solid #DCEBC2\">\n        <sc-for list=\"{{families}}\" as=\"fam\" hint-placeholder-count=\"5\">\n          <button onClick=\"{{fam.go}}\" style=\"flex-shrink: 0; min-height: 44px; padding: 0 17px; display: flex; align-items: center; border-radius: 999px; font-size: 12.5px; font-weight: {{fam.weight}}; background: {{fam.bg}}; color: {{fam.fg}}; border: 1px solid {{fam.bd}}\">{{fam.label}}</button>\n        </sc-for>\n      </div>\n      <div style=\"padding: 12px 14px; display: flex; flex-direction: column; gap: 8px\">\n        <sc-for list=\"{{dishes}}\" as=\"d\" hint-placeholder-count=\"6\">\n          <button onClick=\"{{d.go}}\" style=\"width: 100%; text-align: left; background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 999px; padding: 13px 14px; display: flex; align-items: center; gap: 12px; min-height: 62px\">\n            <span style=\"flex-grow: 1; min-width: 0\">\n              <span style=\"display: block; font-size: 14px; font-weight: 600\">{{d.name}}</span>\n              <span style=\"display: block; font-size: 11.5px; color: #8AA06E; margin-top: 3px\">{{d.meta}}</span>\n            </span>\n            <span style=\"text-align: right; flex-shrink: 0\">\n              <span class=\"num\" style=\"display: block; font-size: 14px; font-weight: 600\">{{d.price}}</span>\n              <span style=\"display: block; font-size: 10px; font-weight: 600; color: {{d.tagFg}}; margin-top: 3px\">{{d.tag}}</span>\n            </span>\n          </button>\n        </sc-for>\n      </div>\n    </div>\n    </sc-if>\n\n    <sc-if value=\"{{isDetail}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 14px; display: flex; flex-direction: column; gap: 14px\">\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 14px\">\n        <div style=\"display: flex; align-items: baseline; justify-content: space-between; gap: 10px\">\n          <div style=\"font-size: 16px; font-weight: 600\">{{dish.name}}</div>\n          <div class=\"num\" style=\"font-size: 16px; font-weight: 600\">{{dish.price}}</div>\n        </div>\n        <div style=\"font-size: 12px; color: #8AA06E; margin-top: 4px\">{{dish.meta}}</div>\n      </div>\n\n      <sc-for list=\"{{optionGroups}}\" as=\"g\" hint-placeholder-count=\"3\">\n        <div>\n          <div class=\"lbl\" style=\"margin-bottom: 8px\">{{g.label}}</div>\n          <div style=\"display: flex; flex-wrap: wrap; gap: 7px\">\n            <sc-for list=\"{{g.options}}\" as=\"o\" hint-placeholder-count=\"3\">\n              <button onClick=\"{{o.go}}\" style=\"min-height: 44px; padding: 10px 15px; border-radius: 999px; font-size: 13px; font-weight: {{o.weight}}; background: {{o.bg}}; color: {{o.fg}}; border: 1.5px solid {{o.bd}}\">{{o.label}}</button>\n            </sc-for>\n          </div>\n        </div>\n      </sc-for>\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Quantité</div>\n        <div style=\"display: flex; align-items: center; gap: 12px\">\n          <button onClick=\"{{qtyDec}}\" style=\"width: 48px; height: 48px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; color: #1C2610; font-size: 20px\">−</button>\n          <div class=\"num\" style=\"flex-grow: 1; text-align: center; font-size: 22px; font-weight: 700\">{{qty}}</div>\n          <button onClick=\"{{qtyInc}}\" style=\"width: 48px; height: 48px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; color: #1C2610; font-size: 20px\">+</button>\n        </div>\n      </div>\n\n      <div style=\"background: #FEF6EC; border: 1px solid #F5D3AE; border-radius: 16px; padding: 12px 13px; display: flex; gap: 10px; align-items: flex-start\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#D4711C\" stroke-width=\"1.9\" stroke-linecap=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 7v5l3 2\"></path></svg>\n        <div style=\"font-size: 12.5px; color: #8A4508; line-height: 1.45\">Temps de cuisson estimé <span class=\"num\" style=\"font-weight: 700\">{{dish.cook}}</span>. Proposer un apéritif en attendant.</div>\n      </div>\n    </div>\n    </sc-if>\n\n    <sc-if value=\"{{isCart}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 14px; display: flex; flex-direction: column; gap: 10px\">\n      <sc-for list=\"{{cart}}\" as=\"c\" hint-placeholder-count=\"3\">\n        <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n          <div style=\"display: flex; align-items: baseline; gap: 10px\">\n            <span class=\"num\" style=\"font-size: 13px; font-weight: 700; color: #D4711C\">{{c.q}}×</span>\n            <span style=\"flex-grow: 1; font-size: 14px; font-weight: 600\">{{c.name}}</span>\n            <span class=\"num\" style=\"font-size: 14px; font-weight: 600\">{{c.total}}</span>\n          </div>\n          <div style=\"font-size: 11.5px; color: #5A6B4A; margin-top: 5px; line-height: 1.45\">{{c.opts}}</div>\n          <div style=\"display: flex; align-items: center; gap: 8px; margin-top: 9px\">\n            <span style=\"font-size: 10px; font-weight: 600; letter-spacing: 0.05em; color: {{c.destFg}}; background: {{c.destBg}}; padding: 3px 8px; border-radius: 999px\">{{c.dest}}</span>\n            <span style=\"flex-grow: 1\"></span>\n            <button onClick=\"{{c.remove}}\" style=\"background: transparent; color: #C0392B; font-size: 12px; font-weight: 500; min-height: 44px; padding: 4px 10px; margin: -10px -10px -10px 0\">Retirer</button>\n          </div>\n        </div>\n      </sc-for>\n\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 9px\">Service des boissons</div>\n        <div style=\"display: flex; gap: 7px\">\n          <sc-for list=\"{{drinkTiming}}\" as=\"o\" hint-placeholder-count=\"2\">\n            <button onClick=\"{{o.go}}\" style=\"flex-grow: 1; min-height: 44px; padding: 10px; border-radius: 999px; font-size: 12.5px; font-weight: {{o.weight}}; background: {{o.bg}}; color: {{o.fg}}; border: 1.5px solid {{o.bd}}\">{{o.label}}</button>\n          </sc-for>\n        </div>\n      </div>\n\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div style=\"display: flex; justify-content: space-between; font-size: 12.5px; color: #5A6B4A; padding: 3px 0\">\n          <span>Total HT</span><span class=\"num\">{{cartHT}}</span>\n        </div>\n        <div style=\"display: flex; justify-content: space-between; font-size: 12.5px; color: #5A6B4A; padding: 3px 0\">\n          <span>TVA 18 %</span><span class=\"num\">{{cartTVA}}</span>\n        </div>\n        <div style=\"display: flex; justify-content: space-between; align-items: baseline; padding-top: 9px; margin-top: 6px; border-top: 1px solid #E9F4D6\">\n          <span style=\"font-size: 13px; font-weight: 600\">Total TTC</span><span class=\"num\" style=\"font-size: 20px; font-weight: 700\">{{cartTTC}}</span>\n        </div>\n      </div>\n    </div>\n    </sc-if>\n\n    <sc-if value=\"{{isSent}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 20px 16px; display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center\">\n      <div style=\"width: 62px; height: 62px; border-radius: 50%; background: #E8F6D2; display: flex; align-items: center; justify-content: center; margin-top: 20px\">\n        <svg width=\"30\" height=\"30\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n      </div>\n      <div>\n        <div style=\"font-size: 17px; font-weight: 600\">Commande envoyée</div>\n        <div style=\"font-size: 12.5px; color: #5A6B4A; margin-top: 5px; line-height: 1.5\">Relance automatique jusqu’à validation par chaque poste. Impression sur l’imprimante de facturation de l’accueil.</div>\n      </div>\n      <div style=\"width: 100%; display: flex; flex-direction: column; gap: 8px\">\n        <sc-for list=\"{{routing}}\" as=\"r\" hint-placeholder-count=\"3\">\n          <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; gap: 11px; text-align: left\">\n            <span style=\"width: 8px; height: 8px; border-radius: 50%; background: {{r.color}}; flex-shrink: 0\"></span>\n            <span style=\"flex-grow: 1\">\n              <span style=\"display: block; font-size: 13px; font-weight: 600\">{{r.poste}}</span>\n              <span style=\"display: block; font-size: 11.5px; color: #8AA06E; margin-top: 2px\">{{r.items}}</span>\n            </span>\n            <span style=\"font-size: 10px; font-weight: 700; letter-spacing: 0.05em; color: {{r.color}}\">{{r.state}}</span>\n          </div>\n        </sc-for>\n      </div>\n      <div style=\"width: 100%; background: #FEF6EC; border: 1px solid #F5D3AE; border-radius: 16px; padding: 13px 14px; text-align: left\">\n        <div class=\"lbl\" style=\"color: #9C4E0B; margin-bottom: 5px\">Vente d’attente suggérée</div>\n        <div style=\"font-size: 12.5px; color: #8A4508; line-height: 1.45\">18 minutes de cuisson sur le poulet braisé — proposer 2 apéritifs maison à 1 500.</div>\n      </div>\n    </div>\n    </sc-if>\n\n    <!-- ================= CUISINE ================= -->\n    <sc-if value=\"{{isCuisine}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 12px 14px; display: flex; flex-direction: column; gap: 10px\">\n      <sc-for list=\"{{tickets}}\" as=\"t\" hint-placeholder-count=\"4\">\n        <div style=\"background: #FFFFFF; border: 1px solid {{t.bd}}; border-left: 4px solid {{t.accent}}; border-radius: 16px; overflow: hidden\">\n          <div style=\"padding: 11px 13px; display: flex; align-items: center; gap: 10px; background: {{t.headBg}}\">\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 700\">{{t.place}}</span>\n            <span style=\"font-size: 11px; color: #5A6B4A\">{{t.who}}</span>\n            <span style=\"flex-grow: 1\"></span>\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 700; color: {{t.accent}}\">{{t.timer}}</span>\n          </div>\n          <div style=\"padding: 4px 13px 10px 13px\">\n            <sc-for list=\"{{t.items}}\" as=\"i\" hint-placeholder-count=\"2\">\n              <div style=\"padding: 7px 0; border-bottom: 1px solid #F0F8E2; display: flex; gap: 10px; align-items: flex-start\">\n                <span class=\"num\" style=\"font-size: 13px; font-weight: 700; color: #D4711C; flex-shrink: 0\">{{i.q}}×</span>\n                <span style=\"flex-grow: 1\">\n                  <span style=\"display: block; font-size: 13.5px; font-weight: 600\">{{i.name}}</span>\n                  <span style=\"display: block; font-size: 11.5px; color: #5A6B4A; margin-top: 2px\">{{i.opts}}</span>\n                </span>\n              </div>\n            </sc-for>\n            <div style=\"display: flex; gap: 8px; margin-top: 11px\">\n              <button onClick=\"{{t.soon}}\" style=\"flex-grow: 1; min-height: 44px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: {{t.soonBg}}; color: {{t.soonFg}}; border: 1.5px solid {{t.soonBd}}\">Prêt dans 5 min</button>\n              <button onClick=\"{{t.ready}}\" style=\"flex-grow: 1; min-height: 44px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: {{t.readyBg}}; color: {{t.readyFg}}; border: 1.5px solid {{t.readyBd}}\">{{t.readyLabel}}</button>\n            </div>\n          </div>\n        </div>\n      </sc-for>\n      <div style=\"background: #FFFFFF; border: 1px dashed #CFE4AE; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 6px\">Groupe ONG Sikadi — déjeuner 12:30</div>\n        <div style=\"font-size: 12.5px; color: #5A6B4A; line-height: 1.5\">Répartition saisie en salle : 21 poulet braisé, 14 poisson grillé. Confirmer les quantités produites à la mise à disposition.</div>\n      </div>\n    </div>\n    </sc-if>\n\n    <!-- ================= BAR / PATISSERIE ================= -->\n    <sc-if value=\"{{isBar}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 12px 14px; display: flex; flex-direction: column; gap: 10px\">\n      <sc-for list=\"{{barItems}}\" as=\"b\" hint-placeholder-count=\"4\">\n        <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n          <div style=\"display: flex; align-items: baseline; gap: 10px\">\n            <span class=\"num\" style=\"font-size: 14px; font-weight: 700; color: #D4711C\">{{b.q}}×</span>\n            <span style=\"flex-grow: 1; font-size: 14px; font-weight: 600\">{{b.name}}</span>\n            <span class=\"num\" style=\"font-size: 12px; color: #8AA06E\">{{b.place}}</span>\n          </div>\n          <div style=\"display: flex; align-items: center; gap: 8px; margin-top: 7px\">\n            <span style=\"font-size: 11.5px; color: #5A6B4A\">{{b.stockLabel}}</span>\n            <span style=\"flex-grow: 1\"></span>\n            <span style=\"font-size: 10px; font-weight: 700; letter-spacing: 0.05em; color: {{b.tagFg}}; background: {{b.tagBg}}; padding: 3px 8px; border-radius: 999px\">{{b.tag}}</span>\n          </div>\n          <div style=\"display: flex; gap: 8px; margin-top: 11px\">\n            <button onClick=\"{{b.rupture}}\" style=\"flex-grow: 1; min-height: 44px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: {{b.rBg}}; color: {{b.rFg}}; border: 1.5px solid {{b.rBd}}\">Rupture — retour serveur</button>\n            <button onClick=\"{{b.ok}}\" style=\"flex-grow: 1; min-height: 44px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: {{b.oBg}}; color: {{b.oFg}}; border: 1.5px solid {{b.oBd}}\">{{b.okLabel}}</button>\n          </div>\n        </div>\n      </sc-for>\n    </div>\n    </sc-if>\n\n    <!-- ================= CAISSE ================= -->\n    <sc-if value=\"{{isCaisse}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 14px; display: flex; flex-direction: column; gap: 13px\">\n      <div style=\"background: #4A8C14; border-radius: 22px; padding: 18px 19px\">\n        <div class=\"lbl\" style=\"color: #C4E39A\">Montant à payer — table 12</div>\n        <div class=\"num\" style=\"font-size: 36px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.02em; margin-top: 5px\">{{payAmount}}</div>\n        <div style=\"color: #DEEFC4; font-size: 11.5px; margin-top: 4px\">FCFA TTC · 5 lignes · service du midi</div>\n      </div>\n\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 9px\">Facture normalisée personnalisée</div>\n        <div style=\"display: flex; gap: 7px; margin-bottom: 11px\">\n          <sc-for list=\"{{normOpts}}\" as=\"o\" hint-placeholder-count=\"2\">\n            <button onClick=\"{{o.go}}\" style=\"flex-grow: 1; min-height: 44px; border-radius: 999px; font-size: 13px; font-weight: 600; background: {{o.bg}}; color: {{o.fg}}; border: 1.5px solid {{o.bd}}\">{{o.label}}</button>\n          </sc-for>\n        </div>\n        <sc-if value=\"{{normOn}}\" hint-placeholder-val=\"{{true}}\">\n          <div style=\"display: flex; flex-direction: column; gap: 8px\">\n            <div style=\"border: 1px solid #DCEBC2; border-radius: 14px; padding: 10px 11px\">\n              <div class=\"lbl\" style=\"margin-bottom: 3px\">IFU du client</div>\n              <div class=\"num\" style=\"font-size: 13.5px; font-weight: 600\">3201456789012</div>\n            </div>\n            <div style=\"border: 1px solid #DCEBC2; border-radius: 14px; padding: 10px 11px\">\n              <div class=\"lbl\" style=\"margin-bottom: 3px\">Nom pour la facturation</div>\n              <div style=\"font-size: 13.5px; font-weight: 600\">SARL LES PALMIERS</div>\n            </div>\n          </div>\n        </sc-if>\n        <sc-if value=\"{{normOff}}\" hint-placeholder-val=\"{{false}}\">\n          <div style=\"font-size: 12.5px; color: #5A6B4A; line-height: 1.5; background: #F6FCEA; border: 1px dashed #CFE4AE; border-radius: 14px; padding: 11px\">Facture au comptant sans identification. Le mode de règlement sera imprimé sur la facture.</div>\n        </sc-if>\n      </div>\n\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 9px\">Mode de règlement</div>\n        <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px\">\n          <sc-for list=\"{{payModes}}\" as=\"m\" hint-placeholder-count=\"3\">\n            <button onClick=\"{{m.go}}\" style=\"min-height: 52px; border-radius: 999px; font-size: 13px; font-weight: 600; background: {{m.bg}}; color: {{m.fg}}; border: 1.5px solid {{m.bd}}\">{{m.label}}</button>\n          </sc-for>\n        </div>\n        <sc-if value=\"{{isMobileMoney}}\" hint-placeholder-val=\"{{false}}\">\n          <div style=\"margin-top: 11px; background: #FEF6EC; border: 1px solid #F5D3AE; border-radius: 14px; padding: 11px 12px; font-size: 12.5px; color: #8A4508; line-height: 1.45\">Vérifier l’arrivée des fonds à l’accueil avant d’imprimer la facture.</div>\n        </sc-if>\n      </div>\n\n      <sc-if value=\"{{printed}}\" hint-placeholder-val=\"{{false}}\">\n        <div style=\"background: #E8F6D2; border: 1px solid #C4E39A; border-radius: 16px; padding: 13px 14px; display: flex; gap: 11px; align-items: flex-start\">\n          <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"2.2\" stroke-linecap=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n          <div style=\"font-size: 12.5px; color: #31610D; line-height: 1.5\">Facture <span class=\"num\" style=\"font-weight: 700\">FN-2026-04188</span> imprimée avec la mention <span style=\"font-weight: 700\">{{payModeLabel}}</span>. Remise à la caisse en fin de service.</div>\n        </div>\n      </sc-if>\n    </div>\n    </sc-if>\n\n    <!-- ================= ANIMATEUR ================= -->\n    <sc-if value=\"{{isAnim}}\" hint-placeholder-val=\"{{false}}\">\n    <div style=\"padding: 14px; display: flex; flex-direction: column; gap: 13px\">\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 10px\">Effectifs du jour — à confirmer</div>\n        <sc-for list=\"{{counts}}\" as=\"c\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: center; gap: 11px; padding: 8px 0; border-bottom: 1px solid #F0F8E2\">\n            <span style=\"flex-grow: 1\">\n              <span style=\"display: block; font-size: 13.5px; font-weight: 600\">{{c.label}}</span>\n              <span style=\"display: block; font-size: 11px; color: #8AA06E; margin-top: 2px\">{{c.place}}</span>\n            </span>\n            <button onClick=\"{{c.dec}}\" style=\"width: 44px; height: 44px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; font-size: 18px; color: #1C2610\">−</button>\n            <span class=\"num\" style=\"font-size: 18px; font-weight: 700; min-width: 30px; text-align: center\">{{c.n}}</span>\n            <button onClick=\"{{c.inc}}\" style=\"width: 44px; height: 44px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; font-size: 18px; color: #1C2610\">+</button>\n          </div>\n        </sc-for>\n        <button onClick=\"{{confirmCounts}}\" style=\"width: 100%; margin-top: 12px; min-height: 46px; border-radius: 999px; font-size: 13px; font-weight: 600; background: {{confBg}}; color: {{confFg}}; border: 1.5px solid {{confBd}}\">{{confLabel}}</button>\n      </div>\n\n      <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px\">\n        <div class=\"lbl\" style=\"margin-bottom: 9px\">Message au groupe et à la cuisine</div>\n        <div style=\"display: flex; flex-direction: column; gap: 7px\">\n          <sc-for list=\"{{messages}}\" as=\"m\" hint-placeholder-count=\"4\">\n            <button onClick=\"{{m.go}}\" style=\"width: 100%; text-align: left; min-height: 46px; padding: 12px 13px; border-radius: 999px; font-size: 13px; font-weight: 500; background: {{m.bg}}; color: {{m.fg}}; border: 1.5px solid {{m.bd}}\">{{m.label}}</button>\n          </sc-for>\n        </div>\n      </div>\n\n      <sc-if value=\"{{msgSent}}\" hint-placeholder-val=\"{{false}}\">\n        <div style=\"background: #E8F6D2; border: 1px solid #C4E39A; border-radius: 16px; padding: 13px 14px; font-size: 12.5px; color: #31610D; line-height: 1.5\">\n          « {{lastMsg}} » envoyé aux <span class=\"num\" style=\"font-weight: 700\">35</span> participants connectés et au planning de la journée.\n        </div>\n      </sc-if>\n    </div>\n    </sc-if>\n\n  </div>\n\n  <!-- ============ BARRE D'ACTION ============ -->\n  <sc-if value=\"{{hasAction}}\" hint-placeholder-val=\"{{true}}\">\n  <div style=\"flex-shrink: 0; background: #FFFFFF; border-top: 1px solid #DCEBC2; padding: 11px 14px; display: flex; align-items: center; gap: 11px\">\n    <div style=\"min-width: 0\">\n      <div class=\"lbl\">{{actionLabel}}</div>\n      <div class=\"num\" style=\"font-size: 17px; font-weight: 700\">{{actionValue}}</div>\n    </div>\n    <button onClick=\"{{actionGo}}\" style=\"flex-grow: 1; min-height: 48px; border-radius: 999px; background: #4A8C14; color: #FFFFFF; font-size: 14px; font-weight: 600\">{{actionText}}</button>\n  </div>\n  </sc-if>\n\n  <!-- ============ NAVIGATION PROFILS ============ -->\n  <div style=\"flex-shrink: 0; background: #FFFFFF; border-top: 1px solid #DCEBC2; display: flex; padding: 6px 4px 10px 4px\">\n    <sc-for list=\"{{roles}}\" as=\"r\" hint-placeholder-count=\"5\">\n      <button onClick=\"{{r.go}}\" style=\"flex-grow: 1; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 2px; min-height: 48px\">\n        <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{r.stroke}}\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"{{r.icon}}\"></path></svg>\n        <span style=\"font-size: 10px; font-weight: {{r.weight}}; color: {{r.fg}}\">{{r.label}}</span>\n      </button>\n    </sc-for>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      role: 'serveur', step: 'tables', place: null, fam: 'plats', dishId: null,
+      opts: {}, qty: 1, cart: [], drink: 'apres',
+      tickets: {}, bar: {},
+      norm: true, payMode: 'momo', printed: false,
+      counts: { repas: 35, pause: 35, pdj: 35 }, countsOk: false, lastMsg: null
+    };
+  }
+  fmt(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+
+  catalog() {
+    return {
+      plats: [
+        { id: 'd1', name: 'Poulet braisé', meta: 'Cuisson 18 min · sauce au choix', price: 4500, cook: '18 min', dest: 'CUISINE', tag: 'CUISINE', tagFg: '#3E6E8E',
+          groups: [['Cuisson', ['Braisé doux', 'Braisé fort', 'Bien cuit']], ['Sauce', ['Piment', 'Arachide', 'Sans sauce']], ['Accompagnement', ['Frites', 'Riz', 'Igname pilée', 'Attiéké']]] },
+        { id: 'd2', name: 'Poisson grillé — bar entier', meta: 'Cuisson 22 min · pesé à la commande', price: 6500, cook: '22 min', dest: 'CUISINE', tag: 'CUISINE', tagFg: '#3E6E8E',
+          groups: [['Cuisson', ['À point', 'Bien grillé']], ['Sauce', ['Moyo', 'Citron', 'Sans sauce']], ['Accompagnement', ['Attiéké', 'Frites', 'Riz']]] },
+        { id: 'd3', name: 'Riz sauce arachide', meta: 'Plat du jour · 10 min', price: 3500, cook: '10 min', dest: 'CUISINE', tag: 'CUISINE', tagFg: '#3E6E8E',
+          groups: [['Piment', ['Sans', 'Doux', 'Fort']], ['Portion', ['Normale', 'Grande']]] }
+      ],
+      entrees: [
+        { id: 'd4', name: 'Salade de papaye verte', meta: 'Entrée fraîche · 6 min', price: 2000, cook: '6 min', dest: 'CUISINE', tag: 'CUISINE', tagFg: '#3E6E8E',
+          groups: [['Piment', ['Sans', 'Doux', 'Fort']]] },
+        { id: 'd5', name: 'Beignets de crevettes', meta: 'Friture · 9 min', price: 3000, cook: '9 min', dest: 'CUISINE', tag: 'CUISINE', tagFg: '#3E6E8E',
+          groups: [['Sauce', ['Aigre-douce', 'Piment', 'Sans sauce']]] }
+      ],
+      petitdej: [
+        { id: 'd6', name: 'Petit déjeuner complet', meta: 'Éclaté en articles à la commande', price: 4000, cook: '12 min', dest: 'CUISINE', tag: 'ÉCLATÉ', tagFg: '#9C4E0B',
+          groups: [['Boisson chaude', ['Café', 'Thé', 'Chocolat']], ['Jus de fruit', ['Orange', 'Bissap', 'Ananas']], ['Œufs', ['Omelette baveuse', 'Œufs brouillés', 'Sans œuf']], ['Viennoiserie', ['2 croissants', 'Pain et confiture']]] },
+        { id: 'd7', name: 'Omelette', meta: 'Mode de cuisson au choix', price: 2000, cook: '7 min', dest: 'CUISINE', tag: 'CUISINE', tagFg: '#3E6E8E',
+          groups: [['Cuisson', ['Baveuse', 'À point', 'Bien cuite']], ['Garniture', ['Nature', 'Fromage', 'Légumes']]] }
+      ],
+      boissons: [
+        { id: 'd8', name: 'Bière 65 cl', meta: 'Stock bar · consigne suivie', price: 1200, cook: 'immédiat', dest: 'BAR', tag: 'STOCK BAR', tagFg: '#31610D', groups: [['Température', ['Bien fraîche', 'Ambiante']]] },
+        { id: 'd9', name: 'Eau minérale 1,5 L', meta: 'Stock bar · 88 packs', price: 800, cook: 'immédiat', dest: 'BAR', tag: 'STOCK BAR', tagFg: '#31610D', groups: [['Température', ['Fraîche', 'Ambiante']]] },
+        { id: 'd10', name: 'Jus de bissap maison', meta: 'Production interne · non stockable', price: 1000, cook: '3 min', dest: 'BAR', tag: 'PRODUCTION', tagFg: '#9C4E0B', groups: [['Sucre', ['Normal', 'Peu sucré']]] }
+      ],
+      patisserie: [
+        { id: 'd11', name: 'Pizza margherita', meta: 'Poste pâtisserie · 15 min', price: 5000, cook: '15 min', dest: 'PÂTISSERIE', tag: 'PÂTISSERIE', tagFg: '#9C4E0B', groups: [['Cuisson', ['Normale', 'Bien cuite']], ['Piment', ['Sans', 'Avec']]] },
+        { id: 'd12', name: 'Tarte à la noix de coco', meta: 'Vitrine pâtisserie · stock 8', price: 1500, cook: 'immédiat', dest: 'PÂTISSERIE', tag: 'STOCK', tagFg: '#31610D', groups: [['Service', ['Nature', 'Avec glace']]] }
+      ]
+    };
+  }
+  allDishes() { const c = this.catalog(); return [].concat(c.plats, c.entrees, c.petitdej, c.boissons, c.patisserie); }
+  dish() { return this.allDishes().filter((d) => d.id === this.state.dishId)[0] || this.catalog().plats[0]; }
+
+  cartTotals() {
+    const ttc = this.state.cart.reduce((a, c) => a + c.q * c.price, 0);
+    return { ttc: ttc, ht: Math.round(ttc / 1.18), tva: ttc - Math.round(ttc / 1.18) };
+  }
+
+  sel(on) { return { bg: on ? '#4A8C14' : '#FFFFFF', fg: on ? '#FFFFFF' : '#4E5F3C', bd: on ? '#4A8C14' : '#CFE4AE', weight: on ? '600' : '500' }; }
+
+  renderVals() {
+    const S = this.state, f = (n) => this.fmt(n);
+    const isServeur = S.role === 'serveur';
+    const d = this.dish();
+    const tot = this.cartTotals();
+    const payAmount = 19600;
+
+    // ---- en-tête ----
+    let title = '', sub = '', canBack = false;
+    if (isServeur) {
+      if (S.step === 'tables') { title = 'Prise de commande'; sub = 'Serveur Koffi · service du midi'; }
+      else if (S.step === 'menu') { title = S.place || 'Table'; sub = 'Choisir les articles'; canBack = true; }
+      else if (S.step === 'detail') { title = d.name; sub = 'Options, cuisson et quantité'; canBack = true; }
+      else if (S.step === 'cart') { title = 'Commande ' + (S.place || ''); sub = S.cart.length + ' article(s) · à valider'; canBack = true; }
+      else { title = 'Commande envoyée'; sub = S.place || ''; }
+    } else if (S.role === 'cuisine') { title = 'Passe cuisine'; sub = '4 commandes en cours · timing de départ groupé'; }
+    else if (S.role === 'bar') { title = 'Bar & pâtisserie'; sub = '4 demandes à confirmer'; }
+    else if (S.role === 'caisse') { title = 'Encaissement'; sub = 'Table 12 · service du midi'; }
+    else { title = 'Animateur groupe'; sub = 'ONG Sikadi · salle Palmier'; }
+
+    // ---- barre d'action ----
+    let hasAction = false, actionLabel = '', actionValue = '', actionText = '', actionGo = () => {};
+    if (isServeur && S.step === 'menu' && S.cart.length) {
+      hasAction = true; actionLabel = 'Panier'; actionValue = f(tot.ttc); actionText = 'Voir la commande';
+      actionGo = () => this.setState({ step: 'cart' });
+    } else if (isServeur && S.step === 'detail') {
+      hasAction = true; actionLabel = 'Total ligne'; actionValue = f(d.price * S.qty); actionText = 'Ajouter';
+      actionGo = () => {
+        const chosen = d.groups.map((g) => S.opts[d.id + '-' + g[0]] || g[1][0]);
+        this.setState({
+          cart: S.cart.concat([{ key: d.id + '-' + S.cart.length, name: d.name, q: S.qty, price: d.price, dest: d.dest, opts: chosen.join(' · ') }]),
+          step: 'menu', qty: 1, opts: {}
+        });
+      };
+    } else if (isServeur && S.step === 'cart' && S.cart.length) {
+      hasAction = true; actionLabel = 'Total TTC'; actionValue = f(tot.ttc); actionText = 'Envoyer';
+      actionGo = () => this.setState({ step: 'sent' });
+    } else if (isServeur && S.step === 'sent') {
+      hasAction = true; actionLabel = 'Table'; actionValue = (S.place || '').replace(/\D/g, '') || '—'; actionText = 'Nouvelle commande';
+      actionGo = () => this.setState({ step: 'tables', cart: [], place: null });
+    } else if (S.role === 'caisse') {
+      hasAction = true; actionLabel = 'À encaisser'; actionValue = f(payAmount);
+      actionText = S.printed ? 'Facture imprimée' : 'Encaisser et imprimer';
+      actionGo = () => this.setState({ printed: true });
+    }
+
+    const mkPlace = (n, state, pal) => ({ n: n, state: state,
+      bg: S.place === n ? '#1C2610' : pal[0], bd: S.place === n ? '#1C2610' : pal[1],
+      fg: S.place === n ? '#F3FBE3' : pal[2], subFg: S.place === n ? '#AFC697' : pal[3],
+      go: () => this.setState({ place: n, step: 'menu' }) });
+    const libre = ['#FFFFFF', '#CFE4AE', '#1C2610', '#8AA06E'];
+    const occ = ['#E9F2F8', '#C4DCEA', '#22485E', '#7897AB'];
+    const grp = ['#EAF7D6', '#C4E39A', '#31610D', '#6F9448'];
+
+    const famList = [['plats', 'Plats'], ['entrees', 'Entrées'], ['petitdej', 'Petit déj.'], ['boissons', 'Boissons'], ['patisserie', 'Pâtisserie']];
+
+    const ticketDefs = [
+      { id: 't1', place: 'Table 12', who: 'Serveur Koffi', timer: '04:12', late: false,
+        items: [{ q: '2', name: 'Poulet braisé', opts: 'Braisé fort · piment · frites' }, { q: '1', name: 'Riz sauce arachide', opts: 'Piment doux · portion normale' }, { q: '1', name: 'Salade de papaye', opts: 'Sans piment · servie en entrée' }] },
+      { id: 't2', place: 'Chambre 104', who: 'Room service · offert', timer: '01:38', late: false,
+        items: [{ q: '1', name: 'Omelette', opts: 'Baveuse · fromage' }, { q: '1', name: 'Café', opts: 'Servi avec le plat' }] },
+      { id: 't3', place: 'Table 07', who: 'Serveur Estelle', timer: '11:47', late: true,
+        items: [{ q: '1', name: 'Poisson grillé', opts: 'Bien grillé · moyo · attiéké' }, { q: '2', name: 'Salade de papaye', opts: 'Piment doux' }] },
+      { id: 't4', place: 'Table 03', who: 'Serveur Koffi', timer: '00:22', late: false,
+        items: [{ q: '1', name: 'Pizza margherita', opts: 'Poste pâtisserie · bien cuite' }, { q: '1', name: 'Beignets de crevettes', opts: 'Sauce aigre-douce' }] }
+    ];
+
+    const barDefs = [
+      { id: 'b1', q: '3', name: 'Bière 65 cl', place: 'Table 12', stockLabel: 'Stock bar 34 casiers · consigne suivie', tag: 'STOCKABLE', tagFg: '#31610D', tagBg: '#E8F6D2' },
+      { id: 'b2', q: '2', name: 'Jus de bissap maison', place: 'Table 07', stockLabel: 'Production interne · non stockable', tag: 'PRODUCTION', tagFg: '#9C4E0B', tagBg: '#FDEEDC' },
+      { id: 'b3', q: '1', name: 'Pizza margherita', place: 'Table 03', stockLabel: 'Poste pâtisserie · 15 min', tag: 'PÂTISSERIE', tagFg: '#9C4E0B', tagBg: '#FDEEDC' },
+      { id: 'b4', q: '4', name: 'Eau minérale 1,5 L', place: 'Salle Palmier', stockLabel: 'Stock bar 88 packs', tag: 'STOCKABLE', tagFg: '#31610D', tagBg: '#E8F6D2' }
+    ];
+
+    const msgs = ['Prêt dans 10 minutes', 'Pause café maintenant', 'Repas servi en salle Palmier', 'Reprise de la session dans 15 minutes'];
+
+    return {
+      // en-tête
+      headTitle: title, headSub: sub, headRight: '12:41', headRightSub: 'Lun 07/09',
+      canBack: canBack,
+      back: () => this.setState({ step: S.step === 'detail' ? 'menu' : (S.step === 'cart' ? 'menu' : 'tables') }),
+
+      // vues
+      isTables: isServeur && S.step === 'tables',
+      isMenu: isServeur && S.step === 'menu',
+      isDetail: isServeur && S.step === 'detail',
+      isCart: isServeur && S.step === 'cart',
+      isSent: isServeur && S.step === 'sent',
+      isCuisine: S.role === 'cuisine',
+      isBar: S.role === 'bar',
+      isCaisse: S.role === 'caisse',
+      isAnim: S.role === 'anim',
+
+      // serveur — lieux
+      tables: [['T. 01', 'Libre', libre], ['T. 02', 'Libre', libre], ['T. 03', 'Servie', occ], ['T. 04', 'Libre', libre],
+               ['T. 05', 'Libre', libre], ['T. 06', 'Servie', occ], ['T. 07', 'En cuisine', occ], ['T. 08', 'Libre', libre],
+               ['T. 12', 'À encaisser', occ], ['Palmier', 'Groupe', grp], ['Cocotier', 'Groupe', grp], ['Plage', 'Libre', libre]]
+        .map((t) => mkPlace(t[0], t[1], t[2])),
+      roomsRS: [['104', 'Occupée', occ], ['108', 'Occupée', occ], ['111', 'Occupée', occ], ['203', 'Occupée', occ]]
+        .map((t) => mkPlace('Ch. ' + t[0], t[1], t[2])),
+      goGroupe: () => this.setState({ place: 'Salle Palmier', step: 'menu', fam: 'plats' }),
+
+      // serveur — menu
+      families: famList.map((x) => {
+        const on = S.fam === x[0], st = this.sel(on);
+        return { label: x[1], bg: st.bg, fg: st.fg, bd: st.bd, weight: st.weight, go: () => this.setState({ fam: x[0] }) };
+      }),
+      dishes: this.catalog()[S.fam].map((x) => ({
+        name: x.name, meta: x.meta, price: f(x.price), tag: x.tag, tagFg: x.tagFg,
+        go: () => this.setState({ dishId: x.id, step: 'detail', qty: 1, opts: {} })
+      })),
+
+      // serveur — détail
+      dish: { name: d.name, meta: d.meta, price: f(d.price), cook: d.cook },
+      optionGroups: d.groups.map((g) => ({
+        label: g[0],
+        options: g[1].map((o) => {
+          const key = d.id + '-' + g[0];
+          const on = (S.opts[key] || g[1][0]) === o, st = this.sel(on);
+          return { label: o, bg: st.bg, fg: st.fg, bd: st.bd, weight: st.weight,
+            go: () => this.setState({ opts: Object.assign({}, S.opts, { [key]: o }) }) };
+        })
+      })),
+      qty: String(S.qty),
+      qtyInc: () => this.setState({ qty: S.qty + 1 }),
+      qtyDec: () => this.setState({ qty: Math.max(1, S.qty - 1) }),
+
+      // serveur — panier
+      cart: S.cart.map((c, i) => ({
+        name: c.name, q: String(c.q), opts: c.opts, total: f(c.q * c.price), dest: c.dest,
+        destBg: c.dest === 'BAR' ? '#E8F6D2' : (c.dest === 'PÂTISSERIE' ? '#FDEEDC' : '#E9F2F8'),
+        destFg: c.dest === 'BAR' ? '#31610D' : (c.dest === 'PÂTISSERIE' ? '#9C4E0B' : '#3E6E8E'),
+        remove: () => this.setState({ cart: S.cart.filter((x, j) => j !== i) })
+      })),
+      drinkTiming: [['apres', 'Avec les plats'], ['debut', 'Servir en premier']].map((o) => {
+        const on = S.drink === o[0], st = this.sel(on);
+        return { label: o[1], bg: st.bg, fg: st.fg, bd: st.bd, weight: st.weight, go: () => this.setState({ drink: o[0] }) };
+      }),
+      cartHT: f(tot.ht), cartTVA: f(tot.tva), cartTTC: f(tot.ttc),
+
+      // serveur — envoyé
+      routing: [
+        { poste: 'Cuisine', items: 'Relance jusqu’à validation', state: 'ENVOYÉ', color: '#4A8C14' },
+        { poste: 'Bar', items: 'Mise à jour du stock à la confirmation', state: 'ENVOYÉ', color: '#4A8C14' },
+        { poste: 'Imprimante accueil', items: 'Bon de commande imprimé', state: 'IMPRIMÉ', color: '#3E6E8E' }
+      ],
+
+      // cuisine
+      tickets: ticketDefs.map((t) => {
+        const st = S.tickets[t.id];
+        const accent = st === 'ready' ? '#4A8C14' : (t.late ? '#C0392B' : '#D4711C');
+        return { place: t.place, who: t.who, timer: t.timer, items: t.items,
+          accent: accent, bd: '#DCEBC2', headBg: st === 'ready' ? '#F1F9E1' : '#F6FCEA',
+          soonBg: st === 'soon' ? '#D4711C' : '#FFFFFF', soonFg: st === 'soon' ? '#FFFFFF' : '#9C4E0B', soonBd: '#F5D3AE',
+          readyBg: st === 'ready' ? '#4A8C14' : '#FFFFFF', readyFg: st === 'ready' ? '#FFFFFF' : '#31610D', readyBd: '#C4E39A',
+          readyLabel: st === 'ready' ? 'Confirmé' : 'Prêt',
+          soon: () => this.setState({ tickets: Object.assign({}, S.tickets, { [t.id]: 'soon' }) }),
+          ready: () => this.setState({ tickets: Object.assign({}, S.tickets, { [t.id]: 'ready' }) }) };
+      }),
+
+      // bar
+      barItems: barDefs.map((b) => {
+        const st = S.bar[b.id];
+        return { q: b.q, name: b.name, place: b.place, stockLabel: b.stockLabel, tag: b.tag, tagFg: b.tagFg, tagBg: b.tagBg,
+          rBg: st === 'ko' ? '#C0392B' : '#FFFFFF', rFg: st === 'ko' ? '#FFFFFF' : '#C0392B', rBd: '#F2C9C2',
+          oBg: st === 'ok' ? '#4A8C14' : '#FFFFFF', oFg: st === 'ok' ? '#FFFFFF' : '#31610D', oBd: '#C4E39A',
+          okLabel: st === 'ok' ? 'Mise à disposition confirmée' : 'Disponible',
+          rupture: () => this.setState({ bar: Object.assign({}, S.bar, { [b.id]: 'ko' }) }),
+          ok: () => this.setState({ bar: Object.assign({}, S.bar, { [b.id]: 'ok' }) }) };
+      }),
+
+      // caisse
+      payAmount: f(payAmount),
+      normOpts: [['Oui', true], ['Non', false]].map((o) => {
+        const on = S.norm === o[1], st = this.sel(on);
+        return { label: o[0], bg: st.bg, fg: st.fg, bd: st.bd, go: () => this.setState({ norm: o[1], printed: false }) };
+      }),
+      normOn: S.norm, normOff: !S.norm,
+      payModes: [['momo', 'Momo'], ['moov', 'Moov'], ['cash', 'Cash']].map((m) => {
+        const on = S.payMode === m[0], st = this.sel(on);
+        return { label: m[1], bg: st.bg, fg: st.fg, bd: st.bd, go: () => this.setState({ payMode: m[0], printed: false }) };
+      }),
+      isMobileMoney: S.payMode !== 'cash',
+      printed: S.printed,
+      payModeLabel: { momo: 'Momo', moov: 'Moov', cash: 'Cash' }[S.payMode],
+
+      // animateur
+      counts: [
+        { key: 'pdj', label: 'Petits déjeuners', place: 'Terrasse · 06:30 – 09:00' },
+        { key: 'pause', label: 'Pause du matin', place: 'Salle Palmier · 10:00' },
+        { key: 'repas', label: 'Déjeuners', place: 'Restaurant · 12:30' }
+      ].map((c) => ({ label: c.label, place: c.place, n: String(S.counts[c.key]),
+        inc: () => this.setState({ counts: Object.assign({}, S.counts, { [c.key]: S.counts[c.key] + 1 }), countsOk: false }),
+        dec: () => this.setState({ counts: Object.assign({}, S.counts, { [c.key]: Math.max(0, S.counts[c.key] - 1) }), countsOk: false }) })),
+      confirmCounts: () => this.setState({ countsOk: true }),
+      confLabel: S.countsOk ? 'Effectifs confirmés — cuisine et magasin notifiés' : 'Confirmer les effectifs',
+      confBg: S.countsOk ? '#31610D' : '#4A8C14',
+      confFg: '#F3FBE3',
+      confBd: S.countsOk ? '#31610D' : '#4A8C14',
+      messages: msgs.map((m) => {
+        const on = S.lastMsg === m, st = this.sel(on);
+        return { label: m, bg: st.bg, fg: st.fg, bd: st.bd, go: () => this.setState({ lastMsg: m }) };
+      }),
+      msgSent: !!S.lastMsg,
+      lastMsg: S.lastMsg || '',
+
+      // barre d'action + profils
+      hasAction: hasAction, actionLabel: actionLabel, actionValue: actionValue, actionText: actionText, actionGo: actionGo,
+      roles: [
+        { id: 'serveur', label: 'Serveur', icon: 'M3 11h18a9 9 0 00-18 0zM2 15h20M5 19h14' },
+        { id: 'cuisine', label: 'Cuisine', icon: 'M4 10h16v6a4 4 0 01-4 4H8a4 4 0 01-4-4zM2 10h20M8 6V3M12 6V3M16 6V3' },
+        { id: 'bar', label: 'Bar', icon: 'M5 4h14l-7 8zM12 12v8M8 20h8' },
+        { id: 'caisse', label: 'Caisse', icon: 'M3 7h18v10H3zM3 11h18M7 15h3' },
+        { id: 'anim', label: 'Animateur', icon: 'M3 11l13-6v14L3 13zM3 11v3M7 14v4a2 2 0 004 0' }
+      ].map((r) => {
+        const on = S.role === r.id;
+        return { label: r.label, icon: r.icon, stroke: on ? '#D4711C' : '#A9BE90',
+          fg: on ? '#1C2610' : '#8AA06E', weight: on ? '600' : '500',
+          go: () => this.setState({ role: r.id, step: 'tables', cart: S.cart }) };
+      })
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>

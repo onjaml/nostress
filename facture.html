@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facture normalisée — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #FFFFFF; color: #1C2610; }
+    * { box-sizing: border-box; }
+    a { color: #9C4E0B; text-decoration: none; }
+    a:hover { color: #D4711C; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .k { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7C9160; }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 559px; height: 794px; background: #FFFFFF; padding: 34px 36px; display: flex; flex-direction: column; color: #1C2610\">\n\n  <div style=\"display: flex; align-items: flex-start; gap: 16px; padding-bottom: 16px; border-bottom: 2px solid #1C2610\">\n    <svg width=\"34\" height=\"34\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0; margin-top: 2px\">\n      <path d=\"M3 21V8l9-5 9 5v13\"></path><path d=\"M3 13h18\"></path><path d=\"M9 21v-5h6v5\"></path>\n    </svg>\n    <div style=\"flex-grow: 1\">\n      <div class=\"dsp\" style=\"font-size: 28px; letter-spacing: 0.01em; color: #1C2610\">Nostress</div>\n      <div style=\"font-size: 13px; color: #5A6B4A; margin-top: 3px; line-height: 1.45\">Hôtel &#183; Restaurant &#183; Plage<br>Route de la plage, Grand-Popo, Bénin<br>+229 21 43 00 12 &#183; contact@nostress.bj</div>\n    </div>\n    <div style=\"text-align: right\">\n      <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 0.06em\">FACTURE NORMALISÉE</div>\n      <div class=\"num\" style=\"font-size: 17px; font-weight: 700; color: #9C4E0B; margin-top: 4px\">FN-2026-04188</div>\n      <div class=\"num\" style=\"font-size: 12px; color: #5A6B4A; margin-top: 4px\">07/09/2026 &#183; 13:04</div>\n    </div>\n  </div>\n\n  <div style=\"display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 16px 0; border-bottom: 1px solid #DCEBC2\">\n    <div>\n      <div class=\"k\" style=\"margin-bottom: 6px\">Émetteur</div>\n      <div class=\"num\" style=\"font-size: 13px; line-height: 1.6\">IFU &#160;&#160;&#160;&#160;&#160;3201765432109<br>RCCM &#160;&#160;&#160;RB/COT/19 B 4471<br>NIM &#160;&#160;&#160;&#160;&#160;MQ00284511<br>Régime &#160;TVA 18 %</div>\n    </div>\n    <div>\n      <div class=\"k\" style=\"margin-bottom: 6px\">Client</div>\n      <div style=\"font-size: 14px; font-weight: 600\">SARL LES PALMIERS</div>\n      <div class=\"num\" style=\"font-size: 13px; line-height: 1.6; margin-top: 2px\">IFU &#160;&#160;&#160;&#160;&#160;3201456789012<br>Cotonou, Bénin<br>Table 12 &#183; service du midi</div>\n    </div>\n  </div>\n\n  <table style=\"width: 100%; border-collapse: collapse; margin-top: 14px\">\n    <thead>\n      <tr style=\"border-bottom: 1.5px solid #1C2610\">\n        <th style=\"text-align: left; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #7C9160; padding-bottom: 7px\">Désignation</th>\n        <th style=\"text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #7C9160; padding-bottom: 7px; width: 34px\">Gr.</th>\n        <th style=\"text-align: right; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #7C9160; padding-bottom: 7px; width: 40px\">Qté</th>\n        <th style=\"text-align: right; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #7C9160; padding-bottom: 7px; width: 78px\">P.U. HT</th>\n        <th style=\"text-align: right; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #7C9160; padding-bottom: 7px; width: 84px\">Total HT</th>\n      </tr>\n    </thead>\n    <tbody>\n      <sc-for list=\"{{lines}}\" as=\"l\" hint-placeholder-count=\"5\">\n        <tr style=\"border-bottom: 1px solid #E9F4D6\">\n          <td style=\"padding: 8px 0; font-size: 14px\">{{l.name}}</td>\n          <td class=\"num\" style=\"padding: 8px 0; font-size: 13px; text-align: center; color: #7C9160\">{{l.group}}</td>\n          <td class=\"num\" style=\"padding: 8px 0; font-size: 14px; text-align: right\">{{l.qty}}</td>\n          <td class=\"num\" style=\"padding: 8px 0; font-size: 14px; text-align: right\">{{l.pu}}</td>\n          <td class=\"num\" style=\"padding: 8px 0; font-size: 14px; text-align: right; font-weight: 600\">{{l.total}}</td>\n        </tr>\n      </sc-for>\n    </tbody>\n  </table>\n\n  <div style=\"display: flex; justify-content: flex-end; margin-top: 14px\">\n    <div style=\"width: 250px\">\n      <sc-for list=\"{{totals}}\" as=\"t\" hint-placeholder-count=\"3\">\n        <div style=\"display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; color: #3B4A2A\">\n          <span>{{t.label}}</span><span class=\"num\" style=\"font-weight: 600\">{{t.value}}</span>\n        </div>\n      </sc-for>\n      <div style=\"display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0 0 0; margin-top: 6px; border-top: 2px solid #1C2610\">\n        <span style=\"font-size: 15px; font-weight: 700\">TOTAL TTC</span>\n        <span class=\"num\" style=\"font-size: 22px; font-weight: 700\">19 600</span>\n      </div>\n      <div style=\"text-align: right; font-size: 12px; color: #7C9160; margin-top: 2px\">francs CFA</div>\n    </div>\n  </div>\n\n  <div style=\"margin-top: 16px; border: 1.5px solid #1C2610; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 12px\">\n    <div class=\"k\" style=\"letter-spacing: 0.1em\">Réglée par</div>\n    <div style=\"font-size: 17px; font-weight: 700; letter-spacing: 0.06em\">MOBILE MONEY — MOMO</div>\n    <div style=\"flex-grow: 1\"></div>\n    <div class=\"num\" style=\"font-size: 13px; color: #5A6B4A\">réf. 260907-8841 &#183; fonds vérifiés à l’accueil</div>\n  </div>\n\n  <div style=\"flex-grow: 1\"></div>\n\n  <div style=\"display: flex; gap: 16px; align-items: flex-end; padding-top: 16px; border-top: 1px solid #DCEBC2\">\n    <div style=\"flex-shrink: 0\">\n      <div style=\"width: 96px; height: 96px; background: #FFFFFF; border: 1px solid #1C2610; padding: 5px\">\n        <svg width=\"84\" height=\"84\" viewBox=\"0 0 21 21\" shape-rendering=\"crispEdges\">\n          <rect width=\"21\" height=\"21\" fill=\"#FFFFFF\"></rect>\n          <sc-for list=\"{{qr}}\" as=\"m\" hint-placeholder-count=\"200\">\n            <rect x=\"{{m.x}}\" y=\"{{m.y}}\" width=\"1\" height=\"1\" fill=\"#1C2610\"></rect>\n          </sc-for>\n        </svg>\n      </div>\n      <div style=\"font-size: 11px; color: #7C9160; text-align: center; margin-top: 4px; letter-spacing: 0.04em\">Vérification DGI</div>\n    </div>\n    <div style=\"flex-grow: 1\">\n      <div class=\"k\" style=\"margin-bottom: 5px\">Mentions de normalisation</div>\n      <div class=\"num\" style=\"font-size: 12px; line-height: 1.7; color: #3B4A2A\">\n        Code MECeF &#160;&#160;&#160;&#160;YB4K-2M7Q-P1XZ-9D3T<br>\n        Compteur &#160;&#160;&#160;&#160;&#160;&#160;04188 / 12960 &#183; groupe B (TVA 18 %)<br>\n        NIM machine &#160;&#160;MQ00284511 &#183; horodatage 07/09/2026 13:04:22<br>\n        Dossier client &#160;/SARL_LES_PALMIERS_97120044\n      </div>\n      <div style=\"font-size: 12px; color: #7C9160; margin-top: 9px; line-height: 1.5\">Facture à faire signer par le client. La copie signée est scannée et versée au dossier client le jour même.</div>\n    </div>\n  </div>\n\n  <div style=\"display: flex; gap: 24px; margin-top: 14px\">\n    <div style=\"flex-grow: 1\">\n      <div style=\"border-bottom: 1px solid #93A183; height: 40px\"></div>\n      <div style=\"font-size: 12px; color: #7C9160; margin-top: 4px\">Signature du client</div>\n    </div>\n    <div style=\"flex-grow: 1\">\n      <div style=\"border-bottom: 1px solid #93A183; height: 40px\"></div>\n      <div style=\"font-size: 12px; color: #7C9160; margin-top: 4px\">Nostress — service encaissement</div>\n    </div>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  renderVals() {
+    const qr = [];
+    const finder = (ox, oy) => {
+      for (let i = 0; i < 7; i++) for (let j = 0; j < 7; j++) {
+        const edge = i === 0 || i === 6 || j === 0 || j === 6;
+        const core = i > 1 && i < 5 && j > 1 && j < 5;
+        if (edge || core) qr.push({ x: ox + i, y: oy + j });
+      }
+    };
+    finder(0, 0); finder(14, 0); finder(0, 14);
+    let seed = 7;
+    for (let x = 0; x < 21; x++) for (let y = 0; y < 21; y++) {
+      const inFinder = (x < 8 && y < 8) || (x > 12 && y < 8) || (x < 8 && y > 12);
+      if (inFinder) continue;
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      if ((seed >> 16) % 100 < 46) qr.push({ x: x, y: y });
+    }
+    return {
+      lines: [
+        { name: 'Poulet braisé — braisé fort, piment, frites', group: 'B', qty: '2', pu: '3 814', total: '7 628' },
+        { name: 'Riz sauce arachide — piment doux', group: 'B', qty: '1', pu: '2 966', total: '2 966' },
+        { name: 'Salade de papaye verte', group: 'B', qty: '1', pu: '1 695', total: '1 695' },
+        { name: 'Bière 65 cl', group: 'B', qty: '3', pu: '1 017', total: '3 051' },
+        { name: 'Tarte à la noix de coco', group: 'B', qty: '1', pu: '1 271', total: '1 271' }
+      ],
+      totals: [
+        { label: 'Total HT', value: '16 611' },
+        { label: 'TVA 18 % (groupe B)', value: '2 989' },
+        { label: 'Remise', value: '0' }
+      ],
+      qr: qr
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>

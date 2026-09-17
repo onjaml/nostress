@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fondations — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #9C4E0B; text-decoration: none; }
+    a:hover { color: #D4711C; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    .card { background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 20px; }
+    .h { font-size: 13px; font-weight: 600; margin-bottom: 13px }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1120px; height: 1190px; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; background: #F3FBE3; overflow: hidden\">\n\n  <div>\n    <h1 style=\"margin: 0 0 4px 0; font-size: 24px; font-weight: 700; letter-spacing: 0\">Fondations — Nostress</h1>\n    <div style=\"font-size: 12px; color: #5A6B4A\">Vert Nostress, lime et beaucoup d’arrondi. La couleur de marque porte l’interface ; ce qui attend une décision passe à l’orange.</div>\n  </div>\n\n  <div style=\"display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"h\">Palette</div>\n      <div style=\"display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px\">\n        <sc-for list=\"{{colors}}\" as=\"c\" hint-placeholder-count=\"12\">\n          <div>\n            <div style=\"height: 46px; border-radius: 12px; background: {{c.hex}}; border: 1px solid {{c.bd}}\"></div>\n            <div style=\"font-size: 11px; font-weight: 600; margin-top: 6px\">{{c.name}}</div>\n            <div class=\"num\" style=\"font-size: 10.5px; color: #8AA06E\">{{c.hex}}</div>\n            <div style=\"font-size: 10px; color: #8AA06E; margin-top: 2px; line-height: 1.35\">{{c.use}}</div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"h\">Typographie</div>\n      <div style=\"display: flex; flex-direction: column; gap: 11px\">\n        <sc-for list=\"{{type}}\" as=\"t\" hint-placeholder-count=\"5\">\n          <div style=\"display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid #F0F8E2; padding-bottom: 9px\">\n            <div style=\"width: 96px; flex-shrink: 0\">\n              <div class=\"lbl\">{{t.role}}</div>\n              <div class=\"num\" style=\"font-size: 10.5px; color: #8AA06E; margin-top: 2px\">{{t.spec}}</div>\n            </div>\n            <div style=\"flex-grow: 1; font-size: {{t.size}}; font-weight: {{t.weight}}; font-family: {{t.family}}; letter-spacing: {{t.ls}}\">{{t.sample}}</div>\n          </div>\n        </sc-for>\n      </div>\n      <div style=\"font-size: 11.5px; color: #5A6B4A; margin-top: 11px; line-height: 1.5\">Tous les montants, quantités, références et horaires sont en JetBrains Mono avec chiffres tabulaires : les colonnes de facture et de stock restent alignées quel que soit le chiffre.</div>\n    </div>\n  </div>\n\n  <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"h\">Boutons</div>\n      <div style=\"display: flex; flex-direction: column; gap: 10px\">\n        <div style=\"display: flex; gap: 8px; align-items: center; flex-wrap: wrap\">\n          <button style=\"background: #4A8C14; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 8px 17px; border-radius: 999px\">Valider</button>\n          <button style=\"background: #FFFFFF; border: 1px solid #CFE4AE; color: #1C2610; font-size: 12px; font-weight: 500; padding: 7px 14px; border-radius: 999px\">Secondaire</button>\n          <button style=\"background: #FFFFFF; border: 1px solid #F2C9C2; color: #C0392B; font-size: 12px; font-weight: 500; padding: 7px 14px; border-radius: 999px\">Refuser</button>\n          <button style=\"background: #FDEEDC; border: 1px solid #F5D3AE; color: #9C4E0B; font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 999px\">+ Ligne</button>\n        </div>\n        <div class=\"lbl\" style=\"margin-top: 4px\">Android — cible minimale 44 px</div>\n        <div style=\"display: flex; gap: 8px\">\n          <button style=\"flex-grow: 1; min-height: 48px; background: #4A8C14; color: #FFFFFF; font-size: 14px; font-weight: 700; border-radius: 999px\">Envoyer</button>\n          <button style=\"flex-grow: 1; min-height: 48px; background: #FFFFFF; border: 1.5px solid #CFE4AE; color: #4E5F3C; font-size: 14px; font-weight: 600; border-radius: 999px\">Annuler</button>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"h\">Sélection</div>\n      <div style=\"display: flex; gap: 7px; margin-bottom: 12px\">\n        <sc-for list=\"{{tabs}}\" as=\"t\" hint-placeholder-count=\"3\">\n          <div style=\"padding: 7px 14px; border-radius: 12px; font-size: 12px; font-weight: {{t.weight}}; background: {{t.bg}}; color: {{t.fg}}; border: 1px solid {{t.bd}}\">{{t.label}}</div>\n        </sc-for>\n      </div>\n      <div style=\"display: flex; flex-direction: column; gap: 9px\">\n        <sc-for list=\"{{checks}}\" as=\"c\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: center; gap: 10px\">\n            <span style=\"width: 17px; height: 17px; border-radius: {{c.radius}}; border: 1.5px solid {{c.bd}}; background: {{c.bg}}; flex-shrink: 0; display: flex; align-items: center; justify-content: center\">\n              <sc-if value=\"{{c.on}}\" hint-placeholder-val=\"{{true}}\">\n                <svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.5\" stroke-linecap=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n              </sc-if>\n            </span>\n            <span style=\"font-size: 12.5px; color: {{c.fg}}\">{{c.label}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"h\">Statuts</div>\n      <div style=\"display: flex; flex-wrap: wrap; gap: 7px\">\n        <sc-for list=\"{{badges}}\" as=\"b\" hint-placeholder-count=\"8\">\n          <span style=\"background: {{b.bg}}; color: {{b.fg}}; border: 1px solid {{b.bd}}; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 4px 9px; border-radius: 999px\">{{b.label}}</span>\n        </sc-for>\n      </div>\n      <div style=\"font-size: 11.5px; color: #5A6B4A; margin-top: 13px; line-height: 1.5\">Une pastille pleine confirme un fait acquis. Un contour orange demande une action de quelqu’un. Un contour rouge signale une règle enfreinte ou un délai dépassé.</div>\n    </div>\n  </div>\n\n  <div class=\"card\" style=\"padding: 16px 18px; flex-grow: 1; display: flex; flex-direction: column\">\n    <div class=\"h\">Densité des tableaux — 9 px vertical, séparateurs 1 px, montants à droite</div>\n    <table style=\"width: 100%; border-collapse: collapse\">\n      <thead>\n        <tr style=\"background: #F6FCEA\">\n          <th style=\"text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px\">Article</th>\n          <th style=\"text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px\">Famille</th>\n          <th style=\"text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px\">Compte</th>\n          <th style=\"text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px\">Qté</th>\n          <th style=\"text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px\">PU HT</th>\n          <th style=\"text-align: right; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px\">Total HT</th>\n        </tr>\n      </thead>\n      <tbody>\n        <sc-for list=\"{{rows}}\" as=\"r\" hint-placeholder-count=\"3\">\n          <tr style=\"background: {{r.bg}}\">\n            <td style=\"font-size: 13px; padding: 9px 12px; border-top: 1px solid #E9F4D6; font-weight: 500\">{{r.a}}</td>\n            <td style=\"font-size: 12px; padding: 9px 12px; border-top: 1px solid #E9F4D6; color: #5A6B4A\">{{r.b}}</td>\n            <td class=\"num\" style=\"font-size: 12px; padding: 9px 12px; border-top: 1px solid #E9F4D6; color: #5A6B4A\">{{r.c}}</td>\n            <td class=\"num\" style=\"font-size: 13px; padding: 9px 12px; border-top: 1px solid #E9F4D6; text-align: right\">{{r.d}}</td>\n            <td class=\"num\" style=\"font-size: 13px; padding: 9px 12px; border-top: 1px solid #E9F4D6; text-align: right\">{{r.e}}</td>\n            <td class=\"num\" style=\"font-size: 13px; padding: 9px 12px; border-top: 1px solid #E9F4D6; text-align: right; font-weight: 600\">{{r.f}}</td>\n          </tr>\n        </sc-for>\n      </tbody>\n    </table>\n    <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #E9F4D6\">\n      <sc-for list=\"{{rules}}\" as=\"r\" hint-placeholder-count=\"3\">\n        <div>\n          <div class=\"lbl\" style=\"margin-bottom: 5px\">{{r.title}}</div>\n          <div style=\"font-size: 12px; color: #5A6B4A; line-height: 1.5\">{{r.text}}</div>\n        </div>\n      </sc-for>\n    </div>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      colors: [
+        { name: 'Vert Nostress', hex: '#4A8C14', bd: '#4A8C14', use: 'Action principale, marque, validation' },
+        { name: 'Vert clair', hex: '#6BB02A', bd: '#6BB02A', use: 'Survol, pastilles sur fond vert' },
+        { name: 'Lime', hex: '#DDF3AE', bd: '#C4E39A', use: 'Bandeaux, tuiles, blocs de section' },
+        { name: 'Lime pâle', hex: '#EAF7D6', bd: '#C4E39A', use: 'Tuiles secondaires, lignes actives' },
+        { name: 'Papier', hex: '#F3FBE3', bd: '#DCEBC2', use: 'Fond d’application' },
+        { name: 'Surface', hex: '#FFFFFF', bd: '#DCEBC2', use: 'Cartes et tableaux denses' },
+        { name: 'Lignes', hex: '#DCEBC2', bd: '#CFE4AE', use: 'Bordures et séparateurs' },
+        { name: 'Encre', hex: '#1C2610', bd: '#1C2610', use: 'Titres et texte principal' },
+        { name: 'Texte doux', hex: '#5A6B4A', bd: '#5A6B4A', use: 'Descriptions, métadonnées' },
+        { name: 'Orange décision', hex: '#D4711C', bd: '#D4711C', use: 'En attente du DG, à compléter' },
+        { name: 'Alerte', hex: '#C0392B', bd: '#C0392B', use: 'Règle enfreinte, retard, rupture' },
+        { name: 'Info', hex: '#3E6E8E', bd: '#3E6E8E', use: 'Poste cuisine, écriture comptable' }
+      ],
+      type: [
+        { role: 'Titre écran', spec: 'Baloo 2 · 22 / 700', size: '22px', weight: '700', family: "'Baloo 2', cursive", ls: '0', sample: 'Comptabilité et règlements' },
+        { role: 'Titre carte', spec: 'Jakarta · 13 / 700', size: '13px', weight: '700', family: "'IBM Plex Sans', sans-serif", ls: '0', sample: 'En attente de validation DG' },
+        { role: 'Corps', spec: 'Jakarta · 12,5 / 400', size: '12.5px', weight: '400', family: "'IBM Plex Sans', sans-serif", ls: '0', sample: 'Chaque livraison donne lieu à une facture certifiée.' },
+        { role: 'Étiquette', spec: 'Jakarta · 10 / 600 caps', size: '10px', weight: '600', family: "'IBM Plex Sans', sans-serif", ls: '0.09em', sample: 'PRIX DE REVIENT' },
+        { role: 'Chiffres', spec: 'JetBrains · 15 / 600 tab.', size: '15px', weight: '600', family: "'JetBrains Mono', monospace", ls: '-0.01em', sample: '3 780 720  ·  COT-2026-0184' }
+      ],
+      tabs: [
+        { label: 'Stock', bg: '#4A8C14', fg: '#FFFFFF', bd: '#4A8C14', weight: '700' },
+        { label: 'Proposition', bg: '#FFFFFF', fg: '#4E5F3C', bd: '#CFE4AE', weight: '400' },
+        { label: 'Prix de revient', bg: '#FFFFFF', fg: '#4E5F3C', bd: '#CFE4AE', weight: '400' }
+      ],
+      checks: [
+        { label: 'Étape effectuée', on: true, radius: '4px', bd: '#4A8C14', bg: '#4A8C14', fg: '#5A6B4A' },
+        { label: 'Étape à faire', on: false, radius: '4px', bd: '#C2DC9C', bg: '#FFFFFF', fg: '#1C2610' },
+        { label: 'Régime fiscal sélectionné', on: false, radius: '50%', bd: '#4A8C14', bg: '#4A8C14', fg: '#1C2610' }
+      ],
+      badges: [
+        { label: 'BROUILLON', bg: '#E9F4D6', fg: '#5A6B4A', bd: '#D7E7BE' },
+        { label: 'EN ATTENTE DG', bg: '#FDEEDC', fg: '#9C4E0B', bd: '#F5D3AE' },
+        { label: 'VALIDÉ', bg: '#E8F6D2', fg: '#31610D', bd: '#C4E39A' },
+        { label: 'REFUSÉ', bg: '#FBEAE7', fg: '#8E271B', bd: '#F2C9C2' },
+        { label: 'COMPTABILISÉE', bg: '#E9F2F8', fg: '#3E6E8E', bd: '#C4DCEA' },
+        { label: 'SIMULÉE', bg: '#FDEEDC', fg: '#9C4E0B', bd: '#F5D3AE' },
+        { label: 'CONTRAT', bg: '#EFF3E6', fg: '#6B7A5B', bd: '#D7E7BE' },
+        { label: 'À COMPLÉTER', bg: '#FBEAE7', fg: '#8E271B', bd: '#F2C9C2' }
+      ],
+      rows: [
+        { a: 'Chambre double — petit déjeuner compris', b: 'Hébergement / Nuitée', c: '7061', d: '36', e: '38 000', f: '1 368 000', bg: 'transparent' },
+        { a: 'Beurre — carton de 12 plaquettes', b: 'Alimentaire / Frais', c: '6011', d: '3', e: '18 305', f: '54 915', bg: '#FDF1EF' },
+        { a: 'Location salle Palmier — équipée', b: 'Salles / Journée', c: '7062', d: '3', e: '150 000', f: '450 000', bg: 'transparent' }
+      ],
+      rules: [
+        { title: 'Tout est arrondi', text: 'Pilule pour les boutons et les statuts, 20 px pour les cartes et les tuiles, 12 px pour les champs. Aucun angle vif dans l’interface.' },
+        { title: 'Le vert ne dit plus « validé » à lui seul', text: 'Toute l’interface est verte : la validation se lit à la pastille pleine et à la coche, jamais à la teinte. Ce qui attend quelqu’un est orange, ce qui est enfreint est rouge.' },
+        { title: 'Le mobile est le même système', text: 'Mêmes couleurs, mêmes statuts, mêmes libellés — seules les cibles grossissent (44 px minimum, 48 px pour l’action principale) et la densité baisse.' }
+      ]
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>

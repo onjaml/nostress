@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe cuisine — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #1C2610; color: #F3FBE3; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #D4711C; text-decoration: none; }
+    a:hover { color: #F0A15C; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9CB183; }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1024px; height: 768px; display: flex; flex-direction: column; overflow: hidden; background: #1C2610\">\n\n  <div style=\"flex-shrink: 0; padding: 14px 20px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #35461B\">\n    <div>\n      <div class=\"dsp\" style=\"font-size: 23px; letter-spacing: 0\">Passe cuisine</div>\n      <div style=\"font-size: 12px; color: #8AA06E; margin-top: 2px\">Les plats d’une même table partent ensemble — le timing de départ est calculé sur le plat le plus long</div>\n    </div>\n    <div style=\"flex-grow: 1\"></div>\n    <sc-for list=\"{{stats}}\" as=\"s\" hint-placeholder-count=\"3\">\n      <div style=\"text-align: right\">\n        <div class=\"lbl\">{{s.label}}</div>\n        <div class=\"num\" style=\"font-size: 22px; font-weight: 700; color: {{s.color}}\">{{s.value}}</div>\n      </div>\n    </sc-for>\n    <div class=\"num\" style=\"font-size: 26px; font-weight: 700; color: #D4711C; border-left: 1px solid #35461B; padding-left: 20px\">12:41</div>\n  </div>\n\n  <div style=\"flex-grow: 1; display: flex; gap: 12px; padding: 14px 20px; min-height: 0\">\n    <sc-for list=\"{{tickets}}\" as=\"t\" hint-placeholder-count=\"4\">\n      <div style=\"flex-grow: 1; flex-basis: 0; background: #FFFFFF; border-radius: 16px; border-top: 5px solid {{t.accent}}; display: flex; flex-direction: column; overflow: hidden; opacity: {{t.opacity}}\">\n        <div style=\"padding: 11px 13px; border-bottom: 1px solid #E9F4D6; display: flex; align-items: baseline; gap: 8px\">\n          <span class=\"num\" style=\"font-size: 20px; font-weight: 700; color: #1C2610\">{{t.place}}</span>\n          <span style=\"flex-grow: 1\"></span>\n          <span class=\"num\" style=\"font-size: 22px; font-weight: 700; color: {{t.accent}}\">{{t.timer}}</span>\n        </div>\n        <div style=\"padding: 5px 13px 0 13px; display: flex; align-items: center; gap: 7px; color: #8AA06E; font-size: 11px\">\n          <span>{{t.who}}</span><span style=\"flex-grow: 1\"></span><span class=\"num\">{{t.fired}}</span>\n        </div>\n        <div style=\"flex-grow: 1; padding: 8px 13px; overflow: auto\">\n          <sc-for list=\"{{t.items}}\" as=\"i\" hint-placeholder-count=\"3\">\n            <div style=\"padding: 9px 0; border-bottom: 1px solid #F0F8E2\">\n              <div style=\"display: flex; gap: 9px; align-items: baseline\">\n                <span class=\"num\" style=\"font-size: 16px; font-weight: 700; color: #D4711C\">{{i.q}}</span>\n                <span style=\"flex-grow: 1; font-size: 15px; font-weight: 600; color: #1C2610; line-height: 1.25\">{{i.name}}</span>\n                <span class=\"num\" style=\"font-size: 12px; color: #8AA06E\">{{i.cook}}</span>\n              </div>\n              <div style=\"font-size: 12.5px; color: #5A6B4A; margin-top: 4px; line-height: 1.4\">{{i.opts}}</div>\n            </div>\n          </sc-for>\n        </div>\n        <div style=\"padding: 10px 13px; background: {{t.footBg}}; border-top: 1px solid #E9F4D6\">\n          <div style=\"display: flex; align-items: center; gap: 8px; margin-bottom: 9px\">\n            <span class=\"lbl\" style=\"color: #8AA06E\">Départ groupé</span>\n            <span style=\"flex-grow: 1\"></span>\n            <span class=\"num\" style=\"font-size: 12px; font-weight: 700; color: {{t.accent}}\">{{t.depart}}</span>\n          </div>\n          <div style=\"height: 6px; background: #E9F4D6; border-radius: 999px; overflow: hidden; margin-bottom: 10px\">\n            <div style=\"height: 100%; width: {{t.pct}}; background: {{t.accent}}\"></div>\n          </div>\n          <div style=\"display: flex; gap: 7px\">\n            <button onClick=\"{{t.soon}}\" style=\"flex-grow: 1; padding: 11px 4px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: {{t.soonBg}}; color: {{t.soonFg}}; border: 1.5px solid #F5D3AE\">5 min</button>\n            <button onClick=\"{{t.ready}}\" style=\"flex-grow: 1; padding: 11px 4px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: {{t.readyBg}}; color: {{t.readyFg}}; border: 1.5px solid #C4E39A\">{{t.readyLabel}}</button>\n          </div>\n        </div>\n      </div>\n    </sc-for>\n  </div>\n\n  <div style=\"flex-shrink: 0; padding: 0 20px 16px 20px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 12px\">\n    <div style=\"background: #26331A; border: 1px solid #35461B; border-radius: 16px; padding: 13px 15px\">\n      <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px\">\n        <span class=\"lbl\">Groupe ONG Sikadi — déjeuner 12:30, salle Palmier</span>\n        <span style=\"flex-grow: 1\"></span>\n        <span class=\"num\" style=\"font-size: 12px; color: #D4711C\">répartition saisie en salle à 11:52</span>\n      </div>\n      <div style=\"display: flex; gap: 10px\">\n        <sc-for list=\"{{groupDishes}}\" as=\"g\" hint-placeholder-count=\"2\">\n          <div style=\"flex-grow: 1; background: #1C2610; border: 1px solid #35461B; border-radius: 14px; padding: 11px 13px; display: flex; align-items: baseline; gap: 10px\">\n            <span class=\"num\" style=\"font-size: 26px; font-weight: 700; color: #F3FBE3\">{{g.n}}</span>\n            <span style=\"flex-grow: 1\">\n              <span style=\"display: block; font-size: 13.5px; font-weight: 600\">{{g.name}}</span>\n              <span style=\"display: block; font-size: 11px; color: #8AA06E; margin-top: 2px\">{{g.note}}</span>\n            </span>\n            <button onClick=\"{{g.confirm}}\" style=\"padding: 8px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: {{g.bg}}; color: {{g.fg}}; border: 1.5px solid {{g.bd}}\">{{g.label}}</button>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div style=\"background: #26331A; border: 1px solid #35461B; border-radius: 16px; padding: 13px 15px\">\n      <div class=\"lbl\" style=\"margin-bottom: 10px\">Poste pâtisserie — demandes</div>\n      <div style=\"display: flex; flex-direction: column; gap: 7px\">\n        <sc-for list=\"{{patisserie}}\" as=\"p\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: center; gap: 10px\">\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 700; color: #D4711C; width: 22px\">{{p.q}}</span>\n            <span style=\"flex-grow: 1; font-size: 13px; font-weight: 500\">{{p.name}}</span>\n            <span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">{{p.place}}</span>\n            <span style=\"font-size: 10px; font-weight: 700; letter-spacing: 0.05em; color: {{p.color}}\">{{p.state}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { st: {}, grp: {} }; }
+  renderVals() {
+    const S = this.state;
+    const defs = [
+      { id: 't1', place: 'Table 12', who: 'Koffi · 4 couverts', timer: '04:12', fired: 'lancée 12:37', depart: '12:55', pct: '23%', late: false,
+        items: [
+          { q: '2', name: 'Poulet braisé', cook: '18 min', opts: 'Braisé fort · sauce piment · frites' },
+          { q: '1', name: 'Riz sauce arachide', cook: '10 min', opts: 'Piment doux · portion normale' },
+          { q: '1', name: 'Salade de papaye', cook: '6 min', opts: 'Sans piment · en entrée' }
+        ] },
+      { id: 't2', place: 'Table 07', who: 'Estelle · 3 couverts', timer: '11:47', fired: 'lancée 12:29', depart: '12:51', pct: '54%', late: true,
+        items: [
+          { q: '1', name: 'Poisson grillé — bar', cook: '22 min', opts: 'Bien grillé · moyo · attiéké' },
+          { q: '2', name: 'Salade de papaye', cook: '6 min', opts: 'Piment doux' }
+        ] },
+      { id: 't3', place: 'Ch. 104', who: 'Room service · offert', timer: '01:38', fired: 'lancée 12:39', depart: '12:46', pct: '23%', late: false,
+        items: [
+          { q: '1', name: 'Omelette', cook: '7 min', opts: 'Baveuse · fromage' },
+          { q: '1', name: 'Café', cook: 'imm.', opts: 'Servi avec le plat' }
+        ] },
+      { id: 't4', place: 'Table 03', who: 'Koffi · 2 couverts', timer: '00:22', fired: 'lancée 12:41', depart: '12:56', pct: '2%', late: false,
+        items: [
+          { q: '1', name: 'Pizza margherita', cook: '15 min', opts: 'Poste pâtisserie · bien cuite' },
+          { q: '1', name: 'Beignets de crevettes', cook: '9 min', opts: 'Sauce aigre-douce' }
+        ] }
+    ];
+    return {
+      stats: [
+        { label: 'Commandes en cours', value: '4', color: '#F3FBE3' },
+        { label: 'Couverts servis', value: '31', color: '#F3FBE3' },
+        { label: 'Retard > 10 min', value: '1', color: '#F08A72' }
+      ],
+      tickets: defs.map((t) => {
+        const st = S.st[t.id];
+        const accent = st === 'ready' ? '#4A8C14' : (st === 'soon' ? '#D4711C' : (t.late ? '#C0392B' : '#3E6E8E'));
+        return { place: t.place, who: t.who, timer: t.timer, fired: t.fired, depart: t.depart, pct: t.pct, items: t.items,
+          accent: accent, opacity: st === 'ready' ? '0.72' : '1',
+          footBg: st === 'ready' ? '#F1F9E1' : '#F6FCEA',
+          soonBg: st === 'soon' ? '#D4711C' : '#FFFFFF', soonFg: st === 'soon' ? '#FFFFFF' : '#9C4E0B',
+          readyBg: st === 'ready' ? '#4A8C14' : '#FFFFFF', readyFg: st === 'ready' ? '#FFFFFF' : '#31610D',
+          readyLabel: st === 'ready' ? 'Confirmé' : 'Prêt',
+          soon: () => this.setState({ st: Object.assign({}, S.st, { [t.id]: 'soon' }) }),
+          ready: () => this.setState({ st: Object.assign({}, S.st, { [t.id]: 'ready' }) }) };
+      }),
+      groupDishes: [
+        { id: 'g1', n: '21', name: 'Poulet braisé', note: 'choix 1 · 21 sur 35' },
+        { id: 'g2', n: '14', name: 'Poisson grillé', note: 'choix 2 · 14 sur 35' }
+      ].map((g) => {
+        const on = !!S.grp[g.id];
+        return { n: g.n, name: g.name, note: g.note,
+          label: on ? 'Quantités confirmées' : 'Confirmer',
+          bg: on ? '#4A8C14' : '#FFFFFF', fg: on ? '#FFFFFF' : '#1C2610', bd: on ? '#4A8C14' : '#CFE4AE',
+          confirm: () => this.setState({ grp: Object.assign({}, S.grp, { [g.id]: !on }) }) };
+      }),
+      patisserie: [
+        { q: '1', name: 'Pizza margherita', place: 'Table 03', state: 'EN COURS', color: '#D4711C' },
+        { q: '1', name: 'Tarte coco', place: 'Table 12', state: 'VITRINE', color: '#7FBF3F' },
+        { q: '40', name: 'Croissants — production pour stock', place: 'Interne', state: 'DEMAIN 05:00', color: '#8AA06E' }
+      ]
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>
