@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composants gestion — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    .card { background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 20px; }
+    .h { font-size: 13px; font-weight: 600; margin-bottom: 4px }
+    .hs { font-size: 11.5px; color: #5A6B4A; margin-bottom: 13px; line-height: 1.45 }
+    .src { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10.5px; color: #8AA06E }
+    .gap { color: #8E271B; font-weight: 600 }
+    .hd { display: flex; align-items: baseline; gap: 10px }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .th { text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #8AA06E; padding: 8px 12px; background: #F6FCEA }
+    .td { font-size: 13px; padding: 9px 12px; border-top: 1px solid #E9F4D6 }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1120px; height: 2602px; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; background: #F3FBE3; overflow: hidden\">\n\n  <div>\n    <h1 style=\"margin: 0 0 4px 0; font-size: 24px; font-weight: 700; letter-spacing: 0\">Composants — gestion</h1>\n    <div style=\"font-size: 12px; color: #5A6B4A\">Les briques propres aux modules du poste de gestion : planning, accueil, cotation, achats, comptabilité, fichiers de base. <span class=\"gap\">En rouge</span> : les écarts à la règle de l’orange relevés dans les écrans.</div>\n  </div>\n\n  <!-- ============ GRILLE DE PLANNING ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px\">\n    <div class=\"hd\"><div class=\"h\">Grille de planning</div><span class=\"src\">Main · planning</span></div>\n    <div class=\"hs\">Une ligne par chambre, salle ou prestation, sept colonnes de jours. Aujourd’hui est teinté, le week-end grisé. Les barres sont des pilules avec un talon de 3 px : bleu confirmé, orange provisoire (attend une confirmation), vert groupe ou repas, gris bloqué. <span class=\"gap\">Écart : la date du jour et le « provisoire » (qui attend le client, pas le DG) sont en orange.</span></div>\n    <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n      <div style=\"display: flex; border-bottom: 1px solid #DCEBC2; background: #F6FCEA\">\n        <div class=\"lbl\" style=\"width: 132px; flex-shrink: 0; padding: 8px 12px; border-right: 1px solid #DCEBC2\">Chambre</div>\n        <div style=\"flex-grow: 1; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr))\">\n          <sc-for list=\"{{days}}\" as=\"d\" hint-placeholder-count=\"7\">\n            <div style=\"padding: 8px 0; text-align: center; border-right: 1px solid #E9F4D6; background: {{d.bg}}\">\n              <div style=\"font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #8AA06E\">{{d.dow}}</div>\n              <div class=\"num\" style=\"font-size: 13px; font-weight: 600; color: {{d.fg}}\">{{d.num}}</div>\n            </div>\n          </sc-for>\n        </div>\n      </div>\n      <sc-for list=\"{{planRows}}\" as=\"r\" hint-placeholder-count=\"4\">\n        <div style=\"display: flex; border-bottom: 1px solid #F0F8E2; min-height: 40px\">\n          <div style=\"width: 132px; flex-shrink: 0; padding: 8px 12px; border-right: 1px solid #DCEBC2; display: flex; flex-direction: column; justify-content: center\">\n            <div style=\"font-size: 12px; font-weight: 600\">{{r.name}}</div>\n            <div style=\"font-size: 10px; color: #8AA06E\">{{r.meta}}</div>\n          </div>\n          <div style=\"flex-grow: 1; position: relative\">\n            <div style=\"position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr))\">\n              <sc-for list=\"{{days}}\" as=\"d\" hint-placeholder-count=\"7\">\n                <div style=\"border-right: 1px solid #F0F8E2; background: {{d.colBg}}\"></div>\n              </sc-for>\n            </div>\n            <div style=\"position: absolute; top: 6px; bottom: 6px; left: {{r.left}}; width: {{r.width}}; background: {{r.bg}}; border: 1px solid {{r.bd}}; border-left: 3px solid {{r.bd}}; border-radius: 999px; padding: 0 8px; display: flex; align-items: center; gap: 6px; overflow: hidden\">\n              <span style=\"font-size: 11px; font-weight: 600; color: {{r.fg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis\">{{r.label}}</span>\n              <span class=\"num\" style=\"font-size: 10px; color: {{r.metaFg}}; white-space: nowrap\">{{r.bmeta}}</span>\n            </div>\n          </div>\n        </div>\n      </sc-for>\n      <div style=\"padding: 8px 12px; display: flex; gap: 16px; align-items: center; background: #F6FCEA\">\n        <sc-for list=\"{{planLegend}}\" as=\"l\" hint-placeholder-count=\"4\">\n          <div style=\"display: flex; align-items: center; gap: 6px\">\n            <span style=\"width: 11px; height: 11px; border-radius: 6px; background: {{l.bg}}; border: 1px solid {{l.bd}}\"></span>\n            <span style=\"font-size: 11px; color: #5A6B4A\">{{l.label}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ ATTRIBUTION DE CHAMBRE + CARTES DE CHOIX ============ -->\n  <div style=\"display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Tuiles d’attribution</div><span class=\"src\">Main · accueil</span></div>\n      <div class=\"hs\">Numéro en mono, état en capitales de 9 px. La chambre choisie passe en encre pleine. Une légende accompagne toujours la grille.</div>\n      <div style=\"display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px\">\n        <sc-for list=\"{{rooms}}\" as=\"r\" hint-placeholder-count=\"6\">\n          <div style=\"padding: 10px 4px; border-radius: 16px; background: {{r.bg}}; border: 1.5px solid {{r.bd}}; text-align: center\">\n            <div class=\"num\" style=\"font-size: 13px; font-weight: 600; color: {{r.fg}}\">{{r.n}}</div>\n            <div style=\"font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: {{r.subFg}}; margin-top: 1px\">{{r.state}}</div>\n          </div>\n        </sc-for>\n      </div>\n      <div style=\"display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 13px; padding-top: 11px; border-top: 1px solid #F0F8E2\">\n        <sc-for list=\"{{roomLegend}}\" as=\"l\" hint-placeholder-count=\"4\">\n          <div style=\"display: flex; align-items: center; gap: 6px\">\n            <span style=\"width: 11px; height: 11px; border-radius: 6px; background: {{l.bg}}; border: 1px solid {{l.bd}}\"></span>\n            <span style=\"font-size: 11px; color: #5A6B4A\">{{l.label}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Cartes de choix</div><span class=\"src\">Main · accueil</span></div>\n      <div class=\"hs\">Choix exclusif entre des cas qui changent la procédure. La carte active est en encre avec ombre. <span class=\"gap\">Écart : l’étiquette « Cas n » active passe en orange.</span></div>\n      <div style=\"display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px\">\n        <sc-for list=\"{{cases}}\" as=\"c\" hint-placeholder-count=\"4\">\n          <div style=\"padding: 14px 16px; border-radius: 20px; background: {{c.bg}}; border: 1px solid {{c.bd}}; box-shadow: {{c.shadow}}\">\n            <div class=\"lbl\" style=\"color: {{c.tagFg}}; margin-bottom: 5px\">Cas {{c.n}}</div>\n            <div style=\"font-size: 12.5px; font-weight: 600; line-height: 1.35; color: {{c.fg}}\">{{c.title}}</div>\n            <div style=\"font-size: 11px; color: {{c.subFg}}; margin-top: 4px; line-height: 1.4\">{{c.sub}}</div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ FICHES ============ -->\n  <div style=\"display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Tuiles d’identification</div><span class=\"src\">Main · cotation</span></div>\n      <div class=\"hs\">Bandeau de 4 faits clés sous l’en-tête d’un dossier : étiquette, valeur en mono, note.</div>\n      <div style=\"display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px\">\n        <sc-for list=\"{{ident}}\" as=\"f\" hint-placeholder-count=\"4\">\n          <div class=\"card\" style=\"padding: 11px 13px\">\n            <div class=\"lbl\" style=\"margin-bottom: 5px\">{{f.label}}</div>\n            <div class=\"num\" style=\"font-size: 13px; font-weight: 600\">{{f.value}}</div>\n            <div style=\"font-size: 11px; color: #8AA06E; margin-top: 2px\">{{f.note}}</div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Fiche détail</div><span class=\"src\">Main · fichiers de base</span></div>\n      <div class=\"hs\">Lecture d’une fiche : nature, nom, sous-titre et Modifier à droite ; champs sur 3 colonnes ; un bloc lime pâle pour la donnée liée.</div>\n      <div style=\"display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px\">\n        <div>\n          <div class=\"lbl\" style=\"margin-bottom: 4px\">Article</div>\n          <div style=\"font-size: 17px; font-weight: 600\">Beurre — carton de 12 plaquettes</div>\n          <div style=\"font-size: 12px; color: #5A6B4A; margin-top: 3px\">Alimentaire / Frais · chambre froide</div>\n        </div>\n        <button style=\"background: #FFFFFF; border: 1px solid #CFE4AE; color: #1C2610; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 999px\">Modifier</button>\n      </div>\n      <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px\">\n        <sc-for list=\"{{ficFields}}\" as=\"f\" hint-placeholder-count=\"6\">\n          <div style=\"border-bottom: 1px solid #F0F8E2; padding-bottom: 8px\">\n            <div class=\"lbl\" style=\"margin-bottom: 4px\">{{f.label}}</div>\n            <div style=\"font-size: 13px; font-weight: 500; color: {{f.color}}\">{{f.value}}</div>\n          </div>\n        </sc-for>\n      </div>\n      <div style=\"margin-top: 14px; background: #F6FCEA; border: 1px solid #DCEBC2; border-radius: 12px; padding: 12px 16px\">\n        <div class=\"lbl\" style=\"margin-bottom: 6px\">Fournisseurs référencés</div>\n        <sc-for list=\"{{ficBlock}}\" as=\"b\" hint-placeholder-count=\"2\">\n          <div style=\"display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #E9F4D6\">\n            <span style=\"font-size: 12.5px; flex-grow: 1\">{{b.label}}</span>\n            <span class=\"num\" style=\"font-size: 12.5px; font-weight: 600; color: {{b.color}}\">{{b.value}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ PETITES LISTES ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px\">\n    <div class=\"hd\"><div class=\"h\">Petites listes de carte</div><span class=\"src\">Main · cotation, achats, accueil</span></div>\n    <div class=\"hs\">Quatre formes de liste courte, toutes sous une étiquette en capitales : clé / valeur, ligne datée avec montant, rappel à cocher (rond), pièce de dossier avec statut.</div>\n    <div style=\"display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px\">\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Fiche fournisseur</div>\n        <sc-for list=\"{{supplier}}\" as=\"f\" hint-placeholder-count=\"4\">\n          <div style=\"display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid #F0F8E2\">\n            <span style=\"font-size: 12px; color: #5A6B4A\">{{f.label}}</span>\n            <span class=\"num\" style=\"font-size: 12px; font-weight: 600; text-align: right; color: {{f.color}}\">{{f.value}}</span>\n          </div>\n        </sc-for>\n      </div>\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Impact trésorerie</div>\n        <sc-for list=\"{{cashPlan}}\" as=\"c\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: baseline; gap: 8px; padding: 6px 0; border-bottom: 1px solid #F0F8E2\">\n            <span style=\"font-size: 12px; color: #5A6B4A; flex-grow: 1\">{{c.label}}</span>\n            <span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">{{c.date}}</span>\n            <span class=\"num\" style=\"font-size: 13px; font-weight: 600; color: {{c.color}}\">{{c.amount}}</span>\n          </div>\n        </sc-for>\n      </div>\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Rappels programmés</div>\n        <sc-for list=\"{{reminders}}\" as=\"r\" hint-placeholder-count=\"4\">\n          <div style=\"display: flex; align-items: center; gap: 9px; padding: 5px 0\">\n            <span style=\"width: 14px; height: 14px; border-radius: 999px; border: 1.5px solid {{r.bd}}; background: {{r.bg}}; flex-shrink: 0; display: flex; align-items: center; justify-content: center\">\n              <sc-if value=\"{{r.done}}\" hint-placeholder-val=\"{{true}}\">\n                <svg width=\"9\" height=\"9\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.5\" stroke-linecap=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n              </sc-if>\n            </span>\n            <span style=\"font-size: 12px; flex-grow: 1; color: {{r.fg}}\">{{r.label}}</span>\n            <span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">{{r.date}}</span>\n          </div>\n        </sc-for>\n      </div>\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Pièces scannées</div>\n        <sc-for list=\"{{docs}}\" as=\"d\" hint-placeholder-count=\"4\">\n          <div style=\"display: flex; align-items: center; gap: 8px; padding: 5px 0\">\n            <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{d.color}}\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z\"></path><path d=\"M14 3v5h5\"></path></svg>\n            <span style=\"font-size: 12px; flex-grow: 1\">{{d.label}}</span>\n            <span style=\"font-size: 10px; font-weight: 600; color: {{d.color}}\">{{d.tag}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ TABLEAU DE SAISIE + PIED DE TOTAUX ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px\">\n    <div class=\"hd\"><div class=\"h\">Tableau éditable et pied de totaux</div><span class=\"src\">Main · cotation, achats</span></div>\n    <div class=\"hs\">En-tête de carte avec filtre et « + Ligne » ; quantité réglable dans la cellule ; croix de suppression discrète ; pied lime pâle aligné à droite, le total final séparé par un filet et grossi. <span class=\"gap\">Écart : « + Ligne » et la colonne Retour client sont en orange.</span></div>\n    <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n      <div style=\"padding: 12px 15px; border-bottom: 1px solid #E9F4D6; display: flex; align-items: center; gap: 10px\">\n        <span style=\"font-size: 13px; font-weight: 600\">Lignes de prestation</span>\n        <span style=\"font-size: 11px; color: #8AA06E\">Chaque ligne porte son compte comptable</span>\n        <span style=\"flex-grow: 1\"></span>\n        <button style=\"background: #FDEEDC; border: 1px solid #F5D3AE; color: #9C4E0B; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px\">+ Ligne</button>\n      </div>\n      <table style=\"width: 100%; border-collapse: collapse\">\n        <thead>\n          <tr>\n            <th class=\"th\">Désignation</th>\n            <th class=\"th\">Compte</th>\n            <th class=\"th\" style=\"text-align: right\">Qté</th>\n            <th class=\"th\" style=\"text-align: right\">PU HT</th>\n            <th class=\"th\" style=\"text-align: right\">Total HT</th>\n            <th class=\"th\" style=\"text-align: right\">Retour client</th>\n            <th class=\"th\"></th>\n          </tr>\n        </thead>\n        <tbody>\n          <sc-for list=\"{{lines}}\" as=\"l\" hint-placeholder-count=\"3\">\n            <tr>\n              <td class=\"td\">\n                <div style=\"font-weight: 500\">{{l.label}}</div>\n                <div style=\"font-size: 11px; color: #8AA06E; margin-top: 1px\">{{l.sub}}</div>\n              </td>\n              <td class=\"td num\" style=\"color: #5A6B4A; font-size: 12px\">{{l.account}}</td>\n              <td class=\"td\" style=\"text-align: right\">\n                <div style=\"display: inline-flex; align-items: center; gap: 8px; border: 1px solid #CFE4AE; border-radius: 12px; padding: 2px 4px\">\n                  <button style=\"background: transparent; color: #5A6B4A; font-size: 14px; width: 18px; line-height: 1\">−</button>\n                  <span class=\"num\" style=\"font-size: 13px; font-weight: 600; min-width: 22px; text-align: center\">{{l.qty}}</span>\n                  <button style=\"background: transparent; color: #5A6B4A; font-size: 14px; width: 18px; line-height: 1\">+</button>\n                </div>\n              </td>\n              <td class=\"td num\" style=\"text-align: right\">{{l.pu}}</td>\n              <td class=\"td num\" style=\"text-align: right; font-weight: 600\">{{l.total}}</td>\n              <td class=\"td num\" style=\"text-align: right; color: #9C4E0B\">{{l.retour}}</td>\n              <td class=\"td\" style=\"text-align: right; width: 34px\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#A3B58F\" stroke-width=\"1.9\" stroke-linecap=\"round\"><path d=\"M6 6l12 12M18 6L6 18\"></path></svg>\n              </td>\n            </tr>\n          </sc-for>\n        </tbody>\n      </table>\n      <div style=\"border-top: 1px solid #DCEBC2; background: #F6FCEA; padding: 12px 15px; display: flex; justify-content: flex-end; gap: 30px\">\n        <div style=\"text-align: right\"><div class=\"lbl\">Total HT</div><div class=\"num\" style=\"font-size: 17px; font-weight: 600\">1 872 000</div></div>\n        <div style=\"text-align: right\"><div class=\"lbl\">TVA 18 %</div><div class=\"num\" style=\"font-size: 17px; font-weight: 600\">336 960</div></div>\n        <div style=\"text-align: right\"><div class=\"lbl\">Retour client (rétroc.)</div><div class=\"num\" style=\"font-size: 17px; font-weight: 600; color: #9C4E0B\">93 600</div></div>\n        <div style=\"text-align: right; border-left: 1px solid #DCEBC2; padding-left: 30px\"><div class=\"lbl\">Total TTC</div><div class=\"num\" style=\"font-size: 21px; font-weight: 700\">2 208 960</div></div>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ SELECTIONS METIER ============ -->\n  <div style=\"display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.85fr); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Liste à cocher + règlement</div><span class=\"src\">Main · compta</span></div>\n      <div class=\"hs\">Sélection multiple par rond plein encre ; le type de pièce en petite étiquette ; puis le moyen de règlement en pilules et le total sélectionné.</div>\n      <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n        <sc-for list=\"{{payables}}\" as=\"p\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; border-bottom: 1px solid #F0F8E2; background: {{p.rowBg}}\">\n            <span style=\"width: 16px; height: 16px; border-radius: 999px; border: 1.5px solid {{p.boxBd}}; background: {{p.boxBg}}; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center\">\n              <sc-if value=\"{{p.on}}\" hint-placeholder-val=\"{{true}}\">\n                <svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.5\" stroke-linecap=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n              </sc-if>\n            </span>\n            <span style=\"flex-grow: 1; min-width: 0\">\n              <span style=\"display: flex; align-items: center; gap: 7px\">\n                <span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">{{p.ref}}</span>\n                <span style=\"font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: {{p.kindFg}}; background: {{p.kindBg}}; padding: 1px 6px; border-radius: 6px\">{{p.kind}}</span>\n              </span>\n              <span style=\"display: block; font-size: 12.5px; font-weight: 500; margin-top: 3px\">{{p.label}}</span>\n            </span>\n            <span class=\"num\" style=\"font-size: 13px; font-weight: 600; flex-shrink: 0; margin-top: 2px\">{{p.amount}}</span>\n          </div>\n        </sc-for>\n        <div style=\"background: #F6FCEA; padding: 12px 13px\">\n          <div class=\"lbl\" style=\"margin-bottom: 8px\">Moyen de règlement</div>\n          <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 11px\">\n            <sc-for list=\"{{payModes}}\" as=\"m\" hint-placeholder-count=\"6\">\n              <div style=\"text-align: center; padding: 7px 4px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: {{m.bg}}; color: {{m.fg}}; border: 1.5px solid {{m.bd}}\">{{m.label}}</div>\n            </sc-for>\n          </div>\n          <div style=\"display: flex; align-items: baseline; justify-content: space-between\">\n            <span style=\"font-size: 12px; color: #5A6B4A\">2 éléments · Ecobank</span>\n            <span class=\"num\" style=\"font-size: 19px; font-weight: 700\">466 300</span>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Choix avec formule + réglage</div><span class=\"src\">Main · achats</span></div>\n      <div class=\"hs\">Choix exclusif en pilules, chaque option porte sa règle en mono. Dessous, un montant réglé au pas avec − / +. <span class=\"gap\">Écart : l’option active est en orange.</span></div>\n      <div style=\"display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px\">\n        <sc-for list=\"{{fiscOpts}}\" as=\"f\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 999px; background: {{f.bg}}; border: 1.5px solid {{f.bd}}\">\n            <span style=\"width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid {{f.dotBd}}; background: {{f.dotBg}}; flex-shrink: 0\"></span>\n            <span style=\"flex-grow: 1\">\n              <span style=\"display: block; font-size: 12.5px; font-weight: 600; color: {{f.fg}}\">{{f.label}}</span>\n              <span class=\"num\" style=\"display: block; font-size: 11px; color: #8AA06E; margin-top: 2px\">{{f.formula}}</span>\n            </span>\n          </div>\n        </sc-for>\n      </div>\n      <div class=\"lbl\" style=\"margin-bottom: 8px\">Prix facturé TTC</div>\n      <div style=\"display: flex; align-items: center; gap: 8px\">\n        <button style=\"width: 32px; height: 32px; border-radius: 999px; border: 1px solid #CFE4AE; background: #FFFFFF; color: #5A6B4A; font-size: 16px\">−</button>\n        <div class=\"num\" style=\"flex-grow: 1; text-align: center; font-size: 19px; font-weight: 700\">21 600</div>\n        <button style=\"width: 32px; height: 32px; border-radius: 999px; border: 1px solid #CFE4AE; background: #FFFFFF; color: #5A6B4A; font-size: 16px\">+</button>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Liste maître</div><span class=\"src\">Main · fichiers</span></div>\n      <div class=\"hs\">Liste à gauche d’une fiche : l’élément ouvert est en lime avec un trait de 2 px. <span class=\"gap\">Écart : ce trait est orange.</span></div>\n      <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n        <div class=\"lbl\" style=\"padding: 10px 13px; border-bottom: 1px solid #E9F4D6\">Articles · 214</div>\n        <sc-for list=\"{{ficList}}\" as=\"i\" hint-placeholder-count=\"4\">\n          <div style=\"padding: 10px 13px; border-bottom: 1px solid #F0F8E2; background: {{i.bg}}; box-shadow: inset 2px 0 0 {{i.bar}}\">\n            <span style=\"display: block; font-size: 12.5px; font-weight: {{i.weight}}\">{{i.name}}</span>\n            <span style=\"display: block; font-size: 11px; color: #8AA06E; margin-top: 2px\">{{i.meta}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ CHIFFRES VISUELS ============ -->\n  <div style=\"display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 16px; flex-grow: 1\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Histogramme de trésorerie</div><span class=\"src\">Main · compta</span></div>\n      <div class=\"hs\">Barres à hauteur proportionnelle, filet de 2 px en tête, valeur au-dessus en mono : vert pour l’entrée nette, rouge pour la sortie.</div>\n      <div style=\"display: flex; align-items: flex-end; gap: 12px; height: 132px\">\n        <sc-for list=\"{{cashBars}}\" as=\"b\" hint-placeholder-count=\"6\">\n          <div style=\"flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%\">\n            <div style=\"flex-grow: 1; width: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px\">\n              <span class=\"num\" style=\"font-size: 10px; font-weight: 600; text-align: center; color: {{b.color}}\">{{b.value}}</span>\n              <div style=\"width: 100%; height: {{b.h}}; background: {{b.bg}}; border-top: 2px solid {{b.color}}; border-radius: 6px 2px 0 0\"></div>\n            </div>\n            <span style=\"font-size: 10px; color: #8AA06E\">{{b.label}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Jauges et relevés</div><span class=\"src\">Main · planning</span></div>\n      <div class=\"hs\">Jauge de 5 px pour un taux ; relevé avec écart et coche, ou « À SAISIR » en rouge s’il manque.</div>\n      <div style=\"display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px\">\n        <sc-for list=\"{{laundry}}\" as=\"l\" hint-placeholder-count=\"3\">\n          <div>\n            <div style=\"display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px\">\n              <span style=\"color: #5A6B4A\">{{l.label}}</span>\n              <span class=\"num\" style=\"font-weight: 600\">{{l.value}}</span>\n            </div>\n            <div style=\"height: 5px; background: #E9F4D6; border-radius: 999px; overflow: hidden\"><div style=\"height: 100%; width: {{l.pct}}; background: {{l.color}}\"></div></div>\n          </div>\n        </sc-for>\n      </div>\n      <div style=\"display: flex; flex-direction: column; gap: 9px; padding-top: 11px; border-top: 1px solid #F0F8E2\">\n        <sc-for list=\"{{meters}}\" as=\"m\" hint-placeholder-count=\"3\">\n          <div style=\"display: flex; align-items: baseline; gap: 10px\">\n            <span style=\"font-size: 12px; color: #5A6B4A; width: 78px; flex-shrink: 0\">{{m.label}}</span>\n            <span class=\"num\" style=\"font-size: 14px; font-weight: 600\">{{m.value}}</span>\n            <span class=\"num\" style=\"font-size: 11px; color: {{m.deltaColor}}\">{{m.delta}}</span>\n            <span style=\"flex-grow: 1\"></span>\n            <sc-if value=\"{{m.done}}\" hint-placeholder-val=\"{{true}}\">\n              <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n            </sc-if>\n            <sc-if value=\"{{m.todo}}\" hint-placeholder-val=\"{{false}}\">\n              <span style=\"font-size: 10px; font-weight: 600; color: #C0392B\">À SAISIR</span>\n            </sc-if>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Calcul et résultat</div><span class=\"src\">Main · achats</span></div>\n      <div class=\"hs\">Étapes de calcul ligne à ligne, puis le résultat en tuile encre pleine. <span class=\"gap\">Écart : la tuile « par plaquette » est en orange.</span></div>\n      <sc-for list=\"{{prSteps}}\" as=\"s\" hint-placeholder-count=\"3\">\n        <div style=\"display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F0F8E2\">\n          <span style=\"font-size: 12px; color: #5A6B4A; flex-grow: 1\">{{s.label}}</span>\n          <span class=\"num\" style=\"font-size: 13px; font-weight: 600; color: {{s.color}}\">{{s.value}}</span>\n        </div>\n      </sc-for>\n      <div style=\"display: flex; gap: 8px; margin-top: 12px\">\n        <div style=\"flex-grow: 1; flex-basis: 0; background: #1C2610; border-radius: 12px; padding: 11px 12px\">\n          <div class=\"lbl\" style=\"color: #8AA06E\">PR / carton</div>\n          <div class=\"num\" style=\"font-size: 19px; font-weight: 700; color: #F3FBE3\">18 305</div>\n        </div>\n        <div style=\"flex-grow: 1; flex-basis: 0; background: #FDEEDC; border: 1px solid #F5D3AE; border-radius: 12px; padding: 11px 12px\">\n          <div class=\"lbl\" style=\"color: #9C4E0B\">PR / plaquette</div>\n          <div class=\"num\" style=\"font-size: 19px; font-weight: 700; color: #9C4E0B\">1 525</div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  renderVals() {
+    const barPal = {
+      conf: { bg: '#E1EFF7', bd: '#3E6E8E', fg: '#22485E', metaFg: '#6E93A8' },
+      opt: { bg: '#FDEEDC', bd: '#D4711C', fg: '#8A4508', metaFg: '#B0733A' },
+      grp: { bg: '#E8F6D2', bd: '#4A8C14', fg: '#31610D', metaFg: '#6F9448' },
+      off: { bg: '#EFF3E6', bd: '#93A183', fg: '#5A6B4A', metaFg: '#8AA06E' }
+    };
+    const row = (name, meta, start, len, kind, label, bmeta) => Object.assign({ name: name, meta: meta, label: label, bmeta: bmeta,
+      left: (start / 7 * 100).toFixed(3) + '%', width: (len / 7 * 100).toFixed(3) + '%' }, barPal[kind]);
+    const roomPal = {
+      libre: { bg: '#FFFFFF', bd: '#CFE4AE', fg: '#1C2610', subFg: '#8AA06E', state: 'Libre' },
+      occ: { bg: '#E9F2F8', bd: '#C4DCEA', fg: '#5A6B4A', subFg: '#8FAEC1', state: 'Occupée' },
+      grp: { bg: '#EAF7D6', bd: '#C4E39A', fg: '#31610D', subFg: '#6F9448', state: 'Groupe' },
+      sale: { bg: '#FEF6EC', bd: '#F5D3AE', fg: '#8A4508', subFg: '#B07A34', state: 'À faire' },
+      off: { bg: '#F1F6E8', bd: '#CFE0B8', fg: '#8AA06E', subFg: '#A3B58F', state: 'Bloquée' },
+      sel: { bg: '#1C2610', bd: '#1C2610', fg: '#F3FBE3', subFg: '#AFC697', state: 'Choisie' }
+    };
+    const kindPal = { 'COMPTABILISÉE': ['#E9F2F8', '#3E6E8E'], 'SIMULÉE': ['#FDEEDC', '#9C4E0B'], 'VALIDÉE DG': ['#E8F6D2', '#31610D'] };
+    return {
+      days: [['Lun', '12'], ['Mar', '13'], ['Mer', '14'], ['Jeu', '15'], ['Ven', '16'], ['Sam', '17'], ['Dim', '18']].map((d, i) => ({
+        dow: d[0], num: d[1], fg: i === 3 ? '#D4711C' : '#1C2610', bg: i === 3 ? '#FEF6EC' : 'transparent',
+        colBg: i === 3 ? '#FAFEF1' : (i > 4 ? '#F6FCEA' : 'transparent')
+      })),
+      planRows: [
+        row('Chambre 101', 'Lit 160 · confort A', 0, 2, 'conf', 'Dupont M.', '2 nuits'),
+        row('Chambre 102', 'Lit 140 · confort B', 1, 3, 'opt', 'X1 / ONG Sikadi', 'provisoire'),
+        row('Déjeuner', '12:30 – 14:00', 3, 1, 'grp', '35', 'couverts'),
+        row('Chambre 205', 'Travaux peinture', 4, 3, 'off', 'Hors service', 'maintenance')
+      ],
+      planLegend: [
+        { label: 'Confirmé', bg: '#E1EFF7', bd: '#3E6E8E' },
+        { label: 'Provisoire — en attente de confirmation', bg: '#FDEEDC', bd: '#D4711C' },
+        { label: 'Groupe / repas', bg: '#E8F6D2', bd: '#4A8C14' },
+        { label: 'Bloqué', bg: '#EFF3E6', bd: '#93A183' }
+      ],
+      rooms: [['101', 'libre'], ['102', 'occ'], ['103', 'grp'], ['104', 'sel'], ['105', 'sale'], ['106', 'off']].map((r) => Object.assign({ n: r[0] }, roomPal[r[1]])),
+      roomLegend: [
+        { label: 'Libre', bg: '#FFFFFF', bd: '#CFE4AE' },
+        { label: 'Occupée', bg: '#E9F2F8', bd: '#C4DCEA' },
+        { label: 'Bloquée pour un groupe', bg: '#EAF7D6', bd: '#C4E39A' },
+        { label: 'À nettoyer', bg: '#FEF6EC', bd: '#F5D3AE' }
+      ],
+      cases: [
+        { n: 1, title: 'Client individuel de passage', sub: 'Paiement à l’arrivée' },
+        { n: 2, title: 'Client d’une entreprise conventionnée', sub: 'Facture au compte, bon de commande' },
+        { n: 3, title: 'Membre d’un groupe', sub: 'Chambres bloquées, rooming list' },
+        { n: 4, title: 'Invité de la direction', sub: 'Gratuité validée DG' }
+      ].map((c, i) => {
+        const on = i === 1;
+        return Object.assign(c, { bg: on ? '#1C2610' : '#FFFFFF', bd: on ? '#1C2610' : '#DCEBC2', fg: on ? '#F3FBE3' : '#1C2610',
+          subFg: on ? '#AFC697' : '#8AA06E', tagFg: on ? '#D4711C' : '#8AA06E', shadow: on ? '0 2px 8px rgba(27,36,48,0.18)' : 'none' });
+      }),
+      ident: [
+        { label: 'Client', value: 'ONG Sikadi', note: 'IFU 3201987654321' },
+        { label: 'Période', value: '20 → 22/10', note: '3 jours · 2 nuits' },
+        { label: 'Effectif', value: '35 pers.', note: 'dont 4 intervenants' },
+        { label: 'Échéance', value: '18/10/2026', note: 'acompte 30 % à la signature' }
+      ],
+      ficFields: [
+        { label: 'Code', value: 'ALI-FRA-0042', color: '#1C2610' },
+        { label: 'Compte', value: '6011 · achats alimentaires', color: '#1C2610' },
+        { label: 'Unité de stock', value: 'Plaquette 250 g', color: '#1C2610' },
+        { label: 'Stock mini', value: '2 cartons', color: '#1C2610' },
+        { label: 'Stock actuel', value: '0 carton', color: '#C0392B' },
+        { label: 'Fiscalité', value: 'TVA 18 %', color: '#1C2610' }
+      ],
+      ficBlock: [
+        { label: 'Établissement Deen', value: '18 305 / carton', color: '#1C2610' },
+        { label: 'Supermarché Erevan', value: '19 900 / carton', color: '#5A6B4A' }
+      ],
+      supplier: [
+        { label: 'IFU', value: '3200912345678', color: '#1C2610' },
+        { label: 'Régime', value: 'TVA 18 %', color: '#1C2610' },
+        { label: 'Délai de paiement', value: '30 jours', color: '#1C2610' },
+        { label: 'Encours', value: '412 300', color: '#9C4E0B' }
+      ],
+      cashPlan: [
+        { label: 'Acompte 30 %', date: '18/10', amount: '+ 662 688', color: '#4A8C14' },
+        { label: 'Solde', date: '22/10', amount: '+ 1 546 272', color: '#4A8C14' },
+        { label: 'Achats matière', date: '19/10', amount: '− 540 000', color: '#C0392B' }
+      ],
+      reminders: [
+        { label: 'Pro forma envoyée', date: '14/10', done: true },
+        { label: 'Relance signature', date: '16/10', done: false },
+        { label: 'Rooming list', date: '18/10', done: false },
+        { label: 'Bilan séjour', date: '23/10', done: false }
+      ].map((r) => Object.assign(r, { bd: r.done ? '#4A8C14' : '#C2DC9C', bg: r.done ? '#4A8C14' : '#FFFFFF', fg: r.done ? '#5A6B4A' : '#1C2610' })),
+      docs: [
+        { label: 'Demande de devis', tag: 'REÇU', color: '#4A8C14' },
+        { label: 'Pro forma signée', tag: 'ATTENDU', color: '#9C4E0B' },
+        { label: 'Bon de commande', tag: 'MANQUANT', color: '#C0392B' },
+        { label: 'Liste des participants', tag: 'REÇU', color: '#4A8C14' }
+      ],
+      lines: [
+        { label: 'Chambre double — petit déjeuner compris', sub: 'Hébergement / Nuitée', account: '7061', qty: '36', pu: '38 000', total: '1 368 000', retour: '68 400' },
+        { label: 'Pension complète — déjeuner + dîner', sub: 'Restauration / Menu groupe', account: '7071', qty: '35', pu: '7 200', total: '252 000', retour: '12 600' },
+        { label: 'Location salle Palmier — équipée', sub: 'Salles / Journée', account: '7062', qty: '3', pu: '84 000', total: '252 000', retour: '12 600' }
+      ],
+      payables: [
+        { ref: 'CF-0908', kind: 'COMPTABILISÉE', label: 'Établissement Deen — boissons', amount: '412 300', on: true },
+        { ref: 'FI-0233', kind: 'VALIDÉE DG', label: 'Poisson au marché — sans facture', amount: '54 000', on: true },
+        { ref: 'CF-0915', kind: 'SIMULÉE', label: 'Blanchisserie Mono — octobre', amount: '96 000', on: false }
+      ].map((p) => Object.assign(p, { rowBg: p.on ? '#F6FCEA' : '#FFFFFF', boxBd: p.on ? '#1C2610' : '#C2DC9C', boxBg: p.on ? '#1C2610' : '#FFFFFF',
+        kindBg: kindPal[p.kind][0], kindFg: kindPal[p.kind][1] })),
+      payModes: ['Cash', 'Momo', 'Moov', 'Ecobank', 'BOA', 'Chèque'].map((m) => {
+        const on = m === 'Ecobank';
+        return { label: m, bg: on ? '#4A8C14' : '#FFFFFF', fg: on ? '#FFFFFF' : '#5A6B4A', bd: on ? '#4A8C14' : '#CFE4AE' };
+      }),
+      fiscOpts: [['TPS', 'PR = PA', false], ['Informel', 'PR = PA + 6 %', false], ['TVA 18 %', 'PR = TTC − TVA − remise', true]].map((o) => ({
+        label: o[0], formula: o[1], bg: o[2] ? '#FEF6EC' : '#FFFFFF', bd: o[2] ? '#D4711C' : '#DCEBC2',
+        dotBd: o[2] ? '#D4711C' : '#C2DC9C', dotBg: o[2] ? '#D4711C' : '#FFFFFF', fg: o[2] ? '#8A4508' : '#1C2610'
+      })),
+      ficList: [
+        { name: 'Bière 65 cl', meta: 'Boisson / Bière · 7071', on: false },
+        { name: 'Beurre — carton de 12', meta: 'Alimentaire / Frais · 6011', on: true },
+        { name: 'Chambre double', meta: 'Hébergement / Nuitée · 7061', on: false },
+        { name: 'Eau minérale 1,5 L', meta: 'Boisson / Eau · 7071', on: false }
+      ].map((i) => Object.assign(i, { bg: i.on ? '#E8F6D2' : '#FFFFFF', bar: i.on ? '#D4711C' : 'transparent', weight: i.on ? '600' : '400' })),
+      cashBars: [['S42', 1240000], ['S43', -480000], ['S44', 3820000], ['S45', -1150000], ['S46', 620000], ['S47', -310000]].map((b) => ({
+        label: b[0], value: (b[1] > 0 ? '+' : '−') + String(Math.round(Math.abs(b[1]) / 1000)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' k',
+        h: Math.round(Math.abs(b[1]) / 3820000 * 100) + '%', bg: b[1] > 0 ? '#E8F6D2' : '#FBEAE7', color: b[1] > 0 ? '#4A8C14' : '#C0392B'
+      })),
+      laundry: [
+        { label: 'Draps propres disponibles', value: '64 / 90', pct: '71%', color: '#4A8C14' },
+        { label: 'Serviettes en lavage', value: '38', pct: '42%', color: '#3E6E8E' },
+        { label: 'Taies à remplacer', value: '12', pct: '18%', color: '#C0392B' }
+      ],
+      meters: [
+        { label: 'Électricité', value: '48 211', delta: '+ 312 kWh', deltaColor: '#5A6B4A', done: true, todo: false },
+        { label: 'Eau', value: '9 874', delta: '+ 21 m³', deltaColor: '#5A6B4A', done: true, todo: false },
+        { label: 'Gasoil', value: '—', delta: '', deltaColor: '#5A6B4A', done: false, todo: true }
+      ],
+      prSteps: [
+        { label: 'Prix facturé TTC', value: '21 600', color: '#1C2610' },
+        { label: '− TVA 18 %', value: '− 3 295', color: '#C0392B' },
+        { label: '= Prix de revient', value: '18 305', color: '#31610D' }
+      ]
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>

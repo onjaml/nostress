@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composants terrain — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    .card { background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 20px; }
+    .h { font-size: 13px; font-weight: 600; margin-bottom: 4px }
+    .hs { font-size: 11.5px; color: #5A6B4A; margin-bottom: 13px; line-height: 1.45 }
+    .src { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10.5px; color: #8AA06E }
+    .gap { color: #8E271B; font-weight: 600 }
+    .hd { display: flex; align-items: baseline; gap: 10px }
+    .new { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; color: #3E6E8E; background: #E9F2F8; border: 1px solid #C4DCEA; padding: 2px 7px; border-radius: 999px }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .phone { background: #F3FBE3; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 10px }
+    .tile { background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 16px; padding: 13px 14px }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1120px; height: 2276px; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; background: #F3FBE3; overflow: hidden\">\n\n  <div>\n    <h1 style=\"margin: 0 0 4px 0; font-size: 24px; font-weight: 700; letter-spacing: 0\">Composants — terrain et retours</h1>\n    <div style=\"font-size: 12px; color: #5A6B4A\">Les briques de l’app Android (serveur, cuisine, bar, caisse, animateur), le bloc de normalisation de la facture, et les retours visuels qui manquent encore aux maquettes. <span class=\"gap\">En rouge</span> : les écarts à la règle de l’orange.</div>\n  </div>\n\n  <!-- ============ SERVEUR : LIEU, CARTE, OPTIONS ============ -->\n  <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Tuiles de lieu</div><span class=\"src\">Mobile · serveur</span></div>\n      <div class=\"hs\">60 px de haut, rayon 18 px, quatre par ligne. Libre en blanc, servie ou en cuisine en bleu, groupe en lime ; la tuile touchée passe en encre.</div>\n      <div class=\"phone\">\n        <div class=\"lbl\">Lieu de livraison</div>\n        <div style=\"display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px\">\n          <sc-for list=\"{{tables}}\" as=\"t\" hint-placeholder-count=\"8\">\n            <div style=\"height: 60px; border-radius: 18px; background: {{t.bg}}; border: 1.5px solid {{t.bd}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px\">\n              <span class=\"num\" style=\"font-size: 14px; font-weight: 600; color: {{t.fg}}\">{{t.n}}</span>\n              <span style=\"font-size: 8.5px; letter-spacing: 0.04em; text-transform: uppercase; color: {{t.subFg}}\">{{t.state}}</span>\n            </div>\n          </sc-for>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Pastilles de choix</div><span class=\"src\">Mobile · carte, détail</span></div>\n      <div class=\"hs\">Filtres de famille en bande défilante, options d’un plat par groupe : un seul choix par groupe, actif en vert plein, 44 px minimum.</div>\n      <div class=\"phone\">\n        <div style=\"display: flex; gap: 7px; overflow: hidden\">\n          <sc-for list=\"{{families}}\" as=\"o\" hint-placeholder-count=\"4\">\n            <div style=\"flex-shrink: 0; min-height: 40px; padding: 0 15px; display: flex; align-items: center; border-radius: 999px; font-size: 12.5px; font-weight: {{o.weight}}; background: {{o.bg}}; color: {{o.fg}}; border: 1.5px solid {{o.bd}}\">{{o.label}}</div>\n          </sc-for>\n        </div>\n        <div class=\"lbl\">Cuisson</div>\n        <div style=\"display: flex; flex-wrap: wrap; gap: 7px\">\n          <sc-for list=\"{{cuisson}}\" as=\"o\" hint-placeholder-count=\"3\">\n            <div style=\"min-height: 44px; padding: 0 15px; display: flex; align-items: center; border-radius: 999px; font-size: 13px; font-weight: {{o.weight}}; background: {{o.bg}}; color: {{o.fg}}; border: 1.5px solid {{o.bd}}\">{{o.label}}</div>\n          </sc-for>\n        </div>\n        <div class=\"lbl\">Quantité</div>\n        <div style=\"display: flex; align-items: center; gap: 12px\">\n          <button style=\"width: 48px; height: 48px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; color: #1C2610; font-size: 20px\">−</button>\n          <div class=\"num\" style=\"flex-grow: 1; text-align: center; font-size: 22px; font-weight: 700\">2</div>\n          <button style=\"width: 48px; height: 48px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; color: #1C2610; font-size: 20px\">+</button>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Ligne de plat</div><span class=\"src\">Mobile · carte</span></div>\n      <div class=\"hs\">Pilule de 62 px : nom et note à gauche, prix et poste de destination à droite. <span class=\"gap\">Écart : les étiquettes ÉCLATÉ, PRODUCTION, PÂTISSERIE sont en orange.</span></div>\n      <div class=\"phone\">\n        <sc-for list=\"{{dishes}}\" as=\"d\" hint-placeholder-count=\"3\">\n          <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 999px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; min-height: 62px\">\n            <span style=\"flex-grow: 1; min-width: 0\">\n              <span style=\"display: block; font-size: 14px; font-weight: 600\">{{d.name}}</span>\n              <span style=\"display: block; font-size: 11.5px; color: #8AA06E; margin-top: 3px\">{{d.meta}}</span>\n            </span>\n            <span style=\"text-align: right; flex-shrink: 0\">\n              <span class=\"num\" style=\"display: block; font-size: 14px; font-weight: 600\">{{d.price}}</span>\n              <span style=\"display: block; font-size: 10px; font-weight: 600; color: {{d.tagFg}}; margin-top: 3px\">{{d.tag}}</span>\n            </span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ PANIER, ENVOI, ENCAISSEMENT ============ -->\n  <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Ligne de panier et totaux</div><span class=\"src\">Mobile · panier</span></div>\n      <div class=\"hs\">Quantité, plat, montant ; options en clair ; poste de destination en pastille ; « Retirer » en rouge sans fond. <span class=\"gap\">Écart : la quantité « 2× » est en orange.</span></div>\n      <div class=\"phone\">\n        <sc-for list=\"{{cart}}\" as=\"c\" hint-placeholder-count=\"2\">\n          <div class=\"tile\">\n            <div style=\"display: flex; align-items: baseline; gap: 10px\">\n              <span class=\"num\" style=\"font-size: 13px; font-weight: 700; color: #D4711C\">{{c.q}}×</span>\n              <span style=\"flex-grow: 1; font-size: 14px; font-weight: 600\">{{c.name}}</span>\n              <span class=\"num\" style=\"font-size: 14px; font-weight: 600\">{{c.total}}</span>\n            </div>\n            <div style=\"font-size: 11.5px; color: #5A6B4A; margin-top: 5px; line-height: 1.45\">{{c.opts}}</div>\n            <div style=\"display: flex; align-items: center; gap: 8px; margin-top: 8px\">\n              <span style=\"font-size: 10px; font-weight: 600; letter-spacing: 0.05em; color: {{c.destFg}}; background: {{c.destBg}}; padding: 3px 8px; border-radius: 999px\">{{c.dest}}</span>\n              <span style=\"flex-grow: 1\"></span>\n              <span style=\"color: #C0392B; font-size: 12px; font-weight: 500\">Retirer</span>\n            </div>\n          </div>\n        </sc-for>\n        <div class=\"tile\">\n          <div style=\"display: flex; justify-content: space-between; font-size: 12.5px; color: #5A6B4A; padding: 3px 0\"><span>Total HT</span><span class=\"num\">10 678</span></div>\n          <div style=\"display: flex; justify-content: space-between; font-size: 12.5px; color: #5A6B4A; padding: 3px 0\"><span>TVA 18 %</span><span class=\"num\">1 922</span></div>\n          <div style=\"display: flex; justify-content: space-between; align-items: baseline; padding-top: 9px; margin-top: 6px; border-top: 1px solid #E9F4D6\">\n            <span style=\"font-size: 13px; font-weight: 600\">Total TTC</span><span class=\"num\" style=\"font-size: 20px; font-weight: 700\">12 600</span>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Écran de confirmation</div><span class=\"src\">Mobile · envoi</span></div>\n      <div class=\"hs\">Grande coche sur pastille verte, une phrase de conséquence, puis ce que chaque poste a reçu, avec son état à droite.</div>\n      <div class=\"phone\" style=\"align-items: center; text-align: center; gap: 12px\">\n        <div style=\"width: 56px; height: 56px; border-radius: 50%; background: #E8F6D2; display: flex; align-items: center; justify-content: center; margin-top: 6px\">\n          <svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n        </div>\n        <div>\n          <div style=\"font-size: 17px; font-weight: 600\">Commande envoyée</div>\n          <div style=\"font-size: 12.5px; color: #5A6B4A; margin-top: 4px; line-height: 1.5\">Relance automatique jusqu’à validation par chaque poste.</div>\n        </div>\n        <div style=\"width: 100%; display: flex; flex-direction: column; gap: 8px\">\n          <sc-for list=\"{{routing}}\" as=\"r\" hint-placeholder-count=\"3\">\n            <div class=\"tile\" style=\"padding: 11px 13px; display: flex; align-items: center; gap: 11px; text-align: left\">\n              <span style=\"width: 8px; height: 8px; border-radius: 50%; background: {{r.color}}; flex-shrink: 0\"></span>\n              <span style=\"flex-grow: 1\">\n                <span style=\"display: block; font-size: 13px; font-weight: 600\">{{r.poste}}</span>\n                <span style=\"display: block; font-size: 11.5px; color: #8AA06E; margin-top: 2px\">{{r.items}}</span>\n              </span>\n              <span style=\"font-size: 10px; font-weight: 700; letter-spacing: 0.05em; color: {{r.color}}\">{{r.state}}</span>\n            </div>\n          </sc-for>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Encaissement</div><span class=\"src\">Mobile · caisse</span></div>\n      <div class=\"hs\">Le montant dû en tuile verte pleine, 36 px. Puis facture normalisée Oui / Non et mode de règlement en pilules de 52 px.</div>\n      <div class=\"phone\">\n        <div style=\"background: #4A8C14; border-radius: 22px; padding: 16px 18px\">\n          <div class=\"lbl\" style=\"color: #C4E39A\">Montant à payer — table 12</div>\n          <div class=\"num\" style=\"font-size: 32px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.02em; margin-top: 4px\">17 500</div>\n          <div style=\"color: #DEEFC4; font-size: 11.5px; margin-top: 3px\">FCFA TTC · 5 lignes · service du midi</div>\n        </div>\n        <div class=\"tile\">\n          <div class=\"lbl\" style=\"margin-bottom: 8px\">Facture normalisée personnalisée</div>\n          <div style=\"display: flex; gap: 7px; margin-bottom: 9px\">\n            <div style=\"flex-grow: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 13px; font-weight: 600; background: #4A8C14; color: #FFFFFF; border: 1.5px solid #4A8C14\">Oui</div>\n            <div style=\"flex-grow: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 13px; font-weight: 600; background: #FFFFFF; color: #5A6B4A; border: 1.5px solid #CFE4AE\">Non</div>\n          </div>\n          <div style=\"border: 1px solid #DCEBC2; border-radius: 14px; padding: 9px 11px\">\n            <div class=\"lbl\" style=\"margin-bottom: 3px\">IFU du client</div>\n            <div class=\"num\" style=\"font-size: 13.5px; font-weight: 600\">3201456789012</div>\n          </div>\n        </div>\n        <div class=\"tile\">\n          <div class=\"lbl\" style=\"margin-bottom: 8px\">Mode de règlement</div>\n          <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px\">\n            <sc-for list=\"{{payModes}}\" as=\"m\" hint-placeholder-count=\"3\">\n              <div style=\"min-height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 13px; font-weight: 600; background: {{m.bg}}; color: {{m.fg}}; border: 1.5px solid {{m.bd}}\">{{m.label}}</div>\n            </sc-for>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ ENCARTS, POSTES, ANIMATEUR ============ -->\n  <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Encarts</div><span class=\"src\">Mobile · tous profils</span></div>\n      <div class=\"hs\">Message dans le flux, rayon 16 px. Vert : c’est fait. Pointillé : information sans action. Rouge : bloquant. <span class=\"gap\">Écart : les conseils de vente et l’alerte Mobile Money sont en orange.</span></div>\n      <div style=\"display: flex; flex-direction: column; gap: 9px\">\n        <div style=\"background: #E8F6D2; border: 1px solid #C4E39A; border-radius: 16px; padding: 12px 13px; display: flex; gap: 10px; align-items: flex-start\">\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"2.2\" stroke-linecap=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n          <div style=\"font-size: 12.5px; color: #31610D; line-height: 1.45\">Facture <span class=\"num\" style=\"font-weight: 700\">FN-2026-04188</span> imprimée avec la mention Momo.</div>\n        </div>\n        <div style=\"background: #FFFFFF; border: 1px dashed #CFE4AE; border-radius: 16px; padding: 12px 13px\">\n          <div class=\"lbl\" style=\"margin-bottom: 4px\">Groupe ONG Sikadi — déjeuner 12:30</div>\n          <div style=\"font-size: 12.5px; color: #5A6B4A; line-height: 1.45\">Répartition saisie : 21 poulet braisé, 14 poisson grillé.</div>\n        </div>\n        <div style=\"background: #FBEAE7; border: 1px solid #F2C9C2; border-radius: 16px; padding: 12px 13px; display: flex; gap: 10px; align-items: flex-start\">\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#C0392B\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 8v5\"></path><path d=\"M12 17h.01\"></path></svg>\n          <div style=\"font-size: 12.5px; color: #8E271B; line-height: 1.45\">Bière 65 cl en rupture : prévenir le client avant l’envoi.</div>\n        </div>\n        <div style=\"background: #FEF6EC; border: 1px solid #F5D3AE; border-radius: 16px; padding: 12px 13px; display: flex; gap: 10px; align-items: flex-start\">\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#D4711C\" stroke-width=\"1.9\" stroke-linecap=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 7v5l3 2\"></path></svg>\n          <div style=\"font-size: 12.5px; color: #8A4508; line-height: 1.45\">Cuisson estimée <span class=\"num\" style=\"font-weight: 700\">18 min</span>. Proposer un apéritif.</div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Tickets de poste</div><span class=\"src\">Mobile · cuisine, bar</span></div>\n      <div class=\"hs\">Version Android du ticket : talon gauche de 4 px à la couleur du chrono. Au bar : stock en clair, nature en pastille, Rupture en rouge face à Servi en vert.</div>\n      <div class=\"phone\">\n        <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-left: 4px solid #C0392B; border-radius: 16px; overflow: hidden\">\n          <div style=\"padding: 10px 13px; display: flex; align-items: center; gap: 10px; background: #F6FCEA\">\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 700\">Table 07</span>\n            <span style=\"font-size: 11px; color: #5A6B4A\">Serveur Estelle</span>\n            <span style=\"flex-grow: 1\"></span>\n            <span class=\"num\" style=\"font-size: 15px; font-weight: 700; color: #C0392B\">11:47</span>\n          </div>\n          <div style=\"padding: 4px 13px 10px 13px\">\n            <div style=\"padding: 7px 0; border-bottom: 1px solid #F0F8E2; display: flex; gap: 10px\">\n              <span class=\"num\" style=\"font-size: 13px; font-weight: 700; color: #D4711C\">1×</span>\n              <span><span style=\"display: block; font-size: 13.5px; font-weight: 600\">Poisson grillé</span><span style=\"display: block; font-size: 11.5px; color: #5A6B4A; margin-top: 2px\">Bien grillé · moyo · attiéké</span></span>\n            </div>\n          </div>\n        </div>\n        <div class=\"tile\">\n          <div style=\"display: flex; align-items: baseline; gap: 10px\">\n            <span class=\"num\" style=\"font-size: 14px; font-weight: 700; color: #D4711C\">3×</span>\n            <span style=\"flex-grow: 1; font-size: 14px; font-weight: 600\">Bière 65 cl</span>\n            <span class=\"num\" style=\"font-size: 12px; color: #8AA06E\">Table 12</span>\n          </div>\n          <div style=\"display: flex; align-items: center; gap: 8px; margin-top: 7px\">\n            <span style=\"font-size: 11.5px; color: #5A6B4A\">Stock bar 34 casiers</span>\n            <span style=\"flex-grow: 1\"></span>\n            <span style=\"font-size: 10px; font-weight: 700; letter-spacing: 0.05em; color: #31610D; background: #E8F6D2; padding: 3px 8px; border-radius: 999px\">STOCKABLE</span>\n          </div>\n          <div style=\"display: flex; gap: 8px; margin-top: 10px\">\n            <div style=\"flex-grow: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 12px; font-weight: 600; background: #FFFFFF; color: #C0392B; border: 1.5px solid #F2C9C2\">Rupture</div>\n            <div style=\"flex-grow: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 12px; font-weight: 600; background: #4A8C14; color: #FFFFFF; border: 1.5px solid #C4E39A\">Servi</div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div class=\"hd\"><div class=\"h\">Comptage et messages</div><span class=\"src\">Mobile · animateur</span></div>\n      <div class=\"hs\">Compteurs à 44 px pour confirmer un effectif d’un pouce. Les messages au groupe sont des phrases toutes faites en pilules : un toucher, un envoi.</div>\n      <div class=\"phone\">\n        <div class=\"tile\">\n          <div class=\"lbl\" style=\"margin-bottom: 6px\">Effectifs du jour — à confirmer</div>\n          <sc-for list=\"{{counts}}\" as=\"c\" hint-placeholder-count=\"2\">\n            <div style=\"display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #F0F8E2\">\n              <span style=\"flex-grow: 1\">\n                <span style=\"display: block; font-size: 13.5px; font-weight: 600\">{{c.label}}</span>\n                <span style=\"display: block; font-size: 11px; color: #8AA06E; margin-top: 2px\">{{c.place}}</span>\n              </span>\n              <button style=\"width: 44px; height: 44px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; font-size: 18px; color: #1C2610\">−</button>\n              <span class=\"num\" style=\"font-size: 18px; font-weight: 700; min-width: 28px; text-align: center\">{{c.n}}</span>\n              <button style=\"width: 44px; height: 44px; border-radius: 999px; border: 1.5px solid #CFE4AE; background: #FFFFFF; font-size: 18px; color: #1C2610\">+</button>\n            </div>\n          </sc-for>\n        </div>\n        <div style=\"display: flex; flex-direction: column; gap: 7px\">\n          <sc-for list=\"{{messages}}\" as=\"m\" hint-placeholder-count=\"3\">\n            <div style=\"min-height: 46px; display: flex; align-items: center; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 500; background: {{m.bg}}; color: {{m.fg}}; border: 1.5px solid {{m.bd}}\">{{m.label}}</div>\n          </sc-for>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ FACTURE ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px\">\n    <div class=\"hd\"><div class=\"h\">Bloc de normalisation e-MCF</div><span class=\"src\">Facture normalisée · A5</span></div>\n    <div class=\"hs\">Pied de la facture imprimée : QR de vérification DGI encadré à gauche, mentions légales en mono à droite. Noir sur blanc, rien en couleur : le bloc doit rester lisible sur une imprimante thermique.</div>\n    <div style=\"display: flex; gap: 16px; align-items: flex-end; padding: 16px; border: 1px solid #DCEBC2; border-radius: 12px; max-width: 560px\">\n      <div style=\"flex-shrink: 0\">\n        <div style=\"width: 96px; height: 96px; background: #FFFFFF; border: 1px solid #1C2610; padding: 5px\">\n          <svg width=\"84\" height=\"84\" viewBox=\"0 0 21 21\" shape-rendering=\"crispEdges\">\n            <rect width=\"21\" height=\"21\" fill=\"#FFFFFF\"></rect>\n            <sc-for list=\"{{qr}}\" as=\"m\" hint-placeholder-count=\"200\">\n              <rect x=\"{{m.x}}\" y=\"{{m.y}}\" width=\"1\" height=\"1\" fill=\"#1C2610\"></rect>\n            </sc-for>\n          </svg>\n        </div>\n        <div style=\"font-size: 11px; color: #7C9160; text-align: center; margin-top: 4px; letter-spacing: 0.04em\">Vérification DGI</div>\n      </div>\n      <div style=\"flex-grow: 1\">\n        <div class=\"lbl\" style=\"margin-bottom: 5px\">Mentions de normalisation</div>\n        <div class=\"num\" style=\"font-size: 12px; line-height: 1.7; color: #3B4A2A\">\n          Code MECeF &#160;&#160;&#160;YB4K-2M7Q-P1XZ-9D3T<br>\n          Compteur &#160;&#160;&#160;&#160;&#160;04188 / 12960 · groupe B<br>\n          NIM machine &#160;MQ00284511 · 16/10/2026 13:04\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ RETOURS VISUELS (PROPOSES) ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px; flex-grow: 1\">\n    <div class=\"hd\"><div class=\"h\">Retours visuels</div><span class=\"new\">PROPOSÉ</span></div>\n    <div class=\"hs\">Absents des maquettes, à valider avant d’entrer dans les écrans. Construits uniquement avec la palette et les rayons existants.</div>\n    <div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px\">\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Bandeau de confirmation</div>\n        <div style=\"display: flex; flex-direction: column; gap: 8px\">\n          <div style=\"background: #1C2610; color: #F3FBE3; border-radius: 999px; padding: 10px 12px 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(28,38,16,.18)\">\n            <span style=\"width: 20px; height: 20px; border-radius: 50%; background: #4A8C14; display: flex; align-items: center; justify-content: center; flex-shrink: 0\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.2\" stroke-linecap=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg></span>\n            <span style=\"font-size: 12.5px; flex-grow: 1\">Cotation validée · notification envoyée</span>\n            <span style=\"font-size: 12px; font-weight: 600; color: #C4E39A\">Annuler</span>\n          </div>\n          <div style=\"background: #FFFFFF; border: 1px solid #F2C9C2; border-radius: 999px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 20px rgba(28,38,16,.08)\">\n            <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#C0392B\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 8v5\"></path><path d=\"M12 17h.01\"></path></svg>\n            <span style=\"font-size: 12.5px; color: #8E271B; flex-grow: 1\">Envoi impossible : imprimante bar hors ligne</span>\n            <span style=\"font-size: 12px; font-weight: 600; color: #C0392B\">Réessayer</span>\n          </div>\n          <div style=\"font-size: 11px; color: #8AA06E; line-height: 1.45\">Bas d’écran, 5 s, une action au plus. Succès en encre, échec en contour rouge.</div>\n        </div>\n      </div>\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Fenêtre de confirmation</div>\n        <div style=\"background: rgba(28,38,16,.32); border-radius: 16px; padding: 18px 16px\">\n          <div style=\"background: #FFFFFF; border-radius: 20px; padding: 16px 16px 14px 16px; box-shadow: 0 12px 30px rgba(28,38,16,.22)\">\n            <div style=\"font-size: 14px; font-weight: 700; margin-bottom: 5px\">Refuser la cotation COT-2026-0184 ?</div>\n            <div style=\"font-size: 12px; color: #5A6B4A; line-height: 1.5; margin-bottom: 13px\">Le commercial est prévenu et la cotation repasse en brouillon. Cette décision reste dans l’historique.</div>\n            <div style=\"display: flex; justify-content: flex-end; gap: 8px\">\n              <button style=\"background: #FFFFFF; border: 1px solid #CFE4AE; color: #1C2610; font-size: 12px; font-weight: 500; padding: 7px 14px; border-radius: 999px\">Annuler</button>\n              <button style=\"background: #C0392B; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 8px 15px; border-radius: 999px\">Refuser</button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">État vide</div>\n        <div style=\"border: 1px dashed #CFE4AE; background: #F6FCEA; border-radius: 16px; padding: 22px 16px; text-align: center\">\n          <div style=\"width: 44px; height: 44px; margin: 0 auto 9px auto; border-radius: 50%; background: #E8F6D2; display: flex; align-items: center; justify-content: center\">\n            <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#4A8C14\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n          </div>\n          <div style=\"font-size: 13px; font-weight: 600\">Aucune décision en attente</div>\n          <div style=\"font-size: 11.5px; color: #5A6B4A; margin-top: 3px; line-height: 1.45\">Les nouvelles cotations et commandes apparaîtront ici.</div>\n        </div>\n      </div>\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Connexion et synchro</div>\n        <div style=\"display: flex; flex-direction: column; gap: 7px\">\n          <div style=\"display: flex; align-items: center; gap: 9px; background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 999px; padding: 8px 13px\">\n            <span style=\"width: 7px; height: 7px; border-radius: 50%; background: #4A8C14\"></span>\n            <span style=\"font-size: 12px; flex-grow: 1\">En ligne</span><span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">08:47</span>\n          </div>\n          <div style=\"display: flex; align-items: center; gap: 9px; background: #FFFFFF; border: 1px solid #C4DCEA; border-radius: 999px; padding: 8px 13px\">\n            <span style=\"width: 12px; height: 12px; border-radius: 50%; border: 2px solid #C4DCEA; border-top-color: #3E6E8E\"></span>\n            <span style=\"font-size: 12px; flex-grow: 1; color: #22485E\">Synchronisation…</span><span class=\"num\" style=\"font-size: 11px; color: #6E93A8\">3 / 12</span>\n          </div>\n          <div style=\"display: flex; align-items: center; gap: 9px; background: #FBEAE7; border: 1px solid #F2C9C2; border-radius: 999px; padding: 8px 13px\">\n            <span style=\"width: 7px; height: 7px; border-radius: 50%; background: #C0392B\"></span>\n            <span style=\"font-size: 12px; flex-grow: 1; color: #8E271B\">Hors ligne · 4 commandes en file</span>\n          </div>\n        </div>\n      </div>\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Personnel</div>\n        <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px\">\n          <sc-for list=\"{{avatars}}\" as=\"a\" hint-placeholder-count=\"4\">\n            <span style=\"width: 34px; height: 34px; border-radius: 50%; background: {{a.bg}}; color: {{a.fg}}; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 2px solid #FFFFFF; box-shadow: 0 0 0 1px #DCEBC2\">{{a.i}}</span>\n          </sc-for>\n        </div>\n        <div style=\"display: flex; align-items: center; gap: 9px\">\n          <span style=\"width: 34px; height: 34px; border-radius: 50%; background: #DDF3AE; color: #31610D; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700\">KA</span>\n          <span><span style=\"display: block; font-size: 12.5px; font-weight: 600\">Koffi Agbo</span><span style=\"display: block; font-size: 11px; color: #8AA06E\">Serveur · service du midi</span></span>\n        </div>\n      </div>\n\n      <div>\n        <div class=\"lbl\" style=\"margin-bottom: 8px\">Pagination</div>\n        <div style=\"display: flex; align-items: center; gap: 5px\">\n          <span style=\"width: 32px; height: 32px; border-radius: 999px; border: 1px solid #CFE4AE; display: flex; align-items: center; justify-content: center; color: #8AA06E\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M15 5l-7 7 7 7\"></path></svg></span>\n          <sc-for list=\"{{pages}}\" as=\"p\" hint-placeholder-count=\"5\">\n            <span class=\"num\" style=\"min-width: 32px; height: 32px; padding: 0 6px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: {{p.w}}; background: {{p.bg}}; color: {{p.fg}}\">{{p.n}}</span>\n          </sc-for>\n          <span style=\"width: 32px; height: 32px; border-radius: 999px; border: 1px solid #CFE4AE; display: flex; align-items: center; justify-content: center; color: #4A8C14\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M9 5l7 7-7 7\"></path></svg></span>\n        </div>\n        <div class=\"num\" style=\"font-size: 11px; color: #8AA06E; margin-top: 8px\">41–60 sur 214 articles</div>\n      </div>\n\n    </div>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  sel(on) { return { bg: on ? '#4A8C14' : '#FFFFFF', fg: on ? '#FFFFFF' : '#4E5F3C', bd: on ? '#4A8C14' : '#CFE4AE', weight: on ? '600' : '500' }; }
+  renderVals() {
+    const pal = {
+      libre: ['#FFFFFF', '#CFE4AE', '#1C2610', '#8AA06E'],
+      occ: ['#E9F2F8', '#C4DCEA', '#22485E', '#7897AB'],
+      grp: ['#EAF7D6', '#C4E39A', '#31610D', '#6F9448'],
+      sel: ['#1C2610', '#1C2610', '#F3FBE3', '#AFC697']
+    };
+    const qr = [];
+    let seed = 7;
+    for (let y = 0; y < 21; y++) for (let x = 0; x < 21; x++) {
+      const finder = [[0, 0], [14, 0], [0, 14]].find((o) => x >= o[0] && x < o[0] + 7 && y >= o[1] && y < o[1] + 7);
+      if (finder) {
+        const i = x - finder[0], j = y - finder[1];
+        const edge = i === 0 || j === 0 || i === 6 || j === 6, core = i >= 2 && i <= 4 && j >= 2 && j <= 4;
+        if (edge || core) qr.push({ x: x, y: y });
+        continue;
+      }
+      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+      if ((seed >> 16) % 100 < 46) qr.push({ x: x, y: y });
+    }
+    return {
+      tables: [['T. 01', 'Libre', 'libre'], ['T. 02', 'Libre', 'libre'], ['T. 03', 'Servie', 'occ'], ['T. 07', 'Choisie', 'sel'],
+               ['T. 06', 'Servie', 'occ'], ['T. 12', 'À encaisser', 'occ'], ['Palmier', 'Groupe', 'grp'], ['Plage', 'Libre', 'libre']]
+        .map((t) => ({ n: t[0], state: t[1], bg: pal[t[2]][0], bd: pal[t[2]][1], fg: pal[t[2]][2], subFg: pal[t[2]][3] })),
+      families: ['Plats', 'Entrées', 'Petit déj.', 'Boissons'].map((l, i) => Object.assign({ label: l }, this.sel(i === 0))),
+      cuisson: ['Braisé doux', 'Braisé fort', 'Bien cuit'].map((l, i) => Object.assign({ label: l }, this.sel(i === 1))),
+      dishes: [
+        { name: 'Poulet braisé', meta: 'Cuisson 18 min · sauce au choix', price: '4 500', tag: 'CUISINE', tagFg: '#3E6E8E' },
+        { name: 'Bière 65 cl', meta: 'Stock bar · consigne suivie', price: '1 200', tag: 'STOCK BAR', tagFg: '#31610D' },
+        { name: 'Jus de bissap maison', meta: 'Production interne', price: '1 000', tag: 'PRODUCTION', tagFg: '#9C4E0B' }
+      ],
+      cart: [
+        { q: '2', name: 'Poulet braisé', total: '9 000', opts: 'Braisé fort · piment · attiéké', dest: 'CUISINE', destBg: '#E9F2F8', destFg: '#3E6E8E' },
+        { q: '3', name: 'Bière 65 cl', total: '3 600', opts: 'Bien fraîche · après le plat', dest: 'BAR', destBg: '#E8F6D2', destFg: '#31610D' }
+      ],
+      routing: [
+        { poste: 'Cuisine', items: 'Relance jusqu’à validation', state: 'ENVOYÉ', color: '#4A8C14' },
+        { poste: 'Bar', items: 'Stock mis à jour à la confirmation', state: 'ENVOYÉ', color: '#4A8C14' },
+        { poste: 'Imprimante accueil', items: 'Bon de commande imprimé', state: 'IMPRIMÉ', color: '#3E6E8E' }
+      ],
+      payModes: ['Cash', 'Momo', 'Carte'].map((l, i) => Object.assign({ label: l }, this.sel(i === 1))),
+      counts: [
+        { label: 'Déjeuner', place: 'Salle Palmier · 12:30', n: '35' },
+        { label: 'Pause 15:30', place: 'Salle Palmier', n: '33' }
+      ],
+      messages: ['Reprise des travaux dans 10 minutes', 'Le déjeuner est servi en terrasse', 'Photo de groupe à 17:00'].map((l, i) => Object.assign({ label: l }, this.sel(i === 1))),
+      qr: qr,
+      avatars: [
+        { i: 'KA', bg: '#DDF3AE', fg: '#31610D' },
+        { i: 'ES', bg: '#E9F2F8', fg: '#22485E' },
+        { i: 'DG', bg: '#1C2610', fg: '#F3FBE3' },
+        { i: '+4', bg: '#F6FCEA', fg: '#5A6B4A' }
+      ],
+      pages: ['1', '2', '3', '…', '11'].map((n) => ({ n: n, bg: n === '3' ? '#1C2610' : 'transparent', fg: n === '3' ? '#F3FBE3' : '#4E5F3C', w: n === '3' ? '600' : '500' }))
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>
