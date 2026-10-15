@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composants — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    .card { background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 20px; }
+    .h { font-size: 13px; font-weight: 600; margin-bottom: 4px }
+    .hs { font-size: 11.5px; color: #5A6B4A; margin-bottom: 13px; line-height: 1.45 }
+    .src { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10.5px; color: #8AA06E }
+    h1 { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; line-height: 1.15; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+    .stage { background: #F3FBE3; border-radius: 14px; padding: 14px; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1120px; height: 2093px; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; background: #F3FBE3; overflow: hidden\">\n\n  <div>\n    <h1 style=\"margin: 0 0 4px 0; font-size: 24px; font-weight: 700; letter-spacing: 0\">Composants — Nostress</h1>\n    <div style=\"font-size: 12px; color: #5A6B4A\">Les briques assemblées dans les écrans, avec leurs états. Les couleurs et les champs sont sur la planche Fondations ; ici, ce qu’on construit avec.</div>\n  </div>\n\n  <!-- ============ 1. BARRE SUPERIEURE ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px\">\n    <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Barre supérieure</div><span class=\"src\">Main · 64 px</span></div>\n    <div class=\"hs\">Marque à gauche, recherche globale en pilule, horodatage en mono, profil connecté en pilule pleine.</div>\n    <div style=\"height: 64px; background: #DDF3AE; border-radius: 14px; display: flex; align-items: center; padding: 0 22px; gap: 18px\">\n      <div style=\"display: flex; align-items: center; gap: 10px\">\n        <span style=\"width: 34px; height: 34px; border-radius: 999px; background: #4A8C14; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">\n          <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#F3FBE3\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 21V8l9-5 9 5v13\"></path><path d=\"M3 13h18\"></path><path d=\"M9 21v-5h6v5\"></path></svg>\n        </span>\n        <div style=\"display: flex; flex-direction: column; line-height: 1.05\">\n          <span class=\"dsp\" style=\"color: #1C2610; font-size: 21px; letter-spacing: 0.01em\">Nostress</span>\n          <span style=\"color: #6F9448; font-size: 9px; font-weight: 600; letter-spacing: 0.11em\">GRAND-POPO</span>\n        </div>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 9px; background: #FFFFFF; border-radius: 999px; padding: 9px 16px; width: 320px\">\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#8AA06E\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"M20 20l-3.5-3.5\"></path></svg>\n        <span style=\"color: #8AA06E; font-size: 12px\">Dossier, client, n° commande, chambre…</span>\n      </div>\n      <div style=\"flex-grow: 1\"></div>\n      <div class=\"num\" style=\"display: flex; align-items: center; gap: 7px; color: #5A6B4A; font-size: 12px; font-weight: 500\">\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#6F9448\" stroke-width=\"1.9\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 7v5l3 2\"></path></svg>\n        <span>Jeu 15/10/2026 · 09:14</span>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 8px; background: #4A8C14; border-radius: 999px; padding: 8px 15px 8px 9px\">\n        <span style=\"width: 24px; height: 24px; border-radius: 999px; background: #6BB02A; display: flex; align-items: center; justify-content: center\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#F3FBE3\" stroke-width=\"2\"><path d=\"M4 20a8 8 0 0116 0\"></path><circle cx=\"12\" cy=\"8\" r=\"4\"></circle></svg>\n        </span>\n        <span style=\"color: #FFFFFF; font-size: 12.5px; font-weight: 600\">Direction générale</span>\n        <svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#C4E39A\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M6 9l6 6 6-6\"></path></svg>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ 2-5. NAVIGATION, EN-TETE, ONGLETS, ALERTES ============ -->\n  <div style=\"display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 16px\">\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Menu latéral</div><span class=\"src\">Main · 226 px</span></div>\n      <div class=\"hs\">Actif en pilule verte pleine. Le compteur orange compte les décisions DG en attente dans le module.</div>\n      <div class=\"stage\" style=\"padding: 12px 10px\">\n        <div style=\"background: #FFFFFF; border-radius: 20px; padding: 16px 12px\">\n          <div class=\"lbl\" style=\"padding: 0 8px 8px 8px\">Exploitation</div>\n          <sc-for list=\"{{nav}}\" as=\"item\" hint-placeholder-count=\"5\">\n            <div style=\"display: flex; align-items: center; gap: 10px; padding: 10px 14px; margin-bottom: 3px; border-radius: 999px; background: {{item.bg}}; color: {{item.fg}}; font-size: 13px; font-weight: {{item.weight}}\">\n              <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{item.stroke}}\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"{{item.icon}}\"></path></svg>\n              <span style=\"flex-grow: 1\">{{item.label}}</span>\n              <sc-if value=\"{{item.badge}}\" hint-placeholder-val=\"{{true}}\">\n                <span class=\"num\" style=\"background: {{item.badgeBg}}; color: {{item.badgeFg}}; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 999px\">{{item.badge}}</span>\n              </sc-if>\n            </div>\n          </sc-for>\n          <div style=\"border-top: 1px solid #E9F4D6; padding-top: 12px; margin-top: 12px\">\n            <div class=\"lbl\" style=\"padding: 0 8px 8px 8px\">Sauvegarde</div>\n            <div style=\"display: flex; align-items: center; gap: 8px; padding: 0 8px 6px 8px\">\n              <span style=\"width: 7px; height: 7px; border-radius: 50%; background: #4A8C14; flex-shrink: 0\"></span>\n              <span style=\"font-size: 11px; color: #5A6B4A\">Serveur MG synchro satellite</span>\n            </div>\n            <div class=\"num\" style=\"padding: 0 8px; font-size: 11px; color: #8AA06E\">Dernière synchro 08:47</div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div style=\"display: flex; flex-direction: column; gap: 16px; min-width: 0\">\n      <div class=\"card\" style=\"padding: 16px 18px\">\n        <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">En-tête d’écran et onglets accolés</div><span class=\"src\">Main · tous les modules</span></div>\n        <div class=\"hs\">Titre Baloo 2 à 24 px, une phrase qui dit l’enjeu, actions à droite (secondaire puis principale). Les onglets accolés basculent une vue ; l’actif est en encre pleine.</div>\n        <div class=\"stage\" style=\"display: flex; align-items: flex-end; justify-content: space-between; gap: 16px\">\n          <div>\n            <h1 style=\"margin: 0 0 3px 0; font-size: 24px\">Planning</h1>\n            <div style=\"font-size: 12px; color: #5A6B4A; white-space: nowrap\">Semaine 42 · 12 au 18 octobre 2026</div>\n          </div>\n          <div style=\"display: flex; gap: 8px; align-items: center\">\n            <div style=\"display: flex; background: #FFFFFF; border: 1px solid #CFE4AE; border-radius: 12px; overflow: hidden\">\n              <sc-for list=\"{{tabs}}\" as=\"t\" hint-placeholder-count=\"3\">\n                <div style=\"white-space: nowrap; padding: 7px 14px; font-size: 12px; font-weight: {{t.weight}}; background: {{t.bg}}; color: {{t.fg}}; border-right: {{t.br}}\">{{t.label}}</div>\n              </sc-for>\n            </div>\n            <button style=\"background: #FFFFFF; border: 1px solid #CFE4AE; color: #1C2610; font-size: 12px; font-weight: 500; padding: 7px 13px; border-radius: 999px; white-space: nowrap\">Exporter</button>\n            <button style=\"background: #4A8C14; color: #FFFFFF; font-size: 12px; font-weight: 500; padding: 7px 13px; border-radius: 999px; white-space: nowrap\">Nouvelle réservation</button>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"card\" style=\"padding: 16px 18px; flex-grow: 1\">\n        <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Liste d’alertes</div><span class=\"src\">Main · tableau de bord</span></div>\n        <div class=\"hs\">Un point de 6 px donne la gravité : rouge pour une règle enfreinte, orange pour ce qui attend quelqu’un, bleu pour l’information.</div>\n        <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n          <div style=\"padding: 12px 15px; border-bottom: 1px solid #E9F4D6; display: flex; align-items: center; gap: 8px\">\n            <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#C0392B\" stroke-width=\"1.9\" stroke-linecap=\"round\"><path d=\"M12 8v5\"></path><path d=\"M12 17h.01\"></path><circle cx=\"12\" cy=\"12\" r=\"9\"></circle></svg>\n            <span style=\"font-size: 13px; font-weight: 600\">Alertes système</span>\n          </div>\n          <sc-for list=\"{{alerts}}\" as=\"a\" hint-placeholder-count=\"4\">\n            <div style=\"padding: 10px 15px; border-bottom: 1px solid #F0F8E2; display: flex; gap: 10px; align-items: flex-start\">\n              <span style=\"width: 6px; height: 6px; border-radius: 50%; background: {{a.color}}; margin-top: 5px; flex-shrink: 0\"></span>\n              <div style=\"flex-grow: 1\">\n                <div style=\"font-size: 12px; font-weight: 500; line-height: 1.35\">{{a.title}}</div>\n                <div style=\"font-size: 11px; color: #8AA06E; margin-top: 2px\">{{a.meta}}</div>\n              </div>\n            </div>\n          </sc-for>\n        </div>\n      </div>\n\n    </div>\n  </div>\n\n  <!-- ============ 6. TUILES ============ -->\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Tuiles d’indicateurs</div><span class=\"src\">Main · tableau de bord</span></div>\n      <div class=\"hs\">Pas de bordure, rayon 20 px. Lime pour l’activité, vert plein pour la trésorerie, orange seulement quand des décisions attendent le DG — et vert pâle quand il n’y en a plus.</div>\n      <div style=\"display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px\">\n        <sc-for list=\"{{kpis}}\" as=\"k\" hint-placeholder-count=\"4\">\n          <div style=\"background: {{k.tile}}; border-radius: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px\">\n            <div class=\"lbl\" style=\"color: {{k.lblColor}}\">{{k.label}}</div>\n            <div class=\"num\" style=\"font-size: 27px; font-weight: 700; letter-spacing: -0.02em; color: {{k.color}}\">{{k.value}}</div>\n            <div style=\"font-size: 11.5px; color: {{k.noteColor}}\">{{k.note}}</div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n  <!-- ============ 7. VALIDATION DG + 10. PROCEDURE ============ -->\n  <div style=\"display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 16px\">\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Ligne de validation DG</div><span class=\"src\">Main · tableau de bord</span></div>\n      <div class=\"hs\">Le filet de 3 px porte le type de pièce. En attente : Refuser / Valider. Une fois décidée, la ligne garde sa trace sous forme de pastille.</div>\n      <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n        <div style=\"padding: 13px 15px; border-bottom: 1px solid #E9F4D6; display: flex; align-items: center; gap: 9px\">\n          <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#D4711C\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 11l3 3 8-8\"></path><path d=\"M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9\"></path></svg>\n          <span style=\"font-size: 13px; font-weight: 600\">En attente de validation DG</span>\n          <span class=\"num\" style=\"background: #FDEEDC; color: #9C4E0B; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px\">2</span>\n        </div>\n        <sc-for list=\"{{validations}}\" as=\"v\" hint-placeholder-count=\"3\">\n          <div style=\"padding: 13px 15px; border-bottom: 1px solid #F0F8E2; display: flex; gap: 13px; align-items: flex-start\">\n            <div style=\"width: 3px; align-self: stretch; border-radius: 6px; background: {{v.accent}}; flex-shrink: 0\"></div>\n            <div style=\"flex-grow: 1; min-width: 0\">\n              <div style=\"display: flex; align-items: center; gap: 8px; margin-bottom: 3px\">\n                <span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">{{v.ref}}</span>\n                <span style=\"font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {{v.accent}}\">{{v.kind}}</span>\n              </div>\n              <div style=\"font-size: 13px; font-weight: 600; margin-bottom: 3px\">{{v.title}}</div>\n              <div style=\"font-size: 12px; color: #5A6B4A; line-height: 1.45\">{{v.detail}}</div>\n            </div>\n            <div style=\"text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 8px\">\n              <div class=\"num\" style=\"font-size: 15px; font-weight: 600\">{{v.amount}}</div>\n              <sc-if value=\"{{v.pending}}\" hint-placeholder-val=\"{{true}}\">\n                <div style=\"display: flex; gap: 6px\">\n                  <button style=\"background: #FFFFFF; border: 1px solid #F2C9C2; color: #C0392B; font-size: 12px; font-weight: 500; padding: 5px 11px; border-radius: 999px\">Refuser</button>\n                  <button style=\"background: #4A8C14; color: #FFFFFF; font-size: 12px; font-weight: 500; padding: 5px 13px; border-radius: 999px\">Valider</button>\n                </div>\n              </sc-if>\n              <sc-if value=\"{{v.decided}}\" hint-placeholder-val=\"{{false}}\">\n                <div style=\"display: flex; align-items: center; gap: 6px; background: {{v.badgeBg}}; color: {{v.badgeFg}}; border: 1px solid {{v.badgeBd}}; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 12px\">{{v.badgeLabel}}</div>\n              </sc-if>\n            </div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Suivi de procédure</div><span class=\"src\">Main · accueil</span></div>\n      <div class=\"hs\">Chaque étape se coche d’un clic ; faite, elle est barrée sur fond lime pâle. L’étiquette de droite dit qui la porte.</div>\n      <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px\">\n        <span style=\"font-size: 13px; font-weight: 600\">Procédure — cas 2</span>\n        <span style=\"flex-grow: 1\"></span>\n        <span class=\"num\" style=\"font-size: 11px; color: #8AA06E\">2 / 4 étapes</span>\n      </div>\n      <div style=\"height: 6px; background: #E9F4D6; border-radius: 999px; overflow: hidden; margin-bottom: 10px\"><div style=\"height: 100%; width: 50%; background: #4A8C14\"></div></div>\n      <div style=\"display: flex; flex-direction: column; gap: 2px\">\n        <sc-for list=\"{{steps}}\" as=\"s\" hint-placeholder-count=\"4\">\n          <div style=\"display: flex; align-items: flex-start; gap: 11px; padding: 9px 10px; border-radius: 999px; background: {{s.rowBg}}\">\n            <span style=\"width: 17px; height: 17px; border-radius: 4px; border: 1.5px solid {{s.boxBd}}; background: {{s.boxBg}}; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px\">\n              <sc-if value=\"{{s.done}}\" hint-placeholder-val=\"{{true}}\">\n                <svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3.5\" stroke-linecap=\"round\"><path d=\"M5 13l4 4L19 7\"></path></svg>\n              </sc-if>\n            </span>\n            <span style=\"flex-grow: 1\">\n              <span style=\"display: block; font-size: 13px; font-weight: 500; color: {{s.fg}}; text-decoration: {{s.deco}}\">{{s.label}}</span>\n              <span style=\"display: block; font-size: 11px; color: #8AA06E; margin-top: 2px\">{{s.hint}}</span>\n            </span>\n            <span style=\"font-size: 10px; font-weight: 600; color: {{s.tagFg}}; flex-shrink: 0; margin-top: 2px\">{{s.tag}}</span>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n\n  </div>\n\n  <!-- ============ 15. TICKETS ============ -->\n  <div>\n    <div class=\"card\" style=\"padding: 16px 18px\">\n      <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Ticket cuisine</div><span class=\"src\">Cuisine · écran mural</span></div>\n      <div class=\"hs\">Le liseré du haut et le chrono changent ensemble : bleu en préparation, rouge au-delà du délai, orange quand le serveur est prévenu (« 5 min »), vert une fois prêt — le ticket pâlit alors.</div>\n      <div style=\"display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px\">\n        <sc-for list=\"{{tickets}}\" as=\"t\" hint-placeholder-count=\"4\">\n          <div style=\"background: #FFFFFF; border: 1px solid #E9F4D6; border-radius: 16px; border-top: 5px solid {{t.accent}}; display: flex; flex-direction: column; overflow: hidden; opacity: {{t.opacity}}\">\n            <div style=\"padding: 9px 11px; border-bottom: 1px solid #E9F4D6; display: flex; align-items: baseline; gap: 6px\">\n              <span class=\"num\" style=\"font-size: 17px; font-weight: 700\">{{t.place}}</span>\n              <span style=\"flex-grow: 1\"></span>\n              <span class=\"num\" style=\"font-size: 17px; font-weight: 700; color: {{t.accent}}\">{{t.timer}}</span>\n            </div>\n            <div style=\"padding: 4px 11px 0 11px; display: flex; color: #8AA06E; font-size: 10.5px\"><span>{{t.state}}</span><span style=\"flex-grow: 1\"></span><span class=\"num\">{{t.fired}}</span></div>\n            <div style=\"flex-grow: 1; padding: 4px 11px 6px 11px\">\n              <div style=\"padding: 7px 0; border-bottom: 1px solid #F0F8E2\">\n                <div style=\"display: flex; gap: 7px; align-items: baseline\">\n                  <span class=\"num\" style=\"font-size: 14px; font-weight: 700; color: #D4711C\">{{t.q}}</span>\n                  <span style=\"flex-grow: 1; font-size: 13px; font-weight: 600; line-height: 1.25\">{{t.dish}}</span>\n                </div>\n                <div style=\"font-size: 11.5px; color: #5A6B4A; margin-top: 3px; line-height: 1.35\">{{t.opts}}</div>\n              </div>\n            </div>\n            <div style=\"padding: 9px 11px; background: {{t.footBg}}; border-top: 1px solid #E9F4D6\">\n              <div style=\"height: 5px; background: #E9F4D6; border-radius: 999px; overflow: hidden; margin-bottom: 8px\"><div style=\"height: 100%; width: {{t.pct}}; background: {{t.accent}}\"></div></div>\n              <div style=\"display: flex; gap: 5px\">\n                <button style=\"flex-grow: 1; padding: 8px 2px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: {{t.soonBg}}; color: {{t.soonFg}}; border: 1.5px solid #F5D3AE\">5 min</button>\n                <button style=\"flex-grow: 1; padding: 8px 2px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: {{t.readyBg}}; color: {{t.readyFg}}; border: 1.5px solid #C4E39A\">{{t.readyLabel}}</button>\n              </div>\n            </div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ 3. ANDROID : EN-TETE, BARRE D'ACTION, PROFILS ============ -->\n  <div class=\"card\" style=\"padding: 16px 18px; flex-grow: 1\">\n    <div style=\"display: flex; align-items: baseline; gap: 10px\"><div class=\"h\">Cadre Android</div><span class=\"src\">Mobile · 390 px</span></div>\n    <div class=\"hs\">En-tête lime avec retour 44 px, barre d’action collée au-dessus de la navigation (montant à gauche, action principale 48 px), barre des cinq profils.</div>\n    <div style=\"display: grid; grid-template-columns: 390px 390px minmax(0, 1fr); gap: 18px; align-items: start\">\n      <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n        <div style=\"background: #DDF3AE; padding: 14px 16px 15px 16px; display: flex; align-items: center; gap: 11px\">\n          <span style=\"width: 44px; height: 44px; margin: -11px 0 -11px -12px; display: flex; align-items: center; justify-content: center\">\n            <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#31610D\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 5l-7 7 7 7\"></path></svg>\n          </span>\n          <div style=\"flex-grow: 1; min-width: 0\">\n            <div class=\"dsp\" style=\"font-size: 18px; line-height: 1.15\">Table 7 · Panier</div>\n            <div style=\"color: #5A6B4A; font-size: 11px; font-weight: 500; margin-top: 2px\">Terrasse · 4 couverts</div>\n          </div>\n          <div style=\"text-align: right\">\n            <div class=\"num\" style=\"color: #31610D; font-size: 13px; font-weight: 700\">12:41</div>\n            <div style=\"color: #6F9448; font-size: 10px; font-weight: 500\">Serveur · Koffi</div>\n          </div>\n        </div>\n        <div style=\"height: 34px; background: #F3FBE3\"></div>\n        <div style=\"background: #FFFFFF; border-top: 1px solid #DCEBC2; padding: 11px 14px; display: flex; align-items: center; gap: 11px\">\n          <div style=\"min-width: 0\">\n            <div class=\"lbl\">Total TTC</div>\n            <div class=\"num\" style=\"font-size: 17px; font-weight: 700\">17 500</div>\n          </div>\n          <button style=\"flex-grow: 1; min-height: 48px; border-radius: 999px; background: #4A8C14; color: #FFFFFF; font-size: 14px; font-weight: 600\">Envoyer en cuisine</button>\n        </div>\n        <div style=\"background: #FFFFFF; border-top: 1px solid #DCEBC2; display: flex; padding: 6px 4px 10px 4px\">\n          <sc-for list=\"{{roles}}\" as=\"r\" hint-placeholder-count=\"5\">\n            <div style=\"flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 2px; min-height: 48px\">\n              <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{r.stroke}}\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"{{r.icon}}\"></path></svg>\n              <span style=\"font-size: 10px; font-weight: {{r.weight}}; color: {{r.fg}}\">{{r.label}}</span>\n            </div>\n          </sc-for>\n        </div>\n      </div>\n\n      <div style=\"border: 1px solid #DCEBC2; border-radius: 16px; overflow: hidden\">\n        <div style=\"background: #DDF3AE; padding: 14px 16px 15px 16px; display: flex; align-items: center; gap: 11px\">\n          <div style=\"flex-grow: 1; min-width: 0\">\n            <div class=\"dsp\" style=\"font-size: 18px; line-height: 1.15\">Tables</div>\n            <div style=\"color: #5A6B4A; font-size: 11px; font-weight: 500; margin-top: 2px\">Écran racine : pas de retour</div>\n          </div>\n          <div style=\"text-align: right\">\n            <div class=\"num\" style=\"color: #31610D; font-size: 13px; font-weight: 700\">6 / 12</div>\n            <div style=\"color: #6F9448; font-size: 10px; font-weight: 500\">occupées</div>\n          </div>\n        </div>\n        <div style=\"height: 34px; background: #F3FBE3\"></div>\n        <div style=\"background: #FFFFFF; border-top: 1px solid #DCEBC2; padding: 11px 14px; display: flex; align-items: center; gap: 11px\">\n          <div style=\"min-width: 0\">\n            <div class=\"lbl\">Mode de paiement</div>\n            <div style=\"font-size: 14px; font-weight: 700\">Mobile Money</div>\n          </div>\n          <button style=\"flex-grow: 1; min-height: 48px; border-radius: 999px; background: #4A8C14; color: #FFFFFF; font-size: 14px; font-weight: 600\">Encaisser</button>\n        </div>\n        <div style=\"background: #FFFFFF; border-top: 1px solid #DCEBC2; display: flex; padding: 6px 4px 10px 4px\">\n          <sc-for list=\"{{roles2}}\" as=\"r\" hint-placeholder-count=\"5\">\n            <div style=\"flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 2px; min-height: 48px\">\n              <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{r.stroke}}\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"{{r.icon}}\"></path></svg>\n              <span style=\"font-size: 10px; font-weight: {{r.weight}}; color: {{r.fg}}\">{{r.label}}</span>\n            </div>\n          </sc-for>\n        </div>\n      </div>\n\n      <div style=\"display: flex; flex-direction: column; gap: 12px\">\n        <sc-for list=\"{{androidRules}}\" as=\"r\" hint-placeholder-count=\"3\">\n          <div>\n            <div class=\"lbl\" style=\"margin-bottom: 4px\">{{r.title}}</div>\n            <div style=\"font-size: 12px; color: #5A6B4A; line-height: 1.5\">{{r.text}}</div>\n          </div>\n        </sc-for>\n      </div>\n    </div>\n  </div>\n\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  renderVals() {
+    const navData = [
+      { label: 'Tableau de bord', badge: 2, on: true, icon: 'M3 13h8V3H3zM13 21h8v-10h-8zM13 3v6h8V3zM3 21h8v-4H3z' },
+      { label: 'Planning', badge: 0, on: false, icon: 'M3 5h18v16H3zM3 10h18M8 3v4M16 3v4' },
+      { label: 'Cotations', badge: 2, on: false, icon: 'M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5M9 13h6M9 17h4' },
+      { label: 'Accueil / Séjours', badge: 0, on: false, icon: 'M3 21V8l9-5 9 5v13M9 21v-6h6v6' },
+      { label: 'Achats & stock', badge: 4, on: false, icon: 'M4 6h16l-1.5 11H5.5zM9 10v4M15 10v4M8 6V4h8v2' }
+    ];
+    const roleData = [
+      { id: 'serveur', label: 'Serveur', icon: 'M3 11h18a9 9 0 00-18 0zM2 15h20M5 19h14' },
+      { id: 'cuisine', label: 'Cuisine', icon: 'M4 10h16v6a4 4 0 01-4 4H8a4 4 0 01-4-4zM2 10h20M8 6V3M12 6V3M16 6V3' },
+      { id: 'bar', label: 'Bar', icon: 'M5 4h14l-7 8zM12 12v8M8 20h8' },
+      { id: 'caisse', label: 'Caisse', icon: 'M3 7h18v10H3zM3 11h18M7 15h3' },
+      { id: 'anim', label: 'Animateur', icon: 'M3 11l13-6v14L3 13zM3 11v3M7 14v4a2 2 0 004 0' }
+    ];
+    const roles = (active) => roleData.map((r) => {
+      const on = r.id === active;
+      return { label: r.label, icon: r.icon, stroke: on ? '#4A8C14' : '#A9BE90', fg: on ? '#1C2610' : '#8AA06E', weight: on ? '600' : '500' };
+    });
+    const ticket = (st, late) => {
+      const accent = st === 'ready' ? '#4A8C14' : (st === 'soon' ? '#D4711C' : (late ? '#C0392B' : '#3E6E8E'));
+      return { accent: accent, opacity: st === 'ready' ? '0.72' : '1', footBg: st === 'ready' ? '#F1F9E1' : '#F6FCEA',
+        soonBg: st === 'soon' ? '#D4711C' : '#FFFFFF', soonFg: st === 'soon' ? '#FFFFFF' : '#9C4E0B',
+        readyBg: st === 'ready' ? '#4A8C14' : '#FFFFFF', readyFg: st === 'ready' ? '#FFFFFF' : '#31610D',
+        readyLabel: st === 'ready' ? 'Confirmé' : 'Prêt' };
+    };
+    return {
+      nav: navData.map((n) => ({
+        label: n.label, icon: n.icon, badge: n.badge || '',
+        bg: n.on ? '#4A8C14' : 'transparent', fg: n.on ? '#FFFFFF' : '#4E5F3C', weight: n.on ? '700' : '500',
+        stroke: n.on ? '#FFFFFF' : '#8AA06E', badgeBg: n.on ? '#6BB02A' : '#FDEEDC', badgeFg: n.on ? '#FFFFFF' : '#9C4E0B'
+      })),
+      tabs: ['Chambres', 'Salles', 'Repas & pauses'].map((l, i) => ({
+        label: l, bg: i === 0 ? '#1C2610' : '#FFFFFF', fg: i === 0 ? '#F3FBE3' : '#4E5F3C', weight: i === 0 ? '600' : '400',
+        br: i === 2 ? '0' : '1px solid #DCEBC2'
+      })),
+      kpis: [
+        { label: 'Chiffre d’affaires du jour', value: '1 284 500', note: 'FCFA · + 12 % vs jeudi dernier', color: '#1C2610', tile: '#DDF3AE', lblColor: '#6F9448', noteColor: '#5A6B4A' },
+        { label: 'Trésorerie à 4 semaines', value: '3 430 000', note: 'FCFA · cumul S42 à S45', color: '#FFFFFF', tile: '#4A8C14', lblColor: '#C4E39A', noteColor: '#DEEFC4' },
+        { label: 'En attente de validation', value: '2', note: 'cotation, facture informelle', color: '#9C4E0B', tile: '#FDEEDC', lblColor: '#B0733A', noteColor: '#9C4E0B' },
+        { label: 'En attente de validation', value: '0', note: 'toutes les décisions sont prises', color: '#31610D', tile: '#E8F6D2', lblColor: '#6F9448', noteColor: '#5A6B4A' }
+      ],
+      validations: [
+        { ref: 'COT-2026-0184', kind: 'Cotation', accent: '#D4711C', title: 'Séminaire ONG Sikadi — 35 pers., 3 jours', detail: 'Hébergement, pension complète, salle Palmier. Remise 8 % demandée.', amount: '3 780 720', pending: true, decided: false },
+        { ref: 'FI-0233', kind: 'Facture informelle', accent: '#C0392B', title: 'Achat de poisson au marché — sans facture', detail: 'Hors procédure : le fournisseur n’émet pas de facture normalisée.', amount: '54 000', pending: true, decided: false },
+        { ref: 'CF-0912', kind: 'Commande fournisseur', accent: '#4A8C14', title: 'Établissement Deen — réassort boissons', detail: 'Proposition automatique sur seuil de stock.', amount: '412 300', pending: false, decided: true,
+          badgeBg: '#E8F6D2', badgeFg: '#31610D', badgeBd: '#C4E39A', badgeLabel: '✓ Validée 08:52' }
+      ],
+      alerts: [
+        { color: '#C0392B', title: 'Rupture : beurre — carton de 12', meta: 'Stock 0 · 3 plats impactés' },
+        { color: '#C0392B', title: 'Ticket table 4 au-delà de 25 min', meta: 'Cuisine · envoyé 12:14' },
+        { color: '#D4711C', title: 'Relevé compteur électrique à saisir', meta: 'Avant 10:00 · maintenance' },
+        { color: '#3E6E8E', title: 'Synchro satellite terminée', meta: 'Serveur MG · 08:47' }
+      ],
+      steps: [
+        { label: 'Pièce d’identité scannée', hint: 'Passeport ou CNI', tag: 'OBLIGATOIRE', done: true },
+        { label: 'Fiche de police générée', hint: 'Remplie depuis la pièce', tag: 'AUTO', done: true },
+        { label: 'Bon de commande de l’ONG', hint: 'Joint au dossier séjour', tag: 'OBLIGATOIRE', done: false },
+        { label: 'Dérogation de tarif', hint: 'Si tarif hors grille', tag: 'DG', done: false }
+      ].map((s) => ({
+        label: s.label, hint: s.hint, tag: s.tag, done: s.done,
+        rowBg: s.done ? '#F6FCEA' : 'transparent', boxBd: s.done ? '#4A8C14' : '#C2DC9C', boxBg: s.done ? '#4A8C14' : '#FFFFFF',
+        fg: s.done ? '#5A6B4A' : '#1C2610', deco: s.done ? 'line-through' : 'none',
+        tagFg: s.tag === 'OBLIGATOIRE' ? '#C0392B' : (s.tag === 'AUTO' ? '#4A8C14' : '#9C4E0B')
+      })),
+      tickets: [
+        Object.assign({ place: 'T3', timer: '08:12', state: 'En préparation', fired: '12:33', q: '2×', dish: 'Poulet braisé', opts: 'Braisé fort · piment · attiéké', pct: '45%' }, ticket('cook', false)),
+        Object.assign({ place: 'T4', timer: '27:40', state: 'En retard', fired: '12:14', q: '1×', dish: 'Poisson grillé', opts: 'Bien grillé · moyo · riz', pct: '100%' }, ticket('cook', true)),
+        Object.assign({ place: 'T7', timer: '15:05', state: 'Serveur prévenu', fired: '12:26', q: '3×', dish: 'Riz sauce arachide', opts: 'Piment doux · grande', pct: '80%' }, ticket('soon', false)),
+        Object.assign({ place: 'T1', timer: '18:30', state: 'Prêt au passe', fired: '12:20', q: '2×', dish: 'Poulet braisé', opts: 'Bien cuit · sans sauce · frites', pct: '100%' }, ticket('ready', false))
+      ],
+      roles: roles('serveur'),
+      roles2: roles('caisse'),
+      androidRules: [
+        { title: 'Cibles', text: '44 px minimum pour tout ce qui se touche, 48 px pour l’action principale. La navigation garde 48 px de haut par profil.' },
+        { title: 'Une seule action principale', text: 'La barre d’action porte le chiffre qui compte (total, à encaisser) et un seul bouton vert. Les actions secondaires restent dans l’écran.' },
+        { title: 'Profil actif', text: 'Icône verte, libellé en encre, jamais d’orange. Le retour n’apparaît qu’à partir du deuxième niveau.' }
+      ]
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>

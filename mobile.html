@@ -404,7 +404,7 @@ class Component extends DCLogic {
         { id: 'anim', label: 'Animateur', icon: 'M3 11l13-6v14L3 13zM3 11v3M7 14v4a2 2 0 004 0' }
       ].map((r) => {
         const on = S.role === r.id;
-        return { label: r.label, icon: r.icon, stroke: on ? '#D4711C' : '#A9BE90',
+        return { label: r.label, icon: r.icon, stroke: on ? '#4A8C14' : '#A9BE90',
           fg: on ? '#1C2610' : '#8AA06E', weight: on ? '600' : '500',
           go: () => this.setState({ role: r.id, step: 'tables', cart: S.cart }) };
       })
