@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #31610D; text-decoration: none; font-weight: 600; }
+    a:hover { color: #4A8C14; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+    /* Champs : classes f-* reprises de Fondations.dc.html */
+    .f-lbl { display: block; font-size: 11.5px; font-weight: 600; color: #1C2610; margin-bottom: 5px; }
+    .f-help { font-size: 11px; color: #8AA06E; margin-top: 5px; line-height: 1.4; }
+    .f-help.err { color: #8E271B; }
+    .f-box { width: 100%; height: 36px; font-family: inherit; font-size: 13px; color: #1C2610; background: #FFFFFF; border: 1px solid #CFE4AE; border-radius: 12px; outline: none; transition: border-color .12s, box-shadow .12s; display: flex; align-items: center; overflow: hidden; }
+    .f-box:hover { border-color: #B5D68A; }
+    .f-box:focus-within { border-color: #4A8C14; box-shadow: 0 0 0 3px #DDF3AE; }
+    .f-box.is-err { border-color: #C0392B; box-shadow: 0 0 0 3px #FBEAE7; }
+    .f-box.is-off { background: #F6FCEA; border-color: #E9F4D6; color: #9DB083; cursor: not-allowed; box-shadow: none; }
+    .f-box input { flex-grow: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; padding: 0 12px; font: inherit; color: inherit; }
+    .f-box input::placeholder { color: #9DB083; }
+    .f-box.is-off input { cursor: not-allowed; color: #9DB083; }
+    .f-box.lg { height: 46px; font-size: 14px; }
+    .f-ico { display: flex; padding-left: 13px; color: #8AA06E; flex-shrink: 0; }
+    .f-ico + input { padding-left: 9px; }
+    .f-eye { display: flex; align-items: center; justify-content: center; width: 42px; height: 100%; background: transparent; color: #6F9448; flex-shrink: 0; border-left: 1px solid #E9F4D6; }
+    .f-eye:hover { color: #31610D; background: #F6FCEA; }
+    .f-eye:focus-visible { outline: 0; background: #EAF7D6; }
+    .go:focus-visible { outline: 0; box-shadow: 0 0 0 3px #C4E39A; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1440px; height: 900px; display: flex; overflow: hidden; background: #F3FBE3\">\n\n  <!-- ============ PANNEAU DE MARQUE ============ -->\n  <div style=\"width: 600px; flex-shrink: 0; margin: 16px 0 16px 16px; border-radius: 28px; background: #1C2610; color: #F3FBE3; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 40px 44px\">\n    <!-- motif : vagues de la côte de Grand-Popo -->\n    <svg width=\"600\" height=\"360\" viewBox=\"0 0 600 360\" fill=\"none\" style=\"position: absolute; left: 0; bottom: 0; pointer-events: none\" aria-hidden=\"true\">\n      <path d=\"M0 120 C 90 80, 170 160, 270 120 S 450 70, 600 110\" stroke=\"#35461B\" stroke-width=\"1.5\"></path>\n      <path d=\"M0 170 C 100 130, 180 210, 290 170 S 460 120, 600 160\" stroke=\"#35461B\" stroke-width=\"1.5\"></path>\n      <path d=\"M0 220 C 110 180, 190 260, 300 220 S 470 170, 600 210\" stroke=\"#3E5520\" stroke-width=\"1.5\"></path>\n      <path d=\"M0 270 C 120 230, 200 310, 310 270 S 480 220, 600 260 V360 H0 Z\" fill=\"#26331A\"></path>\n    </svg>\n\n    <div style=\"display: flex; align-items: center; gap: 12px; position: relative\">\n      <span style=\"width: 42px; height: 42px; border-radius: 999px; background: #4A8C14; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">\n        <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#F3FBE3\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n          <path d=\"M3 21V8l9-5 9 5v13\"></path><path d=\"M3 13h18\"></path><path d=\"M9 21v-5h6v5\"></path>\n        </svg>\n      </span>\n      <div style=\"display: flex; flex-direction: column; line-height: 1.05\">\n        <span class=\"dsp\" style=\"font-size: 26px; letter-spacing: 0.01em\">Nostress</span>\n        <span style=\"color: #9CB183; font-size: 10px; font-weight: 600; letter-spacing: 0.12em\">GRAND-POPO</span>\n      </div>\n    </div>\n\n    <div style=\"margin-top: 92px; position: relative\">\n      <div class=\"lbl\" style=\"color: #9CB183\">Poste de gestion</div>\n      <div class=\"dsp\" style=\"font-size: 44px; line-height: 1.08; margin-top: 10px\">Rien ne se décide<br>sans le DG.<br><span style=\"color: #9FD45B\">Tout se compte.</span></div>\n      <div style=\"font-size: 14px; color: #B8C9A2; line-height: 1.6; margin-top: 18px; max-width: 430px\">Cotations, réservations, achats, stocks et comptabilité de l’hôtel-restaurant. Chaque profil voit son menu ; chaque écart part en validation.</div>\n    </div>\n\n    <div style=\"flex-grow: 1\"></div>\n\n    <div style=\"position: relative; display: flex; flex-direction: column; gap: 8px; max-width: 380px\">\n      <div class=\"lbl\" style=\"color: #9CB183; margin-bottom: 2px\">État du système</div>\n      <sc-for list=\"{{status}}\" as=\"s\" hint-placeholder-count=\"3\">\n        <div style=\"display: flex; align-items: center; gap: 10px; background: rgba(243,251,227,0.06); border: 1px solid #35461B; border-radius: 999px; padding: 9px 15px\">\n          <span style=\"width: 7px; height: 7px; border-radius: 50%; background: {{s.dot}}; flex-shrink: 0\"></span>\n          <span style=\"font-size: 12.5px; flex-grow: 1\">{{s.label}}</span>\n          <span class=\"num\" style=\"font-size: 11.5px; color: #9CB183\">{{s.value}}</span>\n        </div>\n      </sc-for>\n    </div>\n  </div>\n\n  <!-- ============ FORMULAIRE ============ -->\n  <div style=\"flex-grow: 1; display: flex; flex-direction: column; padding: 34px 48px 28px 48px\">\n\n    <div style=\"display: flex; align-items: center; gap: 14px\">\n      <div style=\"flex-grow: 1\"></div>\n      <div class=\"num\" style=\"display: flex; align-items: center; gap: 7px; color: #5A6B4A; font-size: 12px; font-weight: 500\">\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#6F9448\" stroke-width=\"1.9\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 7v5l3 2\"></path></svg>\n        <span>Lun 07/09/2026 &#183; 09:12</span>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 2px; background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 999px; padding: 3px\">\n        <span style=\"font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px; background: #1C2610; color: #F3FBE3\">FR</span>\n        <span style=\"font-size: 11.5px; font-weight: 500; padding: 5px 11px; color: #8AA06E\">EN</span>\n      </div>\n    </div>\n\n    <div style=\"flex-grow: 1; display: flex; align-items: center; justify-content: center\">\n      <div style=\"width: 420px\">\n\n        <!-- ---------- Formulaire ---------- -->\n        <sc-if value=\"{{showForm}}\" hint-placeholder-val=\"{{true}}\">\n          <div class=\"dsp\" style=\"font-size: 34px; line-height: 1.1\">Connexion</div>\n          <div style=\"font-size: 13.5px; color: #5A6B4A; margin-top: 6px; line-height: 1.5\">Identifiez-vous pour ouvrir votre session. Le menu s’adapte à votre profil.</div>\n\n          <sc-if value=\"{{hasAlert}}\" hint-placeholder-val=\"{{true}}\">\n            <div style=\"display: flex; gap: 11px; margin-top: 20px; background: {{alert.bg}}; border: 1px solid {{alert.bd}}; border-radius: 16px; padding: 12px 14px\">\n              <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{alert.fg}}\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><path d=\"{{alert.icon}}\"></path></svg>\n              <div>\n                <div style=\"font-size: 13px; font-weight: 600; color: {{alert.fg}}\">{{alert.title}}</div>\n                <div style=\"font-size: 12px; color: {{alert.fg}}; margin-top: 2px; line-height: 1.45; opacity: 0.9\">{{alert.text}}</div>\n              </div>\n            </div>\n          </sc-if>\n\n          <form onSubmit=\"{{submit}}\" style=\"margin-top: 22px; display: flex; flex-direction: column; gap: 16px\" autocomplete=\"on\">\n            <div>\n              <label class=\"f-lbl\" for=\"cx-user\">Identifiant</label>\n              <div class=\"f-box lg {{userCls}}\">\n                <span class=\"f-ico\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M4 20a8 8 0 0116 0\"></path><circle cx=\"12\" cy=\"8\" r=\"4\"></circle></svg></span>\n                <input id=\"cx-user\" name=\"username\" type=\"text\" autocomplete=\"username\" placeholder=\"prenom.nom\" value=\"{{user}}\" {{lockAttr}}>\n              </div>\n              <sc-if value=\"{{userErr}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Saisissez votre identifiant.</div></sc-if>\n            </div>\n\n            <div>\n              <div style=\"display: flex; align-items: baseline\">\n                <label class=\"f-lbl\" for=\"cx-pass\" style=\"flex-grow: 1\">Mot de passe</label>\n                <a href=\"mot-de-passe-oublie.html\" style=\"font-size: 11.5px\">Mot de passe oublié ?</a>\n              </div>\n              <div class=\"f-box lg {{passCls}}\">\n                <span class=\"f-ico\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"></rect><path d=\"M8 11V8a4 4 0 018 0v3\"></path></svg></span>\n                <input id=\"cx-pass\" name=\"password\" type=\"{{passType}}\" autocomplete=\"current-password\" placeholder=\"••••••••\" {{lockAttr}}>\n                <button type=\"button\" class=\"f-eye\" onClick=\"{{toggleEye}}\" aria-label=\"{{eyeLabel}}\" title=\"{{eyeLabel}}\">\n                  <svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"{{eyeIcon}}\"></path><circle cx=\"12\" cy=\"12\" r=\"{{eyeDot}}\"></circle></svg>\n                </button>\n              </div>\n              <sc-if value=\"{{passErr}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Saisissez votre mot de passe.</div></sc-if>\n            </div>\n\n            <div>\n              <div class=\"f-lbl\">Poste</div>\n              <div style=\"display: flex; gap: 6px\">\n                <sc-for list=\"{{sites}}\" as=\"p\" hint-placeholder-count=\"2\">\n                  <button type=\"button\" onClick=\"{{p.pick}}\" style=\"flex: 1 1 0; display: flex; align-items: center; gap: 9px; text-align: left; padding: 10px 13px; border-radius: 14px; background: {{p.bg}}; border: 1.5px solid {{p.bd}}\">\n                    <span style=\"width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid {{p.ring}}; background: #FFFFFF; flex-shrink: 0; display: flex; align-items: center; justify-content: center\"><span style=\"width: 8px; height: 8px; border-radius: 50%; background: {{p.dot}}\"></span></span>\n                    <span>\n                      <span style=\"display: block; font-size: 12.5px; font-weight: 600; color: #1C2610\">{{p.label}}</span>\n                      <span style=\"display: block; font-size: 11px; color: #5A6B4A; margin-top: 1px\">{{p.note}}</span>\n                    </span>\n                  </button>\n                </sc-for>\n              </div>\n            </div>\n\n            <button type=\"submit\" class=\"go\" style=\"height: 48px; margin-top: 4px; border-radius: 999px; background: {{goBg}}; color: #FFFFFF; font-size: 14.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 9px\">\n              <span>{{goLabel}}</span>\n              <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"></path><path d=\"M13 6l6 6-6 6\"></path></svg>\n            </button>\n          </form>\n\n          <div style=\"display: flex; align-items: center; gap: 10px; margin-top: 22px; padding-top: 16px; border-top: 1px solid #DCEBC2\">\n            <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#8AA06E\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0\"><path d=\"M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z\"></path></svg>\n            <span style=\"font-size: 11.5px; color: #5A6B4A; line-height: 1.45\">Personnel de terrain : connectez-vous sur l’application Android avec votre code à 4 chiffres.</span>\n          </div>\n          <div style=\"margin-top: 14px; font-size: 12.5px; color: #5A6B4A\">Pas encore de compte ? <a href=\"inscription.html\">Demander un accès</a></div>\n        </sc-if>\n      </div>\n    </div>\n\n    <div style=\"display: flex; align-items: center; gap: 10px; font-size: 11px; color: #8AA06E\">\n      <span>NOSTRESS · Hôtel-restaurant, Grand-Popo, Bénin</span>\n      <span style=\"flex-grow: 1\"></span>\n      <span>Démo : <span class=\"num\" style=\"color: #5A6B4A\">dg</span> ou <span class=\"num\" style=\"color: #5A6B4A\">comptable</span> · mot de passe <span class=\"num\" style=\"color: #5A6B4A\">nostress</span></span>\n      <span class=\"num\">v0.4</span>\n    </div>\n  </div>\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { user: '', tries: 0, alert: null, userErr: false, passErr: false, eye: false, site: 'local' };
+  }
+  renderVals() {
+    const S = this.state;
+    const MAX = 3;
+    const locked = S.tries >= MAX;
+    const accounts = { 'dg': true, 'comptable': true };
+    const alerts = {
+      bad: { bg: '#FBEAE7', bd: '#F2C9C2', fg: '#8E271B', icon: 'M12 8v5M12 16.5v.5M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z',
+        title: 'Identifiant ou mot de passe incorrect', text: (MAX - S.tries) + (MAX - S.tries > 1 ? ' essais restants' : ' essai restant') + ' avant blocage du compte.' },
+      locked: { bg: '#FDEEDC', bd: '#F5D3AE', fg: '#9C4E0B', icon: 'M7 11V8a5 5 0 0110 0v3M5 11h14v10H5z',
+        title: 'Compte bloqué — en attente du DG', text: '3 essais infructueux. La demande de déblocage a été envoyée à la direction générale.' },
+      remote: { bg: '#E9F2F8', bd: '#C4DCEA', fg: '#22485E', icon: 'M12 16v-4M12 8h.01M12 21a9 9 0 100-18 9 9 0 000 18z',
+        title: 'Accès à distance', text: 'Connexion au serveur délocalisé via le lien satellite. Les données ont jusqu’à 15 min de décalage.' }
+    };
+    const pick = (id) => () => this.setState({ site: id, alert: id === 'remote' && !locked ? 'remote' : (S.alert === 'remote' ? null : S.alert) });
+    const lockAttr = locked ? 'disabled' : '';
+    return {
+      status: [
+        { label: 'Serveur local Grand-Popo', value: 'en ligne', dot: '#9FD45B' },
+        { label: 'Lien satellite · réplication', value: 'il y a 4 min', dot: '#9FD45B' },
+        { label: 'Dernière sauvegarde', value: '03:00', dot: '#9FD45B' }
+      ],
+      showForm: true,
+      hasAlert: !!S.alert || locked,
+      alert: alerts[locked ? 'locked' : S.alert] || {},
+      user: S.user,
+      userErr: S.userErr && !locked,
+      passErr: S.passErr && !locked,
+      userCls: locked ? 'is-off' : (S.userErr || S.alert === 'bad' ? 'is-err' : ''),
+      passCls: locked ? 'is-off' : (S.passErr || S.alert === 'bad' ? 'is-err' : ''),
+      lockAttr: lockAttr,
+      passType: S.eye ? 'text' : 'password',
+      eyeLabel: S.eye ? 'Masquer le mot de passe' : 'Afficher le mot de passe',
+      eyeIcon: S.eye ? 'M3 3l18 18M10.6 6.1A9.6 9.6 0 0112 6c5 0 9 6 9 6a16 16 0 01-2.6 3.2M6.4 6.4C4.1 8 3 12 3 12s4 6 9 6a9 9 0 004.3-1.1' : 'M3 12s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z',
+      eyeDot: S.eye ? '0' : '2.6',
+      sites: [
+        { id: 'local', label: 'Sur place', note: 'Réseau de l’hôtel' },
+        { id: 'remote', label: 'À distance', note: 'Expert-comptable, DG' }
+      ].map((p) => {
+        const on = S.site === p.id;
+        return { label: p.label, note: p.note, pick: pick(p.id),
+          bg: on ? '#F1F9E1' : '#FFFFFF', bd: on ? '#4A8C14' : '#DCEBC2', ring: on ? '#4A8C14' : '#CFE4AE', dot: on ? '#4A8C14' : 'transparent' };
+      }),
+      goBg: locked ? '#B5C99A' : '#4A8C14',
+      goLabel: locked ? 'Compte bloqué' : 'Se connecter',
+      toggleEye: () => {
+        const v = (document.getElementById('cx-user') || {}).value || '';
+        this.setState({ eye: !S.eye, user: v });
+      },
+      submit: () => {
+        if (locked) return;
+        const u = ((document.getElementById('cx-user') || {}).value || '').trim();
+        const p = (document.getElementById('cx-pass') || {}).value || '';
+        if (!u || !p) { this.setState({ user: u, userErr: !u, passErr: !p, alert: null }); return; }
+        const acc = accounts[u.toLowerCase()];
+        // Mot de passe correct : le code de vérification (2FA) est toujours demandé ensuite
+        if (acc && p === 'nostress') { window.location.href = 'verification-2fa.html?u=' + u.toLowerCase() + '&site=' + S.site; return; }
+        this.setState({ user: u, tries: S.tries + 1, alert: 'bad', userErr: false, passErr: false });
+      }
+    };
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>

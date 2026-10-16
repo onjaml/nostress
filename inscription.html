@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demande d’accès — NOSTRESS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; background: #F3FBE3; color: #1C2610; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #31610D; text-decoration: none; font-weight: 600; }
+    a:hover { color: #4A8C14; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    .num { font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+    .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #8AA06E; }
+    .dsp { font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+    /* Champs : classes f-* reprises de Fondations.dc.html */
+    .f-lbl { display: block; font-size: 11.5px; font-weight: 600; color: #1C2610; margin-bottom: 5px; }
+    .f-lbl .req { color: #8AA06E; font-weight: 500; }
+    .f-help { font-size: 11px; color: #8AA06E; margin-top: 5px; line-height: 1.4; }
+    .f-help.err { color: #8E271B; }
+    .f-in, .f-box { width: 100%; height: 40px; font-family: inherit; font-size: 13.5px; color: #1C2610; background: #FFFFFF; border: 1px solid #CFE4AE; border-radius: 12px; outline: none; transition: border-color .12s, box-shadow .12s; }
+    .f-in { padding: 0 12px; }
+    .f-in::placeholder, .f-box input::placeholder { color: #9DB083; }
+    .f-in:hover, .f-box:hover { border-color: #B5D68A; }
+    .f-in:focus, .f-box:focus-within { border-color: #4A8C14; box-shadow: 0 0 0 3px #DDF3AE; }
+    .f-in.is-err, .f-box.is-err { border-color: #C0392B; box-shadow: 0 0 0 3px #FBEAE7; }
+    select.f-in { appearance: none; -webkit-appearance: none; padding-right: 32px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A6B4A' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    .f-box { display: flex; align-items: center; overflow: hidden; }
+    .f-box input { flex-grow: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; padding: 0 12px; font: inherit; color: inherit; }
+    .f-box.lg, .f-in.lg { height: 46px; font-size: 14px; }
+    .f-ico { display: flex; padding-left: 13px; color: #8AA06E; flex-shrink: 0; }
+    .f-ico + input { padding-left: 9px; }
+    .f-aff { height: 100%; display: flex; align-items: center; padding: 0 11px; font-size: 12px; font-weight: 600; color: #5A6B4A; background: #F6FCEA; flex-shrink: 0; border-right: 1px solid #E9F4D6; }
+    .f-chk { width: 17px; height: 17px; margin: 0; accent-color: #4A8C14; flex-shrink: 0; cursor: pointer; }
+    /* Code à usage unique (OTP) — 6 cases, saisie chiffre par chiffre ou collée */
+    .otp { display: flex; gap: 8px; align-items: center; }
+    .otp input { width: 54px; height: 62px; text-align: center; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 25px; font-weight: 600; color: #1C2610; background: #FFFFFF; border: 1px solid #CFE4AE; border-radius: 14px; outline: none; caret-color: #4A8C14; transition: border-color .12s, box-shadow .12s; }
+    .otp input:focus { border-color: #4A8C14; box-shadow: 0 0 0 3px #DDF3AE; }
+    .otp.is-err input { border-color: #C0392B; box-shadow: 0 0 0 3px #FBEAE7; color: #8E271B; }
+    .otp.is-ok input { border-color: #4A8C14; background: #F1F9E1; color: #31610D; }
+    .otp .sep { width: 10px; height: 2px; background: #CFE4AE; border-radius: 2px; flex-shrink: 0; }
+    /* Règles de mot de passe, mises à jour à la frappe */
+    .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 14px; margin-top: 9px; }
+    .rule { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #8AA06E; }
+    .rule i { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid #CFE4AE; background: #FFFFFF; flex-shrink: 0; }
+    .rule.ok { color: #31610D; }
+    .rule.ok i { background: #4A8C14; border-color: #4A8C14; box-shadow: inset 0 0 0 2px #FFFFFF; }
+    .one .rules { grid-template-columns: repeat(4, auto); justify-content: start; gap: 5px 16px; }
+    .meter { display: flex; gap: 4px; margin-top: 8px; }
+    .meter span { flex: 1 1 0; height: 4px; border-radius: 999px; background: #E9F4D6; }
+    .go:focus-visible { outline: 0; box-shadow: 0 0 0 3px #C4E39A; }
+  </style>
+<style>
+  html { background: #DEDAD2; }
+  body.dc-page { display: flex; justify-content: center; padding: 34px 20px 44px 20px; }
+  #app { box-shadow: 0 1px 2px rgba(27,36,48,.10), 0 12px 34px rgba(27,36,48,.14); }
+  .dc-back { position: fixed; top: 12px; left: 12px; z-index: 99; display: inline-flex; align-items: center; gap: 6px;
+    background: #1B2430; color: #F4F2EE; font: 600 11px/1 'IBM Plex Sans', system-ui, sans-serif;
+    letter-spacing: .04em; padding: 8px 12px 8px 9px; border-radius: 20px; text-decoration: none; }
+  .dc-back:hover { background: #2E3844; color: #F4F2EE; }
+  @media print { .dc-back { display: none } html, body.dc-page { background: #fff; padding: 0 } #app { box-shadow: none } }
+  .dc-embed .dc-back { display: none }
+  .dc-embed, .dc-embed body.dc-page { background: #fff; padding: 0 }
+  .dc-embed #app { box-shadow: none }
+</style>
+</head>
+<body class="dc-page">
+
+<a class="dc-back" href="index.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  Tous les écrans
+</a>
+<div id="app"></div>
+<script>if (window.self !== window.top) document.documentElement.classList.add('dc-embed');</script>
+<script>
+window.__TEMPLATE__ = "\n\n\n<div style=\"width: 1440px; height: 900px; display: flex; overflow: hidden; background: #F3FBE3\">\n\n  <!-- ============ PANNEAU DE MARQUE ============ -->\n  <div style=\"width: 600px; flex-shrink: 0; margin: 16px 0 16px 16px; border-radius: 28px; background: #1C2610; color: #F3FBE3; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 40px 44px\">\n    <svg width=\"600\" height=\"360\" viewBox=\"0 0 600 360\" fill=\"none\" style=\"position: absolute; left: 0; bottom: 0; pointer-events: none\" aria-hidden=\"true\">\n      <path d=\"M0 120 C 90 80, 170 160, 270 120 S 450 70, 600 110\" stroke=\"#35461B\" stroke-width=\"1.5\"></path>\n      <path d=\"M0 170 C 100 130, 180 210, 290 170 S 460 120, 600 160\" stroke=\"#35461B\" stroke-width=\"1.5\"></path>\n      <path d=\"M0 220 C 110 180, 190 260, 300 220 S 470 170, 600 210\" stroke=\"#3E5520\" stroke-width=\"1.5\"></path>\n      <path d=\"M0 270 C 120 230, 200 310, 310 270 S 480 220, 600 260 V360 H0 Z\" fill=\"#26331A\"></path>\n    </svg>\n    <div style=\"display: flex; align-items: center; gap: 12px; position: relative\">\n      <span style=\"width: 42px; height: 42px; border-radius: 999px; background: #4A8C14; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">\n        <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#F3FBE3\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 21V8l9-5 9 5v13\"></path><path d=\"M3 13h18\"></path><path d=\"M9 21v-5h6v5\"></path></svg>\n      </span>\n      <div style=\"display: flex; flex-direction: column; line-height: 1.05\">\n        <span class=\"dsp\" style=\"font-size: 26px; letter-spacing: 0.01em\">Nostress</span>\n        <span style=\"color: #9CB183; font-size: 10px; font-weight: 600; letter-spacing: 0.12em\">GRAND-POPO</span>\n      </div>\n    </div>\n    <div style=\"margin-top: 92px; position: relative\">\n      <div class=\"lbl\" style=\"color: #9CB183\">Demande d’accès</div>\n      <div class=\"dsp\" style=\"font-size: 44px; line-height: 1.08; margin-top: 10px\">Un compte,<br>un profil,<br><span style=\"color: #9FD45B\">une validation.</span></div>\n      <div style=\"font-size: 14px; color: #B8C9A2; line-height: 1.6; margin-top: 18px; max-width: 430px\">Chaque salarié a son propre accès : personne ne travaille sous le nom d’un autre, et chaque action reste traçable.</div>\n    </div>\n    <div style=\"flex-grow: 1\"></div>\n    <div style=\"position: relative; display: flex; flex-direction: column; gap: 14px; max-width: 420px\">\n      <div class=\"lbl\" style=\"color: #9CB183\">Après l’envoi</div>\n      <div style=\"display: flex; gap: 13px; align-items: flex-start\">\n        <span class=\"num\" style=\"width: 26px; height: 26px; border-radius: 50%; background: #4A8C14; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">1</span>\n        <span style=\"padding-top: 3px\"><span style=\"display: block; font-size: 13px; font-weight: 600\">Vous remplissez la demande</span><span style=\"display: block; font-size: 12px; color: #9CB183; margin-top: 2px; line-height: 1.45\">Fonction, poste, téléphone pour les codes.</span></span>\n      </div>\n      <div style=\"display: flex; gap: 13px; align-items: flex-start\">\n        <span class=\"num\" style=\"width: 26px; height: 26px; border-radius: 50%; background: #D4711C; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">2</span>\n        <span style=\"padding-top: 3px\"><span style=\"display: block; font-size: 13px; font-weight: 600\">Le DG valide et attribue le profil</span><span style=\"display: block; font-size: 12px; color: #9CB183; margin-top: 2px; line-height: 1.45\">Il choisit les menus auxquels vous aurez accès.</span></span>\n      </div>\n      <div style=\"display: flex; gap: 13px; align-items: flex-start\">\n        <span class=\"num\" style=\"width: 26px; height: 26px; border-radius: 50%; background: #35461B; color: #F3FBE3; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">3</span>\n        <span style=\"padding-top: 3px\"><span style=\"display: block; font-size: 13px; font-weight: 600\">Vous recevez un SMS</span><span style=\"display: block; font-size: 12px; color: #9CB183; margin-top: 2px; line-height: 1.45\">Première connexion avec le code de vérification.</span></span>\n      </div>\n    </div>\n  </div>\n\n  <!-- ============ FORMULAIRE ============ -->\n  <div style=\"flex-grow: 1; display: flex; flex-direction: column; padding: 34px 48px 28px 48px\">\n    <div style=\"display: flex; align-items: center; gap: 14px\">\n      <a href=\"connexion.html\" style=\"display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 999px; padding: 7px 14px 7px 10px\">\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 5l-7 7 7 7\"></path></svg>\n        Retour à la connexion\n      </a>\n      <div style=\"flex-grow: 1\"></div>\n      <div class=\"num\" style=\"display: flex; align-items: center; gap: 7px; color: #5A6B4A; font-size: 12px; font-weight: 500\">\n        <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#6F9448\" stroke-width=\"1.9\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 7v5l3 2\"></path></svg>\n        <span>Lun 07/09/2026 &#183; 09:12</span>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 2px; background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 999px; padding: 3px\">\n        <span style=\"font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px; background: #1C2610; color: #F3FBE3\">FR</span>\n        <span style=\"font-size: 11.5px; font-weight: 500; padding: 5px 11px; color: #8AA06E\">EN</span>\n      </div>\n    </div>\n\n    <div style=\"flex-grow: 1; display: flex; align-items: center; justify-content: center\">\n      <div style=\"width: 540px\">\n        <!-- ---------- Demande envoyée ---------- -->\n        <sc-if value=\"{{sent}}\" hint-placeholder-val=\"{{false}}\">\n          <div style=\"background: #FFFFFF; border: 1px solid #DCEBC2; border-radius: 24px; padding: 30px 32px 28px 32px\">\n            <div style=\"display: flex; align-items: center; gap: 14px\">\n              <div style=\"width: 52px; height: 52px; border-radius: 50%; background: #FDEEDC; color: #9C4E0B; display: flex; align-items: center; justify-content: center; flex-shrink: 0\">\n                <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 7v5l3 2\"></path><circle cx=\"12\" cy=\"12\" r=\"9\"></circle></svg>\n              </div>\n              <div>\n                <div class=\"dsp\" style=\"font-size: 25px; line-height: 1.15\">Demande envoyée</div>\n                <div style=\"font-size: 12.5px; color: #9C4E0B; font-weight: 600; margin-top: 2px\">En attente de validation par le DG</div>\n              </div>\n              <span style=\"flex-grow: 1\"></span>\n              <span class=\"num\" style=\"font-size: 13px; font-weight: 700; color: #9C4E0B; background: #FDEEDC; border: 1px solid #F5D3AE; padding: 5px 11px; border-radius: 999px\">DA-2026-0142</span>\n            </div>\n            <div style=\"margin-top: 20px; border-top: 1px solid #E9F4D6\">\n              <sc-for list=\"{{recap}}\" as=\"r\" hint-placeholder-count=\"5\">\n                <div style=\"display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid #E9F4D6; font-size: 13px\">\n                  <span style=\"width: 150px; color: #8AA06E; flex-shrink: 0\">{{r.k}}</span>\n                  <span class=\"{{r.cls}}\" style=\"font-weight: 600\">{{r.v}}</span>\n                </div>\n              </sc-for>\n            </div>\n            <div style=\"font-size: 12.5px; color: #5A6B4A; margin-top: 16px; line-height: 1.55\">Vous recevrez un SMS dès que le DG aura validé la demande. C’est lui qui attribue le profil définitif : il peut différer de celui demandé.</div>\n            <div style=\"display: flex; gap: 8px; margin-top: 20px\">\n              <a href=\"connexion.html\" style=\"background: #4A8C14; color: #FFFFFF; font-size: 12.5px; font-weight: 600; padding: 9px 18px; border-radius: 999px\">Retour à la connexion</a>\n              <button type=\"button\" onClick=\"{{again}}\" style=\"background: #FFFFFF; border: 1px solid #CFE4AE; color: #1C2610; font-size: 12.5px; font-weight: 500; padding: 8px 16px; border-radius: 999px\">Nouvelle demande</button>\n            </div>\n          </div>\n        </sc-if>\n\n        <!-- ---------- Formulaire ---------- -->\n        <sc-if value=\"{{showForm}}\" hint-placeholder-val=\"{{true}}\">\n          <div class=\"dsp\" style=\"font-size: 30px; line-height: 1.1\">Demander un accès</div>\n          <div style=\"font-size: 13px; color: #5A6B4A; margin-top: 4px; line-height: 1.5\">Aucun compte n’est ouvert sans validation du DG.</div>\n          <sc-if value=\"{{hasAlert}}\" hint-placeholder-val=\"{{false}}\">\n            <div style=\"display: flex; gap: 11px; margin-top: 18px; background: {{alert.bg}}; border: 1px solid {{alert.bd}}; border-radius: 16px; padding: 12px 14px\">\n              <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"{{alert.fg}}\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0; margin-top: 1px\"><path d=\"{{alert.icon}}\"></path></svg>\n              <div>\n                <div style=\"font-size: 13px; font-weight: 600; color: {{alert.fg}}\">{{alert.title}}</div>\n                <div style=\"font-size: 12px; color: {{alert.fg}}; margin-top: 2px; line-height: 1.45\">{{alert.text}}</div>\n              </div>\n            </div>\n          </sc-if>\n          <form onSubmit=\"{{submit}}\" style=\"margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px\">\n            <div>\n                <label class=\"f-lbl\" for=\"su-prenom\">Prénom <span class=\"req\">*</span></label>\n                <div class=\"f-box {{eprenomCls}}\"><input id=\"su-prenom\" type=\"text\" autocomplete=\"given-name\" placeholder=\"Estelle\" value=\"{{v.prenom}}\" onInput=\"{{nameInput}}\"></div>\n                <sc-if value=\"{{eprenom}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Requis.</div></sc-if>\n              </div>\n            <div>\n                <label class=\"f-lbl\" for=\"su-nom\">Nom <span class=\"req\">*</span></label>\n                <div class=\"f-box {{enomCls}}\"><input id=\"su-nom\" type=\"text\" autocomplete=\"family-name\" placeholder=\"Houngbo\" value=\"{{v.nom}}\" onInput=\"{{nameInput}}\"></div>\n                <sc-if value=\"{{enom}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Requis.</div></sc-if>\n              </div>\n            <div style=\"grid-column: 1 / -1; margin-top: -6px; font-size: 11.5px; color: #5A6B4A\">Identifiant proposé : <span id=\"su-id\" class=\"num\" style=\"color: #31610D; font-weight: 600\">{{ident}}</span> <span style=\"color: #8AA06E\">· le DG peut le modifier</span></div>\n            <div>\n                <label class=\"f-lbl\" for=\"su-tel\">Téléphone mobile <span class=\"req\">*</span></label>\n                <div class=\"f-box {{etelCls}}\"><span class=\"f-aff num\">+229</span><input id=\"su-tel\" class=\"num\" type=\"tel\" autocomplete=\"tel-national\" placeholder=\"01 97 12 34 56\" value=\"{{v.tel}}\"></div>\n                <sc-if value=\"{{etel}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">10 chiffres commençant par 01.</div></sc-if>\n              </div>\n            <div>\n                <label class=\"f-lbl\" for=\"su-mail\">E-mail</label>\n                <div class=\"f-box {{emailCls}}\"><input id=\"su-mail\" type=\"email\" autocomplete=\"email\" placeholder=\"facultatif\" value=\"{{v.mail}}\"></div>\n                <sc-if value=\"{{email}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Adresse invalide.</div></sc-if>\n              </div>\n            <div>\n              <label class=\"f-lbl\" for=\"su-fn\">Fonction <span class=\"req\">*</span></label>\n              <select id=\"su-fn\" class=\"f-in {{efnCls}}\">\n                <sc-for list=\"{{fonctions}}\" as=\"o\" hint-placeholder-count=\"6\"><option value=\"{{o.v}}\" {{o.sel}}>{{o.l}}</option></sc-for>\n              </select>\n              <sc-if value=\"{{efn}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Choisissez une fonction.</div></sc-if>\n            </div>\n            <div>\n              <div class=\"f-lbl\">Poste de travail <span class=\"req\">*</span></div>\n              <div style=\"display: flex; gap: 3px; height: 40px; padding: 3px; background: #FFFFFF; border: 1px solid #CFE4AE; border-radius: 12px\">\n                <sc-for list=\"{{postes}}\" as=\"p\" hint-placeholder-count=\"3\">\n                  <button type=\"button\" onClick=\"{{p.pick}}\" title=\"{{p.note}}\" style=\"flex: 1 1 0; border-radius: 9px; font-size: 12.5px; font-weight: {{p.w}}; background: {{p.bg}}; color: {{p.fg}}\">{{p.label}}</button>\n                </sc-for>\n              </div>\n              <div class=\"f-help\">{{posteNote}}</div>\n            </div>\n            <div>\n              <label class=\"f-lbl\" for=\"su-pw\">Mot de passe <span class=\"req\">*</span></label>\n              <div class=\"f-box {{epwCls}}\"><input id=\"su-pw\" type=\"password\" autocomplete=\"new-password\" value=\"{{v.pw}}\" onInput=\"{{pwInput}}\"></div>\n            </div>\n            <div>\n                <label class=\"f-lbl\" for=\"su-pw2\">Confirmation <span class=\"req\">*</span></label>\n                <div class=\"f-box {{epw2Cls}}\"><input id=\"su-pw2\" type=\"password\" autocomplete=\"new-password\" value=\"{{v.pw2}}\"></div>\n                <sc-if value=\"{{epw2}}\" hint-placeholder-val=\"{{false}}\"><div class=\"f-help err\">Ne correspond pas.</div></sc-if>\n              </div>\n            <div class=\"one\" style=\"grid-column: 1 / -1; margin-top: -6px\"><div class=\"meter\"><sc-for list=\"{{meter}}\" as=\"m\" hint-placeholder-count=\"4\"><span id=\"{{m.id}}\" style=\"background: {{m.bg}}\"></span></sc-for></div>\n                <div class=\"rules\"><sc-for list=\"{{rules}}\" as=\"r\" hint-placeholder-count=\"4\"><span id=\"{{r.id}}\" class=\"{{r.cls}}\"><i></i>{{r.label}}</span></sc-for></div></div>\n            <label style=\"grid-column: 1 / -1; display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; color: {{chartFg}}; line-height: 1.45; cursor: pointer\">\n              <input id=\"su-charte\" type=\"checkbox\" class=\"f-chk\" style=\"margin-top: 1px\" {{chartAttr}}>\n              <span>J’ai lu la charte informatique de NOSTRESS et je m’engage à ne pas partager mes identifiants.</span>\n            </label>\n            <div style=\"grid-column: 1 / -1\"><button type=\"submit\" class=\"go\" style=\"width: 100%; height: 48px; border-radius: 999px; background: #4A8C14; color: #FFFFFF; font-size: 14.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 9px\"><span>Envoyer la demande au DG</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"></path><path d=\"M13 6l6 6-6 6\"></path></svg></button></div>\n          </form>\n          <div style=\"margin-top: 16px; font-size: 12.5px; color: #5A6B4A\">Vous avez déjà un compte ? <a href=\"connexion.html\">Se connecter</a></div>\n        </sc-if>\n      </div>\n    </div>\n\n    <div style=\"display: flex; align-items: center; gap: 10px; font-size: 11px; color: #8AA06E\">\n      <span>NOSTRESS · Hôtel-restaurant, Grand-Popo, Bénin</span>\n      <span style=\"flex-grow: 1\"></span>\n      <span>Les comptes sont créés par le DG après validation</span>\n      <span class=\"num\">v0.4</span>\n    </div>\n  </div>\n</div>\n";
+(function () {
+
+var __handlers = [];
+function __esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function __unwrap(v) { var m = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/.exec(v || ''); return m ? m[1] : (v || ''); }
+function __resolve(path, scope) {
+  path = __unwrap(path).trim();
+  if (path === 'true') return true;
+  if (path === 'false') return false;
+  if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+  var parts = path.split('.'), cur = scope;
+  for (var i = 0; i < parts.length; i++) { if (cur == null) return undefined; cur = cur[parts[i]]; }
+  return cur;
+}
+function __attrs(s) {
+  var out = {}, re = /([\w:$-]+)="([^"]*)"/g, m;
+  while ((m = re.exec(s))) out[m[1]] = m[2];
+  return out;
+}
+function __block(s, tag) {
+  var open = new RegExp('<' + tag + '\\b', 'ig'), close = new RegExp('</' + tag + '\\s*>', 'ig');
+  var depth = 1, i = 0;
+  while (depth > 0) {
+    open.lastIndex = i; close.lastIndex = i;
+    var mo = open.exec(s), mc = close.exec(s);
+    if (!mc) throw new Error('balise ' + tag + ' non fermee');
+    if (mo && mo.index < mc.index) { depth++; i = mo.index + mo[0].length; }
+    else { depth--; i = mc.index + mc[0].length; if (depth === 0) return { inner: s.slice(0, mc.index), rest: s.slice(i) }; }
+  }
+}
+function __interp(str, scope) {
+  str = str.replace(/\shint-[a-zA-Z-]+="[^"]*"/g, '');
+  str = str.replace(/\son([A-Z][A-Za-z]*)="\{\{\s*([\w.$]+)\s*\}\}"/g, function (_, ev, path) {
+    var fn = __resolve(path, scope);
+    if (typeof fn !== 'function') return '';
+    var id = __handlers.length;
+    __handlers.push({ ev: ev.toLowerCase(), fn: fn });
+    return ' data-dc-on="' + id + '"';
+  });
+  return str.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, path) {
+    var v = __resolve(path, scope);
+    return v == null ? '' : __esc(v);
+  });
+}
+function __expand(tpl, scope) {
+  var m = /<sc-(for|if)\b([^>]*)>/i.exec(tpl);
+  if (!m) return __interp(tpl, scope);
+  var tag = 'sc-' + m[1].toLowerCase();
+  var a = __attrs(m[2]);
+  var b = __block(tpl.slice(m.index + m[0].length), tag);
+  var out = __interp(tpl.slice(0, m.index), scope);
+  if (tag === 'sc-for') {
+    var list = __resolve(a.list, scope) || [];
+    var as = a.as || 'item';
+    for (var i = 0; i < list.length; i++) {
+      var s2 = Object.assign({}, scope);
+      s2[as] = list[i]; s2.$index = i;
+      out += __expand(b.inner, s2);
+    }
+  } else if (__resolve(a.value, scope)) {
+    out += __expand(b.inner, scope);
+  }
+  return out + __expand(b.rest, scope);
+}
+
+var __instance = null, __pending = false;
+function __schedule() { if (__pending) return; __pending = true; requestAnimationFrame(function () { __pending = false; __render(); }); }
+function __render() {
+  var app = document.getElementById('app');
+  var scrolls = [];
+  app.querySelectorAll('*').forEach(function (el, i) { if (el.scrollTop) scrolls.push([i, el.scrollTop]); });
+  __handlers = [];
+  app.innerHTML = __expand(window.__TEMPLATE__, __instance.renderVals());
+  var all = app.querySelectorAll('*');
+  scrolls.forEach(function (p) { if (all[p[0]]) all[p[0]].scrollTop = p[1]; });
+  app.querySelectorAll('[data-dc-on]').forEach(function (el) {
+    var h = __handlers[+el.getAttribute('data-dc-on')];
+    el.removeAttribute('data-dc-on');
+    if (h) el.addEventListener(h.ev, function (e) { e.preventDefault(); h.fn(e); });
+  });
+}
+class DCLogic {
+  constructor(props) { this.props = props || {}; }
+  setState(patch) {
+    if (!this.state) this.state = {};
+    Object.assign(this.state, typeof patch === 'function' ? patch(this.state) : patch);
+    __schedule();
+  }
+  forceUpdate() { __schedule(); }
+}
+
+
+const $ = (id) => document.getElementById(id);
+const val = (id) => ($(id) || {}).value || '';
+const ICON = {
+  warn: 'M12 8v5M12 16.5v.5M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z',
+  info: 'M12 16v-4M12 8h.01M12 21a9 9 0 100-18 9 9 0 000 18z',
+  lock: 'M7 11V8a5 5 0 0110 0v3M5 11h14v10H5z',
+  ok: 'M5 13l4 4L19 7'
+};
+const TONE = {
+  err: { bg: '#FBEAE7', bd: '#F2C9C2', fg: '#8E271B' },
+  dg: { bg: '#FDEEDC', bd: '#F5D3AE', fg: '#9C4E0B' },
+  info: { bg: '#E9F2F8', bd: '#C4DCEA', fg: '#22485E' },
+  ok: { bg: '#F1F9E1', bd: '#C4E39A', fg: '#31610D' }
+};
+const mkAlert = (tone, icon, title, text) => Object.assign({ icon: ICON[icon], title: title, text: text }, TONE[tone]);
+const RULES = [
+  { label: '10 caractères minimum', test: (p) => p.length >= 10 },
+  { label: 'Une majuscule', test: (p) => /[A-Z]/.test(p) },
+  { label: 'Un chiffre', test: (p) => /\d/.test(p) },
+  { label: 'Un caractère spécial', test: (p) => /[^A-Za-z0-9]/.test(p) }
+];
+const METER = ['#E9F4D6', '#C0392B', '#D4711C', '#7FBF3F', '#4A8C14'];
+const rulesOk = (p) => RULES.every((r) => r.test(p));
+// Met à jour la liste des règles et la jauge sans re-rendre la page (garde le focus)
+const paintRules = (p) => {
+  const n = RULES.filter((r) => r.test(p)).length;
+  RULES.forEach((r, i) => { const el = $('rule-' + i); if (el) el.className = 'rule' + (r.test(p) ? ' ok' : ''); });
+  for (let i = 0; i < 4; i++) { const el = $('meter-' + i); if (el) el.style.background = i < n ? METER[n] : METER[0]; }
+};
+const rulesVals = (p) => {
+  const n = RULES.filter((r) => r.test(p)).length;
+  return {
+    rules: RULES.map((r, i) => ({ id: 'rule-' + i, label: r.label, cls: r.test(p) ? 'rule ok' : 'rule' })),
+    meter: [0, 1, 2, 3].map((i) => ({ id: 'meter-' + i, bg: i < n ? METER[n] : METER[0] }))
+  };
+};
+const otpCode = () => [0, 1, 2, 3, 4, 5].map((i) => val('otp-' + i)).join('');
+const otpFocus = (i) => setTimeout(() => { const el = $('otp-' + i); if (el) el.focus(); }, 60);
+const fmt = (s) => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+
+const radio = (defs, cur, pick) => defs.map((p) => {
+  const on = cur === p.id;
+  return { label: p.label, note: p.note, pick: () => pick(p.id),
+    bg: on ? '#F1F9E1' : '#FFFFFF', bd: on ? '#4A8C14' : '#DCEBC2', ring: on ? '#4A8C14' : '#CFE4AE', dot: on ? '#4A8C14' : 'transparent' };
+});
+
+const FONCTIONS = [
+  { v: '', l: 'Choisir…' },
+  { v: 'accueil', l: 'Accueil / réception' },
+  { v: 'salle', l: 'Service en salle' },
+  { v: 'bar', l: 'Bar' },
+  { v: 'cuisine', l: 'Cuisine' },
+  { v: 'patisserie', l: 'Pâtisserie' },
+  { v: 'economat', l: 'Économat et stocks' },
+  { v: 'compta', l: 'Comptabilité' },
+  { v: 'expert', l: 'Expert-comptable (externe)' }
+];
+const POSTES = [
+  { id: 'pc', label: 'PC', note: 'Poste de gestion' },
+  { id: 'android', label: 'Android', note: 'Terrain, code à 4 chiffres' },
+  { id: 'both', label: 'Les deux', note: 'PC et Android' }
+];
+const slug = (s) => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+const ident = (p, n) => (slug(p) || 'prenom') + '.' + (slug(n) || 'nom');
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sent: false, v: { prenom: '', nom: '', tel: '', mail: '', fn: '', pw: '', pw2: '', charte: false }, poste: 'android', err: {}, alert: null };
+  }
+  snap() {
+    return { prenom: val('su-prenom').trim(), nom: val('su-nom').trim(), tel: val('su-tel').trim(), mail: val('su-mail').trim(),
+      fn: val('su-fn'), pw: val('su-pw'), pw2: val('su-pw2'), charte: !!($('su-charte') || {}).checked };
+  }
+  renderVals() {
+    const S = this.state, v = S.v, E = S.err;
+    const fnLabel = (FONCTIONS.find((f) => f.v === v.fn) || {}).l;
+    const posteLabel = (POSTES.find((p) => p.id === S.poste) || {}).label;
+    const ev = {};
+    ['prenom', 'nom', 'tel', 'mail', 'fn', 'pw', 'pw2'].forEach((k) => { ev['e' + k] = !!E[k]; ev['e' + k + 'Cls'] = E[k] ? 'is-err' : ''; });
+    return Object.assign(ev, rulesVals(v.pw), {
+      sent: S.sent, showForm: !S.sent,
+      v: v,
+      hasAlert: !!S.alert, alert: S.alert || {},
+      ident: ident(v.prenom, v.nom),
+      fonctions: FONCTIONS.map((f) => ({ v: f.v, l: f.l, sel: f.v === v.fn ? 'selected' : '' })),
+      postes: POSTES.map((p) => { const on = S.poste === p.id; return { label: p.label, note: p.note, w: on ? '700' : '500',
+        bg: on ? '#1C2610' : 'transparent', fg: on ? '#F3FBE3' : '#4E5F3C', pick: () => this.setState({ poste: p.id, v: this.snap() }) }; }),
+      posteNote: (POSTES.find((p) => p.id === S.poste) || {}).note,
+      chartAttr: v.charte ? 'checked' : '',
+      chartFg: E.charte ? '#8E271B' : '#4E5F3C',
+      recap: [
+        { k: 'Nom', v: v.prenom + ' ' + v.nom.toUpperCase(), cls: '' },
+        { k: 'Identifiant proposé', v: ident(v.prenom, v.nom), cls: 'num' },
+        { k: 'Fonction demandée', v: fnLabel || '—', cls: '' },
+        { k: 'Poste', v: posteLabel, cls: '' },
+        { k: 'Téléphone', v: '+229 ' + v.tel, cls: 'num' }
+      ],
+      nameInput: () => { const el = $('su-id'); if (el) el.textContent = ident(val('su-prenom'), val('su-nom')); },
+      pwInput: (e) => paintRules(e.target.value || ''),
+      again: () => this.setState({ sent: false, v: { prenom: '', nom: '', tel: '', mail: '', fn: '', pw: '', pw2: '', charte: false }, err: {}, alert: null }),
+      submit: () => {
+        const n = this.snap();
+        const tel = n.tel.replace(/\s/g, '');
+        const err = {
+          prenom: !n.prenom, nom: !n.nom,
+          tel: !/^01\d{8}$/.test(tel),
+          mail: n.mail !== '' && !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(n.mail),
+          fn: !n.fn,
+          pw: !rulesOk(n.pw),
+          pw2: rulesOk(n.pw) && n.pw !== n.pw2,
+          charte: !n.charte
+        };
+        const bad = Object.keys(err).filter((k) => err[k]);
+        if (bad.length) {
+          this.setState({ v: n, err: err, alert: mkAlert('err', 'warn', bad.length > 1 ? bad.length + ' champs à corriger' : '1 champ à corriger',
+            err.charte && bad.length === 1 ? 'Acceptez la charte informatique pour envoyer la demande.' : (err.pw ? 'Le mot de passe doit respecter les quatre règles.' : 'Les champs en rouge sont incomplets ou invalides.')) });
+          return;
+        }
+        n.tel = tel.replace(/(\d{2})(?=\d)/g, '$1 ');
+        this.setState({ v: n, err: {}, alert: null, sent: true });
+      }
+    });
+  }
+}
+
+
+__instance = new Component({});
+if (!__instance.state) __instance.state = {};
+__render();
+
+})();
+</script>
+</body>
+</html>
